@@ -1,0 +1,125 @@
+version: 1
+packages:
+  hve-core:
+    type: git
+    repo: https://github.com/microsoft/hve-core.git
+    requested: hve-core-v3.2.2
+    resolved: e69486a5f809ede45c63c0a31358c12912bd5168
+    latest: e69486a5f809ede45c63c0a31358c12912bd5168
+artifacts:
+  repo-instructions:
+    kind: agent
+    target: AGENTS.md
+    outputs:
+      - path: AGENTS.md
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: copy
+        from: local:AGENTS.md
+        to: AGENTS.md
+        sourceHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
+        generatedHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
+  claude-instructions:
+    kind: agent
+    target: CLAUDE.md
+    outputs:
+      - path: CLAUDE.md
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: copy
+        from: local:AGENTS.md
+        to: CLAUDE.md
+        sourceHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
+        generatedHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
+  whitepaper-editor:
+    kind: skill
+    targetDir: .opencode/skills/whitepaper-editor
+    outputs:
+      - path: .opencode/skills/whitepaper-editor/SKILL.md
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: copy
+        from: local:SKILL.md
+        to: SKILL.md
+        sourceHash: sha256:f76e51ce9209f3b4269a7d8d98d7a044724e172a26244573946c1d7512919ea8
+        generatedHash: sha256:f76e51ce9209f3b4269a7d8d98d7a044724e172a26244573946c1d7512919ea8
+  package-maintainer:
+    kind: skill
+    targetDir: .opencode/skills/package-maintainer
+    outputs:
+      - path: .opencode/skills/package-maintainer/SKILL.md
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: copy
+        from: local:SKILL.md
+        to: SKILL.md
+        sourceHash: sha256:519eb015ce1df7532179a59a9194b6e855e76a0a354b84f362e1e01a3026340c
+        generatedHash: sha256:519eb015ce1df7532179a59a9194b6e855e76a0a354b84f362e1e01a3026340c
+  task-research-guidelines:
+    kind: skill
+    targetDir: .opencode/skills/task-research-guidelines
+    outputs:
+      - path: .opencode/skills/task-research-guidelines/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/task-research.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:79f5c17d5574fa943993658ddba557f97ee560d72c7a61e58cfde64486eac32a
+        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
+        generatedHash: sha256:738d2d83e8c6685ca114c3b6616939ebd00c1fe74f4efc268a6c86d2a52f50a1
+  task-plan-guidelines:
+    kind: skill
+    targetDir: .opencode/skills/task-plan-guidelines
+    outputs:
+      - path: .opencode/skills/task-plan-guidelines/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/task-plan.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:5af7ff5ad380626e77c19e8f43b9510d69b60ca6400ec0e7b6a8239f3fb15772
+        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
+        generatedHash: sha256:cc750cd318c2fa2bc2e42a8795019f0d0f622d2db240fe98ac26dc2e90f337a1
+  task-implement-guidelines:
+    kind: skill
+    targetDir: .opencode/skills/task-implement-guidelines
+    outputs:
+      - path: .opencode/skills/task-implement-guidelines/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/task-implement.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:7a5ca125137eb213cf2c1f0ccd0d3a0a3ede16648cf02493e63a32816678db93
+        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
+        generatedHash: sha256:1e74143c4f0d2a68601f2439e11566af0e5669982aec7f556b3301ac4c31a8bb
+  task-review-checklist:
+    kind: skill
+    targetDir: .opencode/skills/task-review-checklist
+    outputs:
+      - path: .opencode/skills/task-review-checklist/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/task-review.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:f082943eefe64c44b321c0725ab7119dedf810ce0852273978073c412db3a7ae
+        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
+        generatedHash: sha256:fb37358d27563a65458a31b081bfb8af5ab8be49216c0a450b6b38f872afa39a

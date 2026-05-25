@@ -1,0 +1,83 @@
+# AI Artifacts Configuration
+# yaml-language-server: $schema=./schemas/artifacts.schema.json
+
+version: 1
+
+packages:
+  hve-core:
+    type: git
+    repo: https://github.com/microsoft/hve-core.git
+    version: hve-core-v3.2.2
+
+artifacts:
+  - id: repo-instructions
+    kind: agent
+    target: AGENTS.md
+    steps:
+      - copy:
+          from: local:AGENTS.md
+          to: AGENTS.md
+
+  - id: claude-instructions
+    kind: agent
+    target: CLAUDE.md
+    steps:
+      - copy:
+          from: local:AGENTS.md
+          to: CLAUDE.md
+
+  - id: whitepaper-editor
+    kind: skill
+    targetDir: .opencode/skills/whitepaper-editor
+    steps:
+      - copy:
+          from: local:SKILL.md
+          to: SKILL.md
+
+  - id: package-maintainer
+    kind: skill
+    targetDir: .opencode/skills/package-maintainer
+    steps:
+      - copy:
+          from: local:SKILL.md
+          to: SKILL.md
+
+  - id: task-research-guidelines
+    kind: skill
+    targetDir: .opencode/skills/task-research-guidelines
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/task-research.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/repo-context.md
+
+  - id: task-plan-guidelines
+    kind: skill
+    targetDir: .opencode/skills/task-plan-guidelines
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/task-plan.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/repo-context.md
+
+  - id: task-implement-guidelines
+    kind: skill
+    targetDir: .opencode/skills/task-implement-guidelines
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/task-implement.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/repo-context.md
+
+  - id: task-review-checklist
+    kind: skill
+    targetDir: .opencode/skills/task-review-checklist
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/task-review.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/repo-context.md
