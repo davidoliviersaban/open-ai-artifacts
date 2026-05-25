@@ -47,7 +47,7 @@ Rejected for now: origin is derivable from `artifacts.yml` at analysis time (a s
 
 OpenCode should use the same local audit file and JSONL shape as Claude Code: `.ai-artifacts/audit.jsonl` with `timestamp`, `skill`, `tool`, `invocation_tool`, `invocation_origin`, `invocation_agent`, `session_id`, `user`, and `repo`. The implementation should be project-scoped and local-only by default.
 
-The recommended mechanism is an OpenCode project plugin provided by the base framework at `packages/ai-artifacts/opencode/skill-audit.js` and installed into `.opencode/plugin/skill-audit.js`. The plugin registers `tool.execute.after` and appends one JSON object per detected skill invocation. It must be best-effort: logging failures must not fail or slow down the agentic workflow.
+The recommended mechanism is an OpenCode project plugin provided by the base framework at `packages/ai-artifacts/opencode/skill-audit.js` and installed into `.opencode/plugins/skill-audit.js`. The plugin registers `tool.execute.after` and appends one JSON object per detected skill invocation. It must be best-effort: logging failures must not fail or slow down the agentic workflow.
 
 Detection should start conservatively:
 
@@ -76,7 +76,7 @@ OpenCode configuration should register the plugin explicitly only if auto-discov
 
 ```json
 {
-  "plugin": ["./.opencode/plugin/skill-audit.js"]
+  "plugin": ["./.opencode/plugins/skill-audit.js"]
 }
 ```
 
