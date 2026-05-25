@@ -6,3 +6,4 @@ node_modules/
 
 .ai-artifacts/vendor/
 .ai-artifacts/reports/
+.ai-artifacts/schemas/

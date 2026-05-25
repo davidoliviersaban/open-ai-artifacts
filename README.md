@@ -1,90 +1,112 @@
 # ai-artifacts
 
-`ai-artifacts` is an internal-public Amadeus repository for versioning, composing and auditing AI instructions, agents, skills, tools and knowledge bases as code.
-
-The repository has two tracks:
-
-| Area | Path | Purpose |
-|---|---|---|
-| Product documentation | `docs/` | Whitepaper, rationale and adoption guidance. |
-| Node package | `packages/ai-artifacts/` | CLI/package that manages AI artifacts as versioned dependencies. |
+Version, compose and audit AI agents, skills, tools and instructions across repositories.
 
 ## Status
 
-Current status: internal-public incubation inside Amadeus.
+Apache 2.0 licensed. Incubating as an internal-public Amadeus project, targeting open-source extraction once APIs and governance stabilize.
 
-Target direction: extract into a reusable package that can later become open-source once the model, APIs, packaging and governance are stable.
+**Upstream**: [github.com/amadeus-nexwave/open-ai-artifacts](https://github.com/amadeus-nexwave/open-ai-artifacts)
+
+## What it does
+
+```text
+upstream source (pinned git package)
++ local overlays (repo-specific context)
++ substitutions (literal replacements)
+= generated artifact (consumed by AI agents)
+```
+
+The CLI pins upstream versions, locks exact commits, generates final artifacts, detects drift and validates everything in CI.
 
 ## Repository Layout
 
 ```text
+packages/ai-artifacts/       # Node CLI/package (zero dependencies beyond Node 20+ and git)
 docs/
-  whitepaper/              # Markdown sources, PDF generation and generated PDFs
-packages/
-  ai-artifacts/            # Node CLI/package
-.ai-artifacts/             # Dogfooding playbook, local sources, overlays and lock metadata
-.opencode/                 # Generated opencode config, agents and skills
+  whitepaper/                # Adoption whitepaper (markdown + PDF)
+  adr/                       # Architecture Decision Records
+.ai-artifacts/               # Dogfooding: this repo uses its own package
+  artifacts.yml              #   Playbook: packages + artifacts + steps
+  lock.yml                   #   Pinned commits + content hashes
+  vendor/                    #   Cloned upstream repos (gitignored)
+  reports/                   #   Generated drift + risk reports (gitignored)
+  schemas/                   #   JSON Schema for artifacts.yml (gitignored, installed)
+.github/
+  overlays/                  #   Local markdown appended to upstream content
+  workflows/                 #   CI workflows including ai-artifacts validation
 ```
 
-## Nx Workspace
-
-This repository is configured as an Nx workspace.
-
-Common commands:
+## Quick Start
 
 ```bash
 npm install
-npm run nx -- show projects
-npm run build:whitepaper
-npm run test:ai-artifacts
-npm run validate:ai-artifacts
-npm run ai-artifacts:doctor
+npm run ai-artifacts:sync       # Generate artifacts from upstream + overlays
+npm run validate:ai-artifacts   # Full validation (sync --check + install + reports)
+npm run ai-artifacts:doctor     # Check local setup and tool context
 ```
 
-Equivalent Nx commands:
+## Commands
+
+| Command | Purpose |
+|---------|---------|
+| `ai-artifacts:fetch` | Clone/update upstream sources, write lock |
+| `ai-artifacts:sync` | Generate artifacts from sources + overlays |
+| `ai-artifacts:sync -- --check` | Verify artifacts are up to date (CI gate) |
+| `ai-artifacts:drift` | Report upstream drift since last lock |
+| `ai-artifacts:risk` | Report risk assessment |
+| `ai-artifacts:doctor` | Check local install and tool context |
+| `validate:ai-artifacts` | All checks in one pass |
+
+## Development Workflow
+
+This repo is an Nx workspace. The AI artifacts CI workflow (`.github/workflows/ai-artifacts.yml`) handles:
+
+**On PR and push to main** (when ai-artifacts files change):
+1. Fetch upstream packages
+2. Run package tests
+3. Verify generated artifacts are up to date (`--check`)
+4. Verify packaged install files match sources
+5. Generate and upload drift/risk reports
+
+**Weekly (Monday 07:00 UTC) or on-demand**:
+1. Refresh upstream lock pointers
+2. Generate drift/risk/summary reports
+3. Open a review PR if upstream moved (`chore/ai-artifact-upstream-review`)
+
+### Making changes
+
+When editing AI instructions, overlays or package code:
 
 ```bash
-npm run nx -- build whitepaper
-npm run nx -- test ai-artifacts
-npm run nx -- validate ai-artifacts
+# 1. Edit sources
+#    - Overlays: .github/overlays/
+#    - Package code: packages/ai-artifacts/
+#    - Playbook: .ai-artifacts/artifacts.yml
+
+# 2. Regenerate and validate
+npm run ai-artifacts:sync
+npm run validate:ai-artifacts
+
+# 3. Run tests if you changed package code
+npm run test:ai-artifacts
 ```
 
 ## Whitepaper
 
-The whitepaper lives in `docs/whitepaper`.
-
 ```bash
 npm run build:whitepaper
 ```
 
-Generated outputs:
+| Output | Purpose |
+|--------|---------|
+| `docs/whitepaper/whitepaper-v3.pdf` | Long-form version for Engineering Managers and Tech Leads |
+| `docs/whitepaper/whitepaper-management-summary.pdf` | Condensed version for Heads of Engineering and Product Leaders |
 
-| File | Purpose |
-|---|---|
-| `docs/whitepaper/whitepaper-v3.pdf` | Long-form PDF. |
-| `docs/whitepaper/whitepaper-management-summary.pdf` | Management summary PDF. |
+## Architecture Decisions
 
-## Package
+See `docs/adr/` for individual ADRs covering: append-only overlays, step types, drift detection, zero dependencies, overlaysDir design, per-tool modules, validation, and lock file.
 
-The package lives in `packages/ai-artifacts` and exposes the `ai-artifacts` CLI.
+## License
 
-For now this package is internal-public and experimental. Do not assume stable external API compatibility yet.
-
-## Dogfooding Setup
-
-This repository uses its own package to manage its AI-agent artifacts. The source of truth is `.ai-artifacts/artifacts.yml`; generated outputs include `AGENTS.md`, `CLAUDE.md`, `.opencode/opencode.json`, `.opencode/agent/*` and `.opencode/skills/*`.
-
-When changing instructions, skills, agents or opencode config, edit the source files under `.ai-artifacts/files/` or `.ai-artifacts/overlays/`, then regenerate:
-
-```bash
-npm run ai-artifacts:sync
-npm run validate:ai-artifacts
-```
-
-The generated opencode setup provides repository-specific agents for research, planning, implementation, review, prompt artifact work and documentation operations. Restart opencode after changing `.opencode/opencode.json`, generated agents or generated skills.
-
-Use `npm run ai-artifacts:doctor` to check the local Node/git/tooling context, packaged workflow/schema installation, generated instructions and opencode artifacts. Tool detection is best effort because terminals and agent hosts do not expose a shared standard marker.
-
-## Installation Guide
-
-See `docs/installation-guide.md` for a practical guide to implementing this repository pattern in another repo: package installation, artifact playbook layout, generated-file boundaries, opencode conventions, CI checks and adoption practices.
+Apache 2.0 — see `LICENSE`.

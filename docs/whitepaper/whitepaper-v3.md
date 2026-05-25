@@ -796,6 +796,39 @@ Mais il faut rester honnête : tout le monde ne gagne pas immédiatement. Le dé
 | Infrastructure | Passage à des ressources préemptibles pour augmenter la capacité sans augmenter les coûts. |
 | Classification des changements | Distinguer documentation, dépendances, code applicatif, schéma et infrastructure pour déclencher le bon chemin de publication. |
 
+**Investissement total et ROI**
+
+L'expérimentation complète représente environ 3 mois d'investissement concentré :
+
+- Phase 1 (1 mois) : ~4 ETP (tech lead/architect, DevOps, PM/PDA, expert agentic).
+- Phases 2-3 (2 mois) : ~7 ETP (équipe pilot complète + support externe).
+- **Total** : ~18 ETP-mois (équivalent de 18 personnes mobilisées 1 mois chacune).
+
+Ce n'est pas un coût supplémentaire net : l'essentiel de cet investissement est du temps d'équipe existante redirigé vers l'expérimentation. Le retour se matérialise par la réduction du coût de coordination et la capacité de l'équipe à livrer avec moins de personnes. Sur une équipe initiale de 10-12 personnes, le ROI se situe entre 3 et 6 mois après la fin de l'expérimentation. L'équipe réduite peut ensuite accélérer sur le projet en cours et le modèle peut être répliqué sur d'autres projets.
+
+**Critères de continuation**
+
+Ne pas juger l'expérimentation sur le résultat du premier mois. Sur mon projet test, si nous avions fait le bilan à un mois, nous aurions tout arrêté. La migration à Azure avait été catastrophique, les agents ne fonctionnaient pas bien, tout allait de travers. Le retour de notre management et de Microsoft a été : l'échec est normal. Maintenant qu'on a quelque chose qui fonctionne suffisamment, on expérimente et on apprend dessus, on fixe au fur et à mesure. Et on y est arrivé — dans la douleur, mais ça s'est fait parce que l'équipe a été moteur et que le top management a fourni un support sans faille.
+
+Les vrais critères de continuation ne sont pas des métriques de productivité au premier mois. Ce sont : la confiance dans le système (l'équipe utilise le setup naturellement), des progrès mensuels visibles (chaque mois apporte des améliorations concrètes), un support management qui survit aux échecs, et un engagement équipe qui reste positif. Le go/no-go n'est pas binaire — c'est une évaluation mensuelle de la trajectoire, pas du résultat instantané.
+
+**Risques et mitigations**
+
+| Risque | Mitigation |
+|---|---|
+| Échec au setup initial | L'équipe n'arrive pas à structurer ou récupérer l'information. Si le projet cible est trop complexe, choisir un projet plus petit ou investir plus de temps sur le setup. Mieux vaut repousser l'implémentation sur un gros projet que de l'aborder prématurément. Microsoft a documenté un success story sur .NET avec des centaines de contributeurs (voir Références). |
+| Résistance au changement | Ne pas chercher à convaincre tout le monde d'emblée. Commencer par des early adopters motivés et convaincus. Le scepticisme se radoucit par la multiplication de petits projets réussis, pas par des arguments théoriques. |
+| Perte de compétence | Le risque existe. Mais la code review fait monter les compétences de programmation : c'est comme lire un livre et poser des questions dessus. Il n'y a pas de perte sèche de connaissance si les équipes travaillent sérieusement. En revanche, certains automatismes seront oubliés — comme lorsqu'on crée un script pour se simplifier la vie et qu'on oublie ce qu'il y avait dedans. C'est aux ingénieurs de garder un minimum d'hygiène de développement. |
+| Turnover et interruptions | Sur mon projet test, le sachant IA a quitté l'entreprise en cours d'expérimentation. Les nouveaux interlocuteurs avaient d'autres compétences et d'autres façons de voir ; on a appris différemment et c'était enrichissant. Vacances longues, hackathons, contraintes sur plusieurs semaines : tout cela impacte la delivery, mais l'apprentissage se fait et on progresse si le setup est versionné et documenté. |
+
+**Sécurité et conformité**
+
+La question de la sécurité revient systématiquement dans les discussions management. Elle est légitime mais ne doit pas devenir un prétexte pour ne pas avancer. Les outils majeurs (GitHub Copilot, Claude Code, Kiro) ne retiennent pas le code soumis pour l'entraînement en mode entreprise — vérifier les conditions contractuelles. Le code généré par un agent est soumis aux mêmes règles que le code écrit par un humain : il passe par une PR, il est reviewé, il appartient à l'entreprise. Le périmètre d'accès des agents est défini explicitement dans les instructions projet versionnées. Et l'agent ne déploie pas en production sans validation humaine — les mêmes contrôles s'appliquent. La sécurité est un sujet de configuration, pas un blocker fondamental.
+
+**Coût de l'inaction**
+
+Ne pas expérimenter maintenant n'est pas une position neutre. Le coût de l'inaction ne se mesure pas encore en euros — le ROI précis est en cours d'évaluation et le scale vers d'autres projets demande d'analyser comment chacun fonctionne pour adapter les méthodes. Ce qui se mesure déjà, c'est le retard d'apprentissage : il est cumulatif et non-linéaire. Les organisations qui expérimentent aujourd'hui accumulent des mois de savoir-faire sur le setup agentique, les échecs, les patterns qui marchent. Ce savoir ne s'achète pas — il se construit par l'itération. L'écart se creuse chaque mois. L'attractivité se dégrade. Et la transformation subie est toujours plus coûteuse que la transformation choisie.
+
 **Avant / après**
 
 | Avant | Après |
@@ -868,13 +901,17 @@ L'environnement peut saboter l'adoption avant même qu'elle commence. Firewall, 
 
 Une feuille de route pragmatique peut suivre six phases.
 
+**Requirement 0 : l'organisation est-elle prête ?** Microsoft appelle cela le "Requirement 0". C'est le prérequis évalué par l'équipe de support externe avant de décider si oui ou non ils investissent 3-4 ETP pour accompagner le changement. L'expérimentation agentique exige un trust à 200% du management (pas un accord tiède, un mandat clair qui survit au premier échec), des acteurs owners de leur sujet à 200%, une motivation à toute épreuve, l'ownership de bout en bout pour l'équipe pilot, et l'absence de goulots d'étranglement organisationnels. S'il faut passer par un process, demander des autorisations, attendre des semaines de validation pour chaque décision technique — l'organisation n'est pas prête.
+
+Échouer au setup n'est pas un échec. C'est un apprentissage. Cela ne signifie pas qu'il faut arrêter le changement, mais identifier les blockers et débloquer la situation. Les deux sponsors jouent des rôles complémentaires : le sponsor externe (Microsoft/AWS) challenge l'équipe, accepte l'échec comme normal, et peut recommander de repousser la suite si le terrain n'est pas prêt. Le sponsor interne (management) escalade les problèmes organisationnels et débloque les process internes que l'équipe ne peut pas résoudre seule. Les échecs et points bloquants rencontrés par l'équipe pilot doivent être remontés aux sponsors : ces retours alimentent l'évolution de l'organisation au global, pas seulement le projet en cours.
+
 **Phase 0 : Alignement management** *(1 à 2 semaines)*. Avant le pilot, clarifiér l'objectif dominant : apprendre, construire des agents autonomes, transformer la méthode, prouver un ROI ou livrer plus vite. Livrer plus vite ne doit pas être l'objectif initial. Si le management exige une accélération immédiate, l'équipe cherchera à prouver un résultat avant d'avoir construit le setup, compris les échecs et stabilisé les agents. La vitesse vient plus tard, comme conséquence d'un système qui fonctionne.
 
-**Phase 1 : Préparer le terrain, pas tout l'agentique** *(2 à 4 semaines selon maturité existante)*. Identifier les frictions du SDLC actuel et vérifier que le terrain non-IA est prêt. Où l'information est-elle cachée ? Où la CI/CD bloque-t-elle ? Quels environnements ne se lancent pas ? Quels documents sont obsolètes ? Quels repositories doivent être rapprochés ? Quels accès manquent ? L'objectif n'est pas de concevoir tous les agents à l'avance, mais d'éviter que l'expérimentation échoue sur des problèmes que n'importe quel newcomer rencontrerait déjà.
+**Phase 1 : Préparer le terrain, pas tout l'agentique** *(2 à 4 semaines selon maturité existante, ~4 ETP : 1 tech lead/architect, 1 DevOps, 1 PM/PDA pour audit et préparation repo, 1 expert agentic pour accompagner l'adoption)*. Identifier les frictions du SDLC actuel et vérifier que le terrain non-IA est prêt. Où l'information est-elle cachée ? Où la CI/CD bloque-t-elle ? Quels environnements ne se lancent pas ? Quels documents sont obsolètes ? Quels repositories doivent être rapprochés ? Quels accès manquent ? L'objectif n'est pas de concevoir tous les agents à l'avance, mais d'éviter que l'expérimentation échoue sur des problèmes que n'importe quel newcomer rencontrerait déjà.
 
 **Phase 2 : Onboarder l'agent** *(2 à 4 semaines, puis amélioration continue)*. Construire progressivement les instructions projet, les premiers agents développeur, PM/story writer, review et QA, les tools déterministes, les accès utiles, les guardrails et la définition du done agentique. Cette phase doit rester organique : les équipes ne savent pas encore exactement quels agents, skills ou workflows seront utiles. En revanche, elles ne doivent pas partir d'une page blanche. Des bases de connaissances et des exemples peuvent être mis à disposition comme matériau d'inspiration, notamment via un framework `ai-artifacts` référencé en fin de document. Les équipes peuvent y piocher, adapter, supprimer et versionner ce qui leur sert réellement. Former aussi les non-développeurs à lire une Pull Request, accéder à l'environnement de PR, tester la fonctionnalité, valider ou invalider les acceptance criteria et commenter clairement le résultat.
 
-**Phase 3 : Pilot avec 1 à 2 équipes** *(6 à 8 semaines)*. Choisir des équipes motivées, avec un tech lead impliqué, un PM/PO disponible, un QA ou validateur fonctionnel, et un accès à des experts externes. Commencer par petits bugs localisés, quality of life changes internes, documentation, tests et refactorings faibles risques. Éviter au début l'architecture structurante, la sécurité critique, les migrations de données, l'authentification, la performance complexe et les changements irréversibles.
+**Phase 3 : Pilot avec 1 à 2 équipes** *(6 à 8 semaines, ~7 ETP par équipe pilot)*. Choisir une équipe restreinte d'early adopters qui vont itérer rapidement pour apprendre : 2 développeurs, 1-2 fonctionnels (QA/PDA/PM), quelques fonctions de support observatrices (architecture, sécurité, DevOps) qui suivent le pilot pour ensuite évangéliser le reste de l'organisation. L'équipe doit inclure un tech lead impliqué, un PM/PO disponible, un QA ou validateur fonctionnel. Microsoft et AWS proposent d'embarquer 2 à 4 ingénieurs pendant les premières semaines d'adoption — ce coût d'accompagnement fait partie du pricing d'adoption chez les fournisseurs cloud. Commencer par petits bugs localisés, quality of life changes internes, documentation, tests et refactorings faibles risques. Éviter au début l'architecture structurante, la sécurité critique, les migrations de données, l'authentification, la performance complexe et les changements irréversibles.
 
 Le vocabulaire peut varier selon les organisations. AWS AI-DLC parle d'Inception, Construction et Operations, avec des cycles plus courts appelés "bolts" plutôt que sprints. Il n'est pas nécessaire de reprendre cette terminologie. Ce qui compte est le principe sous-jacent : des cycles plus courts, plus collaboratifs, où l'IA conserve le contexte et où les humains valident les décisions structurantes.
 
@@ -893,7 +930,7 @@ Et il faut investir du temps réel : deux mois est le strict minimum pour transf
 | Phase 0 | 1-2 semaines | Aligner le management | Objectif dominant explicite et attentes non basées sur une accélération immédiate. |
 | Phase 1 | 2-4 semaines | Préparer le terrain | Environnement local, CI/CD, PR envs, documentation, tests, accès, repositories alignés. |
 | Phase 2 | 2-4 semaines + continu | Onboarder l'agent | Instructions minimales, agents de base, tools déterministes, guardrails, formation non-dev, exemples `ai-artifacts` à adapter. |
-| Phase 3 | 6-8 semaines | Piloter | 1 à 2 équipes, cas faibles risques, validation fonctionnelle et technique explicites. |
+| Phase 3 | 6-8 semaines | Piloter | 1 à 2 équipes d'early adopters (~7 ETP), cas faibles risques, support externe embarqué, validation fonctionnelle et technique explicites. |
 | Phase 4 | Pendant le pilot | Adapter les rituels | Standup de régulation, refinement plus court, démos PR env, rétrospectives setup. |
 | Phase 5 | Fin pilot + mensuel | Mesurer et scaler | Telemetry, audit, bibliothèque référence, formation transversale, support aux équipes. |
 
@@ -930,5 +967,6 @@ C'est la fin d'une définition trop étroite de son métier.
 ## Références
 
 1. AWS DevOps & Developer Productivity Blog, **AI-Driven Development Life Cycle: Reimagining Software Engineering**, Raja SP, 31 July 2025. https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle/
-2. Microsoft, **HVE Core**, repository utilisé comme source upstream pour des prompts RPI dans TSF. https://github.com/microsoft/hve-core
-3. Monorepo Storefront utilisé comme projet test pour le framework `ai-artifacts`, qui versionne, audite et compose agents, skills, tools, overlays et bases de connaissances réutilisables. https://github.com/amadeus-nexwave/discovery-travelstorefront-monorepo
+2. Microsoft .NET Blog, **Ten Months with Copilot Coding Agent in dotnet/runtime**, Stephen Toub, March 2026. Success story documentant le déploiement à grande échelle sur un projet avec des centaines de contributeurs : 878 PRs, 67.9% merge rate. https://devblogs.microsoft.com/dotnet/ten-months-with-cca-in-dotnet-runtime/
+3. Microsoft, **HVE Core**, repository utilisé comme source upstream pour des prompts RPI dans TSF. https://github.com/microsoft/hve-core
+4. Monorepo Storefront utilisé comme projet test pour le framework `ai-artifacts`, qui versionne, audite et compose agents, skills, tools, overlays et bases de connaissances réutilisables. https://github.com/amadeus-nexwave/discovery-travelstorefront-monorepo

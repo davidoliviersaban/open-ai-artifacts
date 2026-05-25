@@ -15,33 +15,15 @@
 
 ---
 
-## Vocabulaire clé
-
-Ce document utilise quelques termes spécifiques. En voici les définitions minimales.
-
-| Terme | Définition |
-|---|---|
-| **Agent** | Configuration spécialisée combinant un rôle, des règles de comportement, des interdits et une capacité à utiliser des outils. Un agent développeur ne se comporte pas comme un agent Quality Assurance (QA) ou un agent Product Manager (PM). |
-| **Skill** | Connaissance réutilisable mobilisable par plusieurs agents : écrire une user story, auditer une PR, conduire une revue de sécurité, maintenir la documentation. |
-| **Tool** | Action déterministe automatisée : créer un worktree, lancer l'application locale, exécuter la validation, générer un rapport. Ce qui doit toujours s'exécuter de la même façon ne doit pas dépendre d'un prompt. |
-| **RPI** | Research, Plan, Implement, Review. Modèle de travail qui sépare explicitement la recherche, la planification, l'exécution et la vérification pour structurer le transfert de contexte entre humains et agents. |
-| **Context engineering** | Conception et maintenance de l'information nécessaire pour qu'un humain ou un agent travaille correctement : documentation, spécifications, décisions, contraintes, exemples, workflows. |
-| **ai-artifact** | Framework open-source qui versionne, compose et audite agents, skills, tools et overlays d'un projet. Il permet de réutiliser des bases upstream sans lock-in et d'adapter uniquement ce qui est spécifique au contexte local. |
-| **Scrumban** | Mode de travail hybride : structure Scrum (standup, retrospective, vision produit) combinée à un flux Kanban continu pour les petits changements. Adopté naturellement quand l'exécution s'accélère et que le batch size d'un sprint devient un frein. |
-| **Pull Request (PR)** | Proposition de changement soumise à validation dans un repository Git. Unité centrale du flux de delivery : chaque changement, qu'il vienne d'un humain ou d'un agent, passe par une PR avant d'être intégré. |
-| **CI/CD** | Intégration Continue / Déploiement Continu. Pipeline automatisée qui compile, teste et déploie les changements. Dans un SDLC agentique, elle doit être dimensionnée pour absorber un flux parallèle humains + agents. |
-
----
-
 ## Executive Summary
 
 L'IA ne transforme pas seulement l'écriture du code. Elle transforme le système de delivery.
 
 Ce document est la version management condensée. La version longue, **La mort du code manuel : repenser le SDLC à l'âge des agents**, contient les détails techniques et les exemples complets.
 
-Le message pour le management est direct : acheter des licences ne suffit pas. Il faut construire un setup agentique : documentation versionnée, instructions courtes, tools déterministes, CI/CD dimensionnée, environnements de PR, code owners, guardrails et règles de validation.
+Le message pour le management est direct : acheter des licences ne suffit pas. Il faut construire un setup agentique[^agent] : documentation versionnée, instructions courtes, tools[^tool] déterministes, CI/CD[^cicd] dimensionnée, environnements de PR[^pr], code owners, guardrails et règles de validation.
 
-La valeur apparaît quand toute l'équipe utilise le même flux : PM, CSM, QA, designers, développeurs et agents. Le porteur du besoin valide le fonctionnel ; le code owner valide le technique.
+La valeur apparaît quand toute l'équipe utilise le même flux : PM, CSM, QA, designers, développeurs et agents[^skill]. Le porteur du besoin valide le fonctionnel ; le code owner valide le technique.
 
 ---
 
@@ -60,7 +42,6 @@ Sur mon projet test, encore en prototypage, les signaux sont déjà concrets :
 | Petits changements | Un changement CMS type color picker a été écrit, codé, validé et mergé en moins d'une heure, avec environ 30 minutes de temps humain cumulé. |
 | Quality of life | PM/CSM peuvent porter des irritants faibles risques avec agent, si le code owner valide la PR. |
 | Qualité de PR | Les PRs bien préparées et bien contextualisées sont passées d'environ une dizaine de commentaires de review à souvent 0-2 commentaires. |
-| Validation | Les environnements de PR déplacent la validation PM/PO/QA avant merge. |
 
 Ces chiffres ne sont pas une promesse universelle. Ils montrent ce qui devient possible quand le terrain technique et organisationnel est prêt.
 
@@ -72,7 +53,7 @@ Le vrai sujet n'est pas l'IA. Le vrai sujet est l'organisation du travail autour
 
 Les gains apparaissent quand trois conditions sont réunies :
 
-1. **Le context engineering est en place** : documentation, spécifications, décisions, workflows et contraintes sont versionnés et accessibles dans le repository — aux agents comme aux humains.
+1. **Le context engineering[^ce] est en place** : documentation, spécifications, décisions, workflows et contraintes sont versionnés et accessibles dans le repository — aux agents comme aux humains.
 2. **Le setup est partagé** : développeurs, PM, CSM, QA et designers utilisent les mêmes références, les mêmes tools, les mêmes guardrails et un flux commun de la user story à la production.
 3. **La validation est claire** : le porteur du besoin valide fonctionnellement ; le code owner valide techniquement.
 
@@ -92,7 +73,7 @@ Le tableau suivant résume cette adaptation :
 |---|---|
 | Standup | Devenir un point de régulation : qui prend quoi, humain ou agent, avec quel risque. |
 | Refinement | Se concentrer sur impact, risque, dette et réversibilité. |
-| Sprint | Garder ce qui aide, mais absorber les petits changements en flux continu type Scrumban. |
+| Sprint | Garder ce qui aide, mais absorber les petits changements en flux continu type Scrumban[^scrumban]. |
 | Demo | Montrer plus souvent, idéalement sur environnement de PR. |
 | Retro | Auditer les échecs agents : contexte manquant, tool absent, test instable, instruction ambiguë. |
 
@@ -112,7 +93,7 @@ Un setup agentique robuste contient au minimum :
 | Skills réutilisables | Story writing, review, testing, documentation, audit. |
 | Tools déterministes | Worktree, validation, lancement local, génération rapports. |
 | CI/CD dimensionnée | Absorbe le flux d'implémentation et de validation humain + agents. |
-| Environnements de PR | Permettent validation PM/PO/QA avant merge. |
+| Environnements de PR | Permettent validation fonctionnelle avant merge. |
 | Code owners | Maintiennent l'accountability technique. |
 | Standup de régulation | Rend visible qui prend quoi et avec quel mode de delivery. |
 | Outillage commun | Donne à toute l'équipe accès au code, à GitHub, aux agents et aux mêmes références. |
@@ -122,7 +103,7 @@ Deux exemples montrent pourquoi ce setup n'est pas cosmétique.
 
 Premier exemple : GMS Runner. Sur ce projet open-source interne, un agent utilisé sans configuration agentique a produit un correctif puis l'a committé et poussé sans validation. Répéter les règles dans la conversation ne suffisait pas : l'agent les oubliait à l'itération suivante. Après ajout d'un `AGENTS.md` court et versionné, décrivant TDD/ATDD et l'interdiction de commit sans confirmation explicite, le comportement a changé : l'agent a écrit un test reproduisant le bug, corrigé, validé, constaté que le correctif était incomplet, puis itéré. Même modèle, même tâche, résultat radicalement différent.
 
-Deuxième exemple : l'agent QA. Les agents développeurs livraient souvent du code correct, mais omettaient certains éléments des spécifications. Nous avons donc ajouté un agent QA indépendant, fonctionnel plutôt que technique. Il ne relit pas le code : il compare la user story à la PR, teste l'environnement de PR avec Playwright, puis produit un tableau des acceptance criteria passés ou échoués, avec preuves. La validation se déplace ainsi d'après merge à avant merge.
+Deuxième exemple : l'agent QA. Les agents développeurs livraient souvent du code correct, mais omettaient certains éléments des spécifications. Nous avons donc ajouté un agent QA indépendant, fonctionnel plutôt que technique. Il ne relit pas le code : il compare la user story à la PR, teste l'environnement de PR avec Playwright, puis produit un tableau des acceptance criteria passés ou échoués, avec preuves.
 
 Le tableau suivant synthétise les principes à retenir :
 
@@ -143,7 +124,11 @@ Cette séparation est le cœur du modèle : démocratiser l'exécution sans dilu
 
 Une organisation agentique efficace n'est pas forcément plus grande. Elle est plus explicite.
 
-Dans mon projet test, une équipe beaucoup plus réduite livre autant qu'une équipe précédente d'environ douze personnes. Ce n'est pas une recette RH : c'est un contexte de prototypage où l'équipe a été recomposée autour du delivery.
+Le vrai gain n'est pas la réduction d'effectif. C'est la baisse du coût de coordination : moins de handoffs, moins de files d'attente internes, moins de synchronisation implicite. L'équipe prend plus vite les décisions et voit plus tôt les problèmes.
+
+Cela ne veut pas dire que les compétences disparaissent. Le CSM, par exemple, n'existait pas dans l'équipe initiale et a été ajouté parce que la voix client devait être plus proche du delivery. À l'inverse, la QA est surtout transverse dans ce setup parce que le contexte est encore du prototypage. Dans un produit mature, critique ou fortement exposé, ce choix serait probablement insuffisant.
+
+Sur mon projet test, la composition d'équipe a évolué ainsi :
 
 | Rôle | Avant | Après |
 |---|---|---|
@@ -155,11 +140,7 @@ Dans mon projet test, une équipe beaucoup plus réduite livre autant qu'une éq
 | CSM | — (n'existait pas) | 1 (rôle ajouté) |
 | **Total ETP (Équivalent Temps Plein)** | **~12** | **~4.5** |
 
-Le chiffre le plus visible est la réduction apparente de taille d'équipe. Mais ce n'est pas le point principal. Le point principal est la baisse du coût de coordination. Moins de handoffs, moins de files d'attente internes, moins de synchronisation implicite : l'équipe prend plus vite les décisions et voit plus tôt les problèmes.
-
-Cela ne veut pas dire que les compétences disparaissent. Le CSM, par exemple, n'existait pas dans l'équipe initiale et a été ajouté parce que la voix client devait être plus proche du delivery. À l'inverse, la QA est surtout transverse dans ce setup parce que le contexte est encore du prototypage. Dans un produit mature, critique ou fortement exposé, ce choix serait probablement insuffisant.
-
-Le tableau suivant résume les implications organisationnelles :
+Ce n'est pas une recette RH. C'est un contexte de prototypage où l'équipe a été recomposée autour du delivery. Le tableau suivant résume les implications organisationnelles :
 
 | Point | Implication |
 |---|---|
@@ -183,6 +164,31 @@ Les rôles deviennent partiellement des skills, mais ils ne disparaissent pas. Q
 
 ## Roadmap Concrète De Démarrage
 
+**Coût total de l'expérimentation** : 6 à 8 ETP à plein temps pendant toute la durée (environ 10 à 16 semaines selon les phases).
+
+### Requirement 0 : L'Organisation Est-Elle Prête ?
+
+Microsoft appelle cela le "Requirement 0". C'est le prérequis évalué par l'équipe de support externe avant de décider si oui ou non ils investissent 3-4 ETP pour accompagner le changement.
+
+L'expérimentation agentique exige :
+
+- **Un trust à 200% du management.** Pas un accord tiède. Un mandat clair, assumé, qui survit au premier échec.
+- **Des acteurs owners de leur sujet à 200%.** Des gens qui portent l'initiative avec conviction, pas des exécutants assignés.
+- **Une motivation à toute épreuve.** L'expérimentation va mal se passer par moments. L'équipe doit vouloir continuer.
+- **L'ownership de bout en bout.** L'équipe doit pouvoir expérimenter aussi loin que possible, résoudre ses problèmes elle-même ou accéder facilement à des experts pour se débloquer.
+- **Pas de goulots d'étranglement organisationnels.** S'il faut passer par un process, demander des autorisations, attendre des semaines de validation et de priorisation pour chaque décision technique — on peut arrêter tout de suite. L'organisation n'est pas prête.
+
+Si ces conditions ne sont pas réunies, l'investissement ne produira pas de résultat. Le Requirement 0 n'est pas une formalité : c'est un filtre honnête qui évite de gaspiller du temps et de la confiance.
+
+Échouer au setup n'est pas un échec. C'est un apprentissage. Cela ne signifie pas qu'il faut arrêter le changement, mais identifier les blockers, comprendre comment débloquer la situation et avancer.
+
+Les deux sponsors jouent des rôles complémentaires :
+
+- **Le sponsor externe (Microsoft/AWS)** challenge l'équipe, accepte l'échec comme normal, et peut recommander de repousser la suite du projet si le terrain n'est pas prêt. Son rôle est de guider l'apprentissage, pas de forcer le résultat.
+- **Le sponsor interne (management Amadeus)** escalade les problèmes organisationnels et débloque les process internes qui freinent l'équipe. Son rôle est de lever les obstacles que l'équipe ne peut pas résoudre seule.
+
+Les échecs et points bloquants rencontrés par l'équipe pilot **doivent** être remontés aux sponsors. Ces retours ne servent pas seulement à débloquer le projet : ils alimentent l'évolution de l'organisation au global. Chaque blocker identifié est une opportunité de corriger un process, un accès, une règle ou un outil qui freine probablement d'autres équipes aussi.
+
 ### Phase 0 : Alignement Management
 
 **Durée recommandée** : 1 à 2 semaines.
@@ -203,7 +209,9 @@ Décision : ne pas démarrer par "livrer plus vite". Le premier objectif est d'a
 
 ### Phase 1 : Préparer Le Terrain, Pas Tout L'Agentique
 
-**Durée recommandée** : 2 à 4 semaines selon maturité existante.
+**Durée recommandée** : 2 à 4 semaines selon maturité existante.  
+**Investissement humain** : ~4 ETP (1 tech lead/architect, 1 DevOps, 1 PM/PDA pour audit et préparation repo, 1 expert agentic pour accompagner l'adoption).  
+**Coût licences IA** : variable selon outil (Copilot, Kiro, Claude Code, etc.) — compter environ 20-50€/utilisateur/mois selon l'outil choisi.
 
 Il ne faut pas non plus tomber dans l'excès inverse : construire tout l'agentique avant d'expérimenter. On ne sait pas encore quels agents, skills ou tools seront réellement utiles. En revanche, on sait déjà que certains prérequis non-IA sont indispensables. Un agent échoue sur un environnement local cassé pour les mêmes raisons qu'un newcomer. Une CI/CD lente ou instable bloque les agents comme elle bloque les humains. Une documentation dispersée rend le contexte fragile.
 
@@ -244,7 +252,7 @@ L'onboarding agentique consiste à construire progressivement :
 | Guardrails de sécurité | Ce que l'agent peut faire seul, ce qu'il doit demander, ce qu'il ne fait jamais. |
 | Définition du done agentique | Code, tests, validation, documentation, PR claire. |
 | Boucles de feedback | Tester, échouer, corriger, recommencer. |
-| Bases de connaissances et exemples | Références `ai-artifacts`, agents, skills et workflows dans lesquels l'équipe peut piocher et adapter. |
+| Bases de connaissances et exemples | Références `ai-artifacts`[^aiartifact], agents, skills et workflows dans lesquels l'équipe peut piocher et adapter. |
 
 Former aussi les non-développeurs : lire une PR, tester un PR env, vérifier les acceptance criteria, commenter clairement. Sans cela, le setup reste un outil de développeurs.
 
@@ -252,9 +260,14 @@ La phase doit rester organique. Les bases `ai-artifacts` servent d'exemples dans
 
 ### Phase 3 : Pilot Avec 1 À 2 Équipes
 
-**Durée recommandée** : 6 à 8 semaines.
+**Durée recommandée** : 6 à 8 semaines.  
+**Composition recommandée par équipe pilot** : 2 développeurs, 1-2 fonctionnels (QA/PDA/PM), quelques fonctions de support observatrices.
 
-Choisir des équipes volontaires, avec un tech lead impliqué, un PM/PO disponible, un QA ou validateur fonctionnel, et un accès à des experts externes. Le pilot doit être assez réel pour produire des apprentissages utiles, mais assez limité pour éviter de mettre en risque l'organisation.
+Choisir une équipe restreinte d'early adopters qui vont itérer rapidement pour apprendre. L'équipe doit inclure un tech lead impliqué, un PM/PO disponible, un QA ou validateur fonctionnel. Les fonctions de support (architecture, sécurité, DevOps) doivent suivre le pilot pour ensuite évangéliser le reste de l'organisation.
+
+**Support externe** : Microsoft et AWS proposent d'embarquer 2 à 4 ingénieurs pendant les premières semaines d'adoption. Ce coût d'accompagnement fait partie du pricing d'adoption chez les fournisseurs cloud : ils savent que c'est le prix de la réussite.
+
+Le pilot doit être assez réel pour produire des apprentissages utiles, mais assez limité pour éviter de mettre en risque l'organisation.
 
 Commencer par trois types de travaux :
 
@@ -299,6 +312,63 @@ Mesurer seulement ce qui guide la décision de scale :
 
 Passer à l'échelle seulement si le setup est stable, les objectifs clairs et les métriques lisibles. Sinon, continuer à apprendre.
 
+### Investissement Et ROI
+
+L'expérimentation complète représente environ 3 mois d'investissement concentré :
+
+- Phase 1 (1 mois) : ~4 ETP (tech lead/architect, DevOps, PM/PDA, support).
+- Phases 2-3 (2 mois) : ~7 ETP (équipe pilot complète + support externe).
+- **Total** : ~18 ETP-mois (équivalent de 18 personnes mobilisées 1 mois chacune).
+
+Ce n'est pas un coût supplémentaire net : l'essentiel de cet investissement est du temps d'équipe existante redirigé vers l'expérimentation.
+
+Le retour se matérialise par la réduction du coût de coordination et la capacité de l'équipe à livrer avec moins de personnes. Sur une équipe initiale de 10-12 personnes, le ROI se situe entre 3 et 6 mois après la fin de l'expérimentation. L'équipe réduite peut ensuite accélérer sur le projet en cours et le modèle peut être répliqué sur d'autres projets.
+
+---
+
+## Risques Et Mitigations
+
+| Risque | Mitigation |
+|---|---|
+| **Échec au setup initial** | L'équipe n'arrive pas à structurer, récupérer l'information, ou combler les gaps techniques. Si le projet cible est trop gros ou trop complexe, ne pas forcer : choisir un projet plus petit, ou investir significativement plus de temps sur le setup initial. Mieux vaut repousser l'implémentation sur un gros projet que de l'aborder prématurément. Microsoft a documenté un success story sur le framework .NET avec des centaines de contributeurs ; leur approche mérite lecture (voir Références). |
+| **Résistance au changement** | Ne pas chercher à convaincre tout le monde d'emblée. Commencer par des early adopters motivés et convaincus. Le scepticisme se radoucit par la multiplication de petits projets réussis, pas par des arguments théoriques. |
+| **Perte de compétence** | Le risque existe. Mais la code review fait monter les compétences de programmation : c'est comme lire un livre et poser des questions dessus. Il n'y a pas de perte sèche de connaissance si les équipes travaillent sérieusement. En revanche, certains automatismes seront oubliés — comme lorsqu'on crée un script pour se simplifier la vie et qu'on oublie ce qu'il y avait dedans. C'est aux ingénieurs de garder un minimum d'hygiène de développement. |
+| **Turnover et interruptions** | Sur mon projet test, le sachant IA a quitté l'entreprise en cours d'expérimentation. Les nouveaux interlocuteurs avaient d'autres compétences et d'autres façons de voir ; on a appris différemment et c'était enrichissant. Vacances longues, hackathons, contraintes sur plusieurs semaines : tout cela impacte la delivery, mais l'apprentissage se fait et on progresse. Une expérimentation n'est pas un sprint linéaire — elle absorbe les perturbations si le setup est versionné et documenté. |
+
+### Sécurité Et Conformité
+
+La question de la sécurité revient systématiquement dans les discussions management. Elle est légitime mais ne doit pas devenir un prétexte pour ne pas avancer.
+
+Les points à adresser :
+
+| Sujet | Approche |
+|---|---|
+| Données dans les LLM | Les outils majeurs (GitHub Copilot, Claude Code, Kiro) ne retiennent pas le code soumis pour l'entraînement en mode entreprise. Vérifier les conditions contractuelles. |
+| Propriété intellectuelle | Le code généré par un agent est soumis aux mêmes règles que le code écrit par un humain : il passe par une PR, il est reviewé, il appartient à l'entreprise. |
+| Périmètre d'accès agents | Définir explicitement ce que l'agent peut faire seul, ce qu'il doit demander, ce qu'il ne fait jamais. Ces guardrails sont versionnés dans les instructions projet. |
+| Conformité réglementaire | Pas différent d'un outil de développement classique. L'agent ne déploie pas en production sans validation humaine. Les mêmes contrôles s'appliquent. |
+
+La sécurité est un sujet de configuration, pas un blocker fondamental. Les fournisseurs cloud ont des offres entreprise avec les garanties nécessaires.
+
+### Critères De Continuation
+
+Ne pas juger l'expérimentation sur le résultat du premier mois. Sur mon projet test, si nous avions fait le bilan à un mois, nous aurions tout arrêté. La migration à Azure avait été catastrophique, les agents ne fonctionnaient pas bien, tout allait de travers.
+
+Le retour de notre management et de Microsoft a été : l'échec est normal, tout va bien. Maintenant qu'on a quelque chose qui fonctionne suffisamment, on expérimente et on apprend dessus, on fixe au fur et à mesure.
+
+Et on y est arrivé. Dans la douleur, mais ça s'est fait — parce que l'équipe a été moteur et que le top management a fourni un support sans faille.
+
+Les vrais critères de continuation ne sont pas des métriques de productivité au premier mois. Ce sont :
+
+| Critère | Signal positif | Signal d'alerte |
+|---|---|---|
+| Confiance dans le système | L'équipe utilise le setup naturellement, les agents produisent du travail utile. | L'équipe contourne le setup, retourne aux anciens flux. |
+| Progrès mensuels visibles | Chaque mois apporte des améliorations concrètes : moins d'échecs, meilleure qualité, nouveau use case débloqué. | Stagnation sur plusieurs semaines sans apprentissage. |
+| Support management | Le management accepte l'échec comme apprentissage et maintient le mandat. | Le management demande un ROI immédiat et menace d'arrêter au premier problème. |
+| Engagement équipe | Les early adopters sont enthousiastes et partagent leurs succès. | L'équipe subit l'expérimentation sans y croire. |
+
+Le go/no-go n'est pas binaire. C'est une évaluation mensuelle de la trajectoire, pas du résultat instantané.
+
 ---
 
 ## Recommandations Pratiques
@@ -311,6 +381,23 @@ Passer à l'échelle seulement si le setup est stable, les objectifs clairs et l
 6. **Former les non-développeurs au flux GitHub.** Lire une PR, tester un environnement de PR, vérifier les acceptance criteria et commenter une validation doivent devenir des compétences d'équipe.
 7. **Traiter les échecs comme du diagnostic.** Un agent qui échoue révèle souvent un manque de contexte, d'environnement, de tests ou de guardrails.
 8. **Ne pas mesurer les lignes de code.** Mesurer le flux de bout en bout, la validation, la qualité et l'adoption.
+
+---
+
+## Coût De L'Inaction
+
+Ne pas expérimenter maintenant n'est pas une position neutre. C'est un choix avec des conséquences.
+
+Le coût de l'inaction ne se mesure pas encore en euros — le ROI précis est en cours d'évaluation sur mon projet test, et le scale vers d'autres projets internes demande d'analyser comment chacun fonctionne pour adapter les méthodes. Ce travail viendra.
+
+Ce qui se mesure déjà, c'est le retard d'apprentissage :
+
+- **L'apprentissage est cumulatif et non-linéaire.** Les organisations qui expérimentent aujourd'hui accumulent des mois de savoir-faire sur le setup agentique, les échecs, les patterns qui marchent. Ce savoir ne s'achète pas — il se construit par l'itération.
+- **L'écart se creuse chaque mois.** Chaque mois de pratique améliore les agents, les instructions, les tools et le flux. Plus on attend, plus il y aura de retard à rattraper.
+- **L'attractivité se dégrade.** Les ingénieurs les plus compétents veulent travailler avec les outils modernes. Une organisation qui n'expérimente pas devient moins attractive.
+- **La transformation subie est plus coûteuse.** Mieux vaut transformer à son rythme, en maîtrisant les choix, qu'être forcé de rattraper un retard sous pression.
+
+L'expérimentation coûte ~18 ETP-mois. Ne pas expérimenter coûte un retard qui se mesure en trimestres, pas en semaines.
 
 ---
 
@@ -331,5 +418,15 @@ Le sujet est de construire un système de delivery où humains et agents peuvent
 ## Références
 
 1. AWS DevOps & Developer Productivity Blog, **AI-Driven Development Life Cycle: Reimagining Software Engineering**, Raja SP, 31 July 2025. https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle/
-2. Microsoft, **HVE Core**, repository utilisé comme source upstream pour des prompts RPI dans TSF. https://github.com/microsoft/hve-core
-3. Monorepo Storefront utilisé comme projet test pour le framework `ai-artifacts`, qui versionne, audite et compose agents, skills, tools, overlays et bases de connaissances réutilisables. https://github.com/amadeus-nexwave/discovery-travelstorefront-monorepo
+2. Microsoft .NET Blog, **Ten Months with Copilot Coding Agent in dotnet/runtime**, Stephen Toub, March 2026. Success story documentant le déploiement à grande échelle sur un projet avec des centaines de contributeurs : 878 PRs, 67.9% merge rate. https://devblogs.microsoft.com/dotnet/ten-months-with-cca-in-dotnet-runtime/
+3. Microsoft, **HVE Core**, repository utilisé comme source upstream pour des prompts RPI dans TSF. https://github.com/microsoft/hve-core
+4. Monorepo Storefront utilisé comme projet test pour le framework `ai-artifacts`, qui versionne, audite et compose agents, skills, tools, overlays et bases de connaissances réutilisables. https://github.com/amadeus-nexwave/discovery-travelstorefront-monorepo
+
+[^agent]: **Agent** — Configuration spécialisée combinant un rôle, des règles de comportement, des interdits et une capacité à utiliser des outils. Un agent développeur ne se comporte pas comme un agent QA ou PM.
+[^skill]: **Skill** — Connaissance réutilisable mobilisable par plusieurs agents : écrire une user story, auditer une PR, conduire une revue de sécurité, maintenir la documentation.
+[^tool]: **Tool** — Action déterministe automatisée : créer un worktree, lancer l'application locale, exécuter la validation. Ce qui doit toujours s'exécuter de la même façon ne doit pas dépendre d'un prompt.
+[^cicd]: **CI/CD** — Intégration Continue / Déploiement Continu. Pipeline automatisée qui compile, teste et déploie les changements.
+[^pr]: **Pull Request (PR)** — Proposition de changement soumise à validation dans un repository Git. Chaque changement, qu'il vienne d'un humain ou d'un agent, passe par une PR avant d'être intégré.
+[^ce]: **Context engineering** — Conception et maintenance de l'information nécessaire pour qu'un humain ou un agent travaille correctement : documentation, spécifications, décisions, contraintes, workflows.
+[^scrumban]: **Scrumban** — Mode hybride : structure Scrum (standup, retro, vision produit) combinée à un flux Kanban continu pour les petits changements.
+[^aiartifact]: **ai-artifact** — Framework open-source qui versionne, compose et audite agents, skills, tools et overlays d'un projet. Permet de réutiliser des bases upstream sans lock-in.
