@@ -11,7 +11,12 @@ function check(root, config) {
 
     if (linkStep) {
       const linkPath = path.join(root, linkStep.link.to)
-      const expectedTarget = path.relative(path.dirname(linkPath), path.join(root, linkStep.link.target))
+      const targetFullPath = path.join(root, linkStep.link.target)
+      const expectedTarget = path.relative(path.dirname(linkPath), targetFullPath)
+      if (!fs.existsSync(targetFullPath)) {
+        issues.push({ artifact: artifact.id, path: linkStep.link.target, issue: 'symlink target does not exist' })
+        continue
+      }
       const stat = fs.lstatSync(linkPath, { throwIfNoEntry: false })
       if (!stat) {
         issues.push({ artifact: artifact.id, path: linkStep.link.to, issue: 'missing' })

@@ -36,7 +36,7 @@ npm run validate:ai-artifacts
 
 This repository uses its own `packages/ai-artifacts` package to generate repository instructions, local skills, opencode agents and opencode configuration from `.ai-artifacts/artifacts.yml`.
 
-Source files live under `.ai-artifacts/files/` and `.ai-artifacts/overlays/`. Generated outputs include `AGENTS.md`, `CLAUDE.md`, `.opencode/opencode.json`, `.opencode/agent/*` and `.opencode/skills/*`.
+Source files live under `.ai-artifacts/files/` and `.github/overlays/`. Generated outputs include `AGENTS.md`, `CLAUDE.md`, `.opencode/opencode.json`, `.github/agent/*` and `.github/skills/*` (with symlinks at `.opencode/agent` and `.opencode/skills`).
 
 When changing repo instructions, generated skills, generated agents or generated opencode configuration, edit `.ai-artifacts/` sources first, then run:
 

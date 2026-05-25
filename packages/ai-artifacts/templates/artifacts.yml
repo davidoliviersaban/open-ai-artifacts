@@ -25,6 +25,3 @@ artifacts:
           substitutions:
             - from: upstream-specific-value
               to: local-value
-      - copy:
-          from: local:references
-          to: references

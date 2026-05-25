@@ -9,6 +9,8 @@ function validateArtifactConfig(config) {
   if (config.version !== 1) throw new Error('config.version must be 1')
   if (!config.packages || typeof config.packages !== 'object') throw new Error('config.packages is required')
   if (!Array.isArray(config.artifacts)) throw new Error('config.artifacts must be an array')
+  if (config.vendorDir) validateSafeRelativePath(config.vendorDir, 'config: unsafe vendorDir')
+  if (config.reportsDir) validateSafeRelativePath(config.reportsDir, 'config: unsafe reportsDir')
   if (config.overlaysDir) validateSafeRelativePath(config.overlaysDir, 'config: unsafe overlaysDir')
   if (config.riskPolicy) validateRiskPolicy(config.riskPolicy)
 
@@ -248,8 +250,10 @@ function serializeYaml(data, indent = 0) {
 const AI_ARTIFACT_PATTERNS = [
   /^\.ai-artifacts\/artifacts\.yml$/,
   /^\.ai-artifacts\/files\//,
-  /^\.ai-artifacts\/overlays\//,
-  /^scripts\/ai-artifacts\//,
+  /^\.github\/overlays\//,
+  /^\.github\/skills\//,
+  /^\.github\/agent\//,
+  /^packages\/ai-artifacts\//,
 ]
 
 function matchesAIArtifactPath(filePath) {

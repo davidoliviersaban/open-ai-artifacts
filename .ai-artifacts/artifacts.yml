@@ -169,3 +169,10 @@ artifacts:
             - from: "agent: Doc Ops"
               to: "agent: doc-ops"
 
+# --- Local skills (hand-authored, not managed by upstream) ---
+# These live directly in .github/skills/ and are NOT generated:
+#   - doc-check: documentation freshness validation
+#   - package-maintainer: package code maintenance guidelines
+#   - ship: validated commit+push workflow
+#   - whitepaper-editor: whitepaper editorial assistance
+

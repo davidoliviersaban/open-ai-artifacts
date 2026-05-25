@@ -72,8 +72,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-research.prompt.md
         to: SKILL.md
         sourceHash: sha256:02b0a435c4a4aaeadef92a5e0f4844521c1ef2df889d42f93958be40e267f960
-        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
-        generatedHash: sha256:999bd6fc2f44bfa9d3c06b8b85f891bae75bc3586e980105c23735e1c78a9c07
+        overlayHash: sha256:58a1fc722744f7a9b5c7594621c415bb46020e6a1ec4b00e8979a68a5ea21c72
+        generatedHash: sha256:6494e590d9d707ece25eb377e8a99669432878d9542dd92196d7ab07add0962d
   task-plan-guidelines:
     kind: skill
     targetDir: .github/skills/task-plan-guidelines
@@ -87,8 +87,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-plan.prompt.md
         to: SKILL.md
         sourceHash: sha256:c96128a216df420552d48893893094e753633f633e0d6449612a45056d3fa734
-        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
-        generatedHash: sha256:d69a7d351fb50b242c91f900608bccde8a7cfa62f1f76264d5f3a09a21ef44dd
+        overlayHash: sha256:58a1fc722744f7a9b5c7594621c415bb46020e6a1ec4b00e8979a68a5ea21c72
+        generatedHash: sha256:797da23dc54ef8035829fe702d3b4382833f0bf4a7acf9907486e28e33113cfe
   task-implement-guidelines:
     kind: skill
     targetDir: .github/skills/task-implement-guidelines
@@ -102,8 +102,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-implement.prompt.md
         to: SKILL.md
         sourceHash: sha256:d2cc2b7bbaefa6eeab176268bceadbec2e4f890fbfa30f73cbb6acab9f988d1c
-        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
-        generatedHash: sha256:431fe3bbed756ab4a2cfa6fd017fdc56e1d8a400d75986d2f61d81a62ee80f8a
+        overlayHash: sha256:58a1fc722744f7a9b5c7594621c415bb46020e6a1ec4b00e8979a68a5ea21c72
+        generatedHash: sha256:d3e35674021b65806595ebdea16fe92e6656e89bfd3dce6b8271a7033bb32766
   task-review-checklist:
     kind: skill
     targetDir: .github/skills/task-review-checklist
@@ -117,8 +117,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-review.prompt.md
         to: SKILL.md
         sourceHash: sha256:1ca0d8a0a9f707e06829bdeb5858ad0f0b3db5fe9bf76d5d1d897f67b3d185b7
-        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
-        generatedHash: sha256:09dd3cd5f7b411215e44c9ebb083ca0d6466e3da3fd80765713d5aff67bcce7d
+        overlayHash: sha256:58a1fc722744f7a9b5c7594621c415bb46020e6a1ec4b00e8979a68a5ea21c72
+        generatedHash: sha256:18573a85a314f7c60fcf4305e425fd3258a359fa655e49569c680f5eba8861f3
   prompt-build:
     kind: skill
     targetDir: .github/skills/prompt-build
