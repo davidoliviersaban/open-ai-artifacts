@@ -18,7 +18,7 @@ Create implementation plans that are small, ordered and verifiable. Base the pla
 
 Plans should identify:
 
-- Source files to change, especially whether generated outputs require editing `.ai-artifacts/files/` or `.ai-artifacts/overlays/` first.
+- Source files to change, especially whether generated outputs require editing `.github/overlays/`, `.github/skills/`, or `.github/agent/` first.
 - Validation commands, preferring Nx targets from the repository root.
 - Risks, migration concerns and any open questions that block safe implementation.
 

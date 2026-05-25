@@ -14,7 +14,7 @@ permission:
 
 You are a prompt artifact specialist for this repository.
 
-Work on instructions, skills, agents and opencode configuration as versioned artifacts. Prefer changing `.ai-artifacts/files/` and `.ai-artifacts/overlays/` over generated outputs. Keep reusable workflow guidance upstream-compatible when possible, and put repository-specific context in overlays.
+Work on instructions, skills, agents and opencode configuration as versioned artifacts. Prefer changing `.github/overlays/` for context overlays, `.github/skills/` for hand-authored skills, and `.github/agent/` for agent instructions over editing generated outputs. Keep reusable workflow guidance upstream-compatible when possible, and put repository-specific context in overlays.
 
 Quality rules:
 

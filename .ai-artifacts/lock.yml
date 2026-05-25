@@ -132,8 +132,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/prompt-build.prompt.md
         to: SKILL.md
         sourceHash: sha256:b89c1567aa5e6ce4267c58ac200d4dd6bbb8d94681b8475fd5f92524738085fc
-        overlayHash: sha256:ff7337fb8b86fdfccc89f7c160213b4a42e809a8b9b5311f2391d7d55975d425
-        generatedHash: sha256:c90f50ba9856152d10ae8e93eb93c311a9fc4f8115ce3db2171eda8ad01b7d3d
+        overlayHash: sha256:71f8c14b2dfd1063092ce38bf528e370fa91f4ad604f603d00766e11be1c96de
+        generatedHash: sha256:3c18a8e9b6120ca14e6a14a41f48c53645ab60e7ea14737b3fd2879506adfc5d
   prompt-analyze:
     kind: skill
     targetDir: .github/skills/prompt-analyze
@@ -147,8 +147,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/prompt-analyze.prompt.md
         to: SKILL.md
         sourceHash: sha256:72dcb0b8a14bf44ba3f603cf1e13c3b11b82672436edde2c25da51772547f9ae
-        overlayHash: sha256:ff7337fb8b86fdfccc89f7c160213b4a42e809a8b9b5311f2391d7d55975d425
-        generatedHash: sha256:2bfd49230e69cf9bd33dff96937fce8212dbbbe07422d7c65d860cb4a6dc3256
+        overlayHash: sha256:71f8c14b2dfd1063092ce38bf528e370fa91f4ad604f603d00766e11be1c96de
+        generatedHash: sha256:79a337783420ab938e79cda68c30529a6d9bf74b775803026e7e5b59a0d3930b
   prompt-refactor:
     kind: skill
     targetDir: .github/skills/prompt-refactor
@@ -162,8 +162,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/prompt-refactor.prompt.md
         to: SKILL.md
         sourceHash: sha256:409ba0de3598c18c6f224324c67737c14d9e1aeabf04b5a733b0309de136ed37
-        overlayHash: sha256:ff7337fb8b86fdfccc89f7c160213b4a42e809a8b9b5311f2391d7d55975d425
-        generatedHash: sha256:e4bd1bc1c854845c7931bd08078dd99ab3063e7a5034a2a34be8d46b90a8058f
+        overlayHash: sha256:71f8c14b2dfd1063092ce38bf528e370fa91f4ad604f603d00766e11be1c96de
+        generatedHash: sha256:e97adeb1c4e6824c805cedb233dc06a2120219319b109696ddb4e02632a27e18
   doc-ops-update:
     kind: skill
     targetDir: .github/skills/doc-ops-update

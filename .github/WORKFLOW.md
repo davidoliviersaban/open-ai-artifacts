@@ -2,6 +2,8 @@
 
 This project enforces a structured workflow for any code or configuration change. Each step uses a dedicated skill that must be invoked in order.
 
+For agent/skill/prompt management, see [WORKFLOW.agents.md](WORKFLOW.agents.md).
+
 ## Project Structure
 
 | Path | Purpose |
@@ -22,11 +24,10 @@ This project enforces a structured workflow for any code or configuration change
 | `/task-implement-guidelines` | Implement phase — structured code changes |
 | `/task-review-checklist` | Review phase — validate before commit |
 | `/doc-check` | Documentation check — ensure docs stay current |
-| `/doc-ops-update` | Documentation quality assurance and updates |
-| `/prompt-build` | Build or improve prompt engineering artifacts |
-| `/prompt-analyze` | Evaluate prompt artifacts against quality criteria |
-| `/prompt-refactor` | Refactor and clean up prompt artifacts |
 | `/code-review` | Review code for reuse, quality and efficiency |
+| `/pr-review` | Handle external PR review comments — evaluate, implement, respond |
+| `/multi-feature` | Manage parallel feature development using git worktrees |
+| `/package-maintainer` | TDD/ATDD refactoring loop for package JavaScript changes |
 | `/ship` | Validate, commit and push in one pass |
 
 ## Pipeline
@@ -36,6 +37,7 @@ This project enforces a structured workflow for any code or configuration change
 | 1. Research | `/task-research-guidelines` | Trivial fix with obvious solution |
 | 2. Plan | `/task-plan-guidelines` | Single-file change with no design decision |
 | 3. Implement | `/task-implement-guidelines` | Never — always use structured implementation |
+| 3b. Refactor | `/package-maintainer` | Change does not touch `packages/ai-artifacts/` |
 | 4. Review | `/task-review-checklist` | Never — always validate before commit |
 | 5. Doc check | `/doc-check` | No documentation exists for the changed area |
 
