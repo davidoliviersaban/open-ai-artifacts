@@ -1,0 +1,30 @@
+# AI Artifacts Configuration
+# yaml-language-server: $schema=./schemas/artifacts.schema.json
+#
+# Copy this template to .ai-artifacts/artifacts.yml, then replace package refs,
+# artifact ids, and target paths for the repository where ai-artifacts is installed.
+
+version: 1
+
+packages:
+  example-package:
+    type: git
+    repo: https://github.com/example/ai-artifacts.git
+    version: v1.0.0
+
+artifacts:
+  - id: example-skill
+    kind: skill
+    targetDir: .github/skills/example-skill
+    steps:
+      - render:
+          from: example-package:skills/example/SKILL.md
+          to: SKILL.md
+          overlays:
+            - example/local-guidance.md
+          substitutions:
+            - from: upstream-specific-value
+              to: local-value
+      - copy:
+          from: local:references
+          to: references

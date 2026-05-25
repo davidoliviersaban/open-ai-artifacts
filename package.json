@@ -1,0 +1,25 @@
+{
+  "name": "@amadeus-nexwave/ai-artifacts-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "nx": "nx",
+    "build:whitepaper": "nx build whitepaper",
+    "test:ai-artifacts": "nx test ai-artifacts",
+    "validate:ai-artifacts": "nx validate ai-artifacts",
+    "ai-artifacts:fetch": "node packages/ai-artifacts/cli.js fetch",
+    "ai-artifacts:sync": "node packages/ai-artifacts/cli.js sync",
+    "ai-artifacts:drift": "node packages/ai-artifacts/cli.js drift",
+    "ai-artifacts:risk": "node packages/ai-artifacts/cli.js risk",
+    "ai-artifacts:summary": "node packages/ai-artifacts/cli.js summary",
+    "ai-artifacts:install": "node packages/ai-artifacts/install.js",
+    "postinstall": "node -e \"const script='./packages/ai-artifacts/install.js'; if (require('node:fs').existsSync(script)) require(script).installAIArtifacts()\""
+  },
+  "devDependencies": {
+    "nx": "22.5.4"
+  },
+  "workspaces": [
+    "packages/ai-artifacts"
+  ]
+}

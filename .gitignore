@@ -1,0 +1,8 @@
+node_modules/
+.nx/
+
+.DS_Store
+*.log
+
+.ai-artifacts/vendor/
+.ai-artifacts/reports/

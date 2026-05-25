@@ -1,0 +1,29 @@
+{
+  "name": "@amadeus-nexwave/ai-artifacts",
+  "version": "0.1.0",
+  "description": "Dependency management for AI prompts, skills, instructions and agentic workflow artifacts.",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "app.js",
+  "bin": {
+    "ai-artifacts": "cli.js"
+  },
+  "files": [
+    "app.js",
+    "cli.js",
+    "install.js",
+    "lib.js",
+    "docs/",
+    "schemas/",
+    "templates/",
+    "workflows/",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test app.test.js composer.test.js install.test.js",
+    "validate": "node cli.js validate"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

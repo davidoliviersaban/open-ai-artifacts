@@ -1,0 +1,124 @@
+name: AI Artifacts
+
+on:
+  pull_request:
+    paths:
+      - '.ai-artifacts/**'
+      - 'scripts/ai-artifacts/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'package.json'
+      - 'package-lock.json'
+  push:
+    branches:
+      - main
+    paths:
+      - '.ai-artifacts/**'
+      - 'scripts/ai-artifacts/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'package.json'
+      - 'package-lock.json'
+  schedule:
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-ai-artifacts:
+    name: Validate AI artifacts
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch upstream packages
+        run: npm run ai-artifacts:fetch
+
+      - name: Test AI artifact framework
+        run: npm run test:ai-artifacts
+
+      - name: Check generated AI artifacts
+        run: npm run ai-artifacts:sync -- --check
+
+      - name: Check packaged AI artifact install
+        run: npm run ai-artifacts:install -- --check
+
+      - name: Generate drift and risk reports
+        run: |
+          npm run ai-artifacts:drift
+          npm run ai-artifacts:risk
+          npm run ai-artifacts:summary
+
+      - name: Upload drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-report
+          path: .ai-artifacts/reports/drift.md
+          retention-days: 30
+
+      - name: Upload risk assessment
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: risk-assessment
+          path: .ai-artifacts/reports/risk-assessment.md
+          retention-days: 30
+
+      - name: Upload update summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-summary
+          path: .ai-artifacts/reports/update-summary.md
+          retention-days: 30
+
+  propose-ai-artifact-updates:
+    name: Propose AI artifact updates
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh lock latest pointers and reports
+        run: |
+          npm run ai-artifacts:fetch
+          npm run ai-artifacts:drift
+          npm run ai-artifacts:risk
+          npm run ai-artifacts:summary
+
+      - name: Create update review PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/ai-artifact-upstream-review
+          delete-branch: true
+          title: 'chore(ai-artifacts): review upstream drift'
+          commit-message: 'chore(ai-artifacts): refresh upstream drift reports'
+          body-path: .ai-artifacts/reports/update-summary.md
+          labels: ai-artifacts, automated-pr

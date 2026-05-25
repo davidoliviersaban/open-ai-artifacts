@@ -1,0 +1,42 @@
+{
+  "name": "ai-artifacts",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --test packages/ai-artifacts/app.test.js packages/ai-artifacts/composer.test.js packages/ai-artifacts/install.test.js"
+      }
+    },
+    "validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/ai-artifacts/cli.js validate"
+      }
+    },
+    "fetch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/ai-artifacts/cli.js fetch"
+      }
+    },
+    "sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/ai-artifacts/cli.js sync"
+      }
+    },
+    "drift": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/ai-artifacts/cli.js drift"
+      }
+    },
+    "risk": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/ai-artifacts/cli.js risk"
+      }
+    }
+  }
+}
