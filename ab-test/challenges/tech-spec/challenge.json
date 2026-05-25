@@ -1,0 +1,67 @@
+{
+  "id": "yaml-multiline-tech-spec",
+  "title": "Block scalars — Technical spec with I/O table",
+  "description": "Same task, prompt formatted as a technical specification with input/output table.",
+  "difficulty": "medium",
+  "prompt": "## Task\n\nExtend `parseYamlSubset` in `packages/ai-artifacts/lib.js` to support YAML block scalars: literal (`|`) and folded (`>`).\n\n## Expected Behavior\n\n| Input | Expected output |\n|-------|----------------|\n| `key: |\\n  line1\\n  line2\\n` | `{ key: \"line1\\nline2\\n\" }` |\n| `key: >\\n  line1\\n  line2\\n` | `{ key: \"line1 line2\\n\" }` |\n| `key: >\\n  para1\\n\\n  para2\\n` | `{ key: \"para1\\n\\npara2\\n\" }` |\n| `desc: |\\n  hello\\n  world\\nname: foo\\n` | `{ desc: \"hello\\nworld\\n\", name: \"foo\" }` |\n| `items:\\n  - |\\n    line1\\n    line2\\n  - plain\\n` | `{ items: [\"line1\\nline2\\n\", \"plain\"] }` |\n| `code: |\\n  if true:\\n    do_thing\\n` | `{ code: \"if true:\\n  do_thing\\n\" }` |\n\n## Rules\n\n- Literal (`|`): preserves newlines verbatim.\n- Folded (`>`): joins consecutive non-empty lines with a space; blank lines become `\\n\\n`.\n- Block indentation is determined by the first content line.\n- Always append exactly one trailing `\\n`.\n- Strip/keep/clip modifiers (`|-`, `|+`, `>-`) are NOT required.\n\n## Constraints\n\n- No external YAML libraries. Modify the existing parser in place.\n- Write tests in `packages/ai-artifacts/lib.block-scalars.test.js` (6+ test cases).\n- Existing tests must pass: `npm run test:ai-artifacts`.\n- No new dependencies in `packages/ai-artifacts/package.json`.",
+  "base_branch": "main",
+  "acceptance_criteria": [
+    {
+      "id": "parses_literal_basic",
+      "description": "Literal block scalar preserves newlines in a simple mapping",
+      "command": "node -e \"const {parseArtifactConfig}=require('./packages/ai-artifacts/lib.js'); const r=parseArtifactConfig('key: |\\n  line1\\n  line2\\n'); if(r.key !== 'line1\\nline2\\n') { console.error('expected line1\\\\nline2\\\\n, got:', JSON.stringify(r.key)); process.exit(1) }\""
+    },
+    {
+      "id": "parses_folded_basic",
+      "description": "Folded block scalar folds single newlines to spaces",
+      "command": "node -e \"const {parseArtifactConfig}=require('./packages/ai-artifacts/lib.js'); const r=parseArtifactConfig('key: >\\n  line1\\n  line2\\n'); if(r.key !== 'line1 line2\\n') { console.error('expected line1 line2\\\\n, got:', JSON.stringify(r.key)); process.exit(1) }\""
+    },
+    {
+      "id": "folded_preserves_paragraphs",
+      "description": "Folded block scalar preserves double newlines as paragraph breaks",
+      "command": "node -e \"const {parseArtifactConfig}=require('./packages/ai-artifacts/lib.js'); const r=parseArtifactConfig('key: >\\n  para1\\n\\n  para2\\n'); if(r.key !== 'para1\\n\\npara2\\n') { console.error('expected para1\\\\n\\\\npara2\\\\n, got:', JSON.stringify(r.key)); process.exit(1) }\""
+    },
+    {
+      "id": "literal_multikey",
+      "description": "Block scalar followed by another key at same level parses both correctly",
+      "command": "node -e \"const {parseArtifactConfig}=require('./packages/ai-artifacts/lib.js'); const r=parseArtifactConfig('desc: |\\n  hello\\n  world\\nname: foo\\n'); if(r.desc !== 'hello\\nworld\\n' || r.name !== 'foo') { console.error('got:', JSON.stringify(r)); process.exit(1) }\""
+    },
+    {
+      "id": "literal_in_sequence",
+      "description": "Block scalar works as a sequence item",
+      "command": "node -e \"const {parseArtifactConfig}=require('./packages/ai-artifacts/lib.js'); const r=parseArtifactConfig('items:\\n  - |\\n    line1\\n    line2\\n  - plain\\n'); if(!Array.isArray(r.items) || r.items[0] !== 'line1\\nline2\\n' || r.items[1] !== 'plain') { console.error('got:', JSON.stringify(r)); process.exit(1) }\""
+    },
+    {
+      "id": "preserves_extra_indent",
+      "description": "Literal block scalar preserves lines indented beyond minimum",
+      "command": "node -e \"const {parseArtifactConfig}=require('./packages/ai-artifacts/lib.js'); const r=parseArtifactConfig('code: |\\n  if true:\\n    do_thing\\n'); if(r.code !== 'if true:\\n  do_thing\\n') { console.error('got:', JSON.stringify(r.code)); process.exit(1) }\""
+    },
+    {
+      "id": "existing_tests_pass",
+      "description": "No regressions in existing test suite",
+      "command": "npm run test:ai-artifacts"
+    },
+    {
+      "id": "test_file_exists",
+      "description": "Agent created a dedicated test file for block scalars",
+      "command": "test -f packages/ai-artifacts/lib.block-scalars.test.js"
+    },
+    {
+      "id": "agent_tests_pass",
+      "description": "Agent's own test file passes",
+      "command": "node --test packages/ai-artifacts/lib.block-scalars.test.js"
+    },
+    {
+      "id": "no_external_deps",
+      "description": "No new dependencies added to package.json",
+      "command": "node -e \"const p=require('./packages/ai-artifacts/package.json'); if(p.dependencies || p.devDependencies) { process.exit(1) }\""
+    }
+  ],
+  "scoring": {
+    "criteria_weight": 0.5,
+    "efficiency_weight": 0.3,
+    "code_quality_weight": 0.2,
+    "max_tokens_budget": 50000,
+    "max_time_seconds": 300
+  }
+}

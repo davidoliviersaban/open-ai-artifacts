@@ -1,0 +1,11 @@
+{
+  "id": "a-full-pipeline",
+  "name": "Full CLAUDE.md with pipeline instructions",
+  "description": "Uses the repo's CLAUDE.md as-is. The agent sees all the pipeline rules, worktree requirements, skill invocation mandates, etc. Skills are available (not disabled). Tests whether heavy governance helps or hinders on a focused coding task.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

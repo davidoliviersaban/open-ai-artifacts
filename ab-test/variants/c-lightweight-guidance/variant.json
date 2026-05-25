@@ -1,0 +1,12 @@
+{
+  "id": "c-lightweight-guidance",
+  "name": "Lightweight guidance, no mandatory skills",
+  "description": "A lean CLAUDE.md with project context and guardrails but no mandatory skill pipeline. Skills available but not forced.",
+  "claude_md": "custom",
+  "claude_md_content": "# ai-artifacts\n\n## Project Context\n\nThis repo incubates `ai-artifacts`, an internal Node.js package for managing AI prompt/skill artifacts.\n\n| Area | Path | Purpose |\n|------|------|------|\n| Package | `packages/ai-artifacts/` | CLI/library for versioning and composing AI artifacts |\n| Tests | `packages/ai-artifacts/*.test.js` | Node.js native test runner |\n\n## How to validate\n\n```bash\nnpm run test:ai-artifacts\nnpm run validate:ai-artifacts\n```\n\n## Guardrails\n\n- Never commit secrets or API keys\n- Write tests for new functionality\n- Follow existing patterns in the same directory\n- Keep changes minimal and focused\n- Do not add external dependencies unless strictly necessary\n\n## Working Style\n\n- Implement fully before asking for review\n- If requirements are ambiguous, make a reasonable assumption and document it\n- Prefer the smallest correct change",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": true,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

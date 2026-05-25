@@ -1,0 +1,3 @@
+# Run data is local only — never commit test outputs
+*
+!.gitignore
