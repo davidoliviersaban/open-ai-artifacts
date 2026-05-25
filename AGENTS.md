@@ -1,30 +1,80 @@
-# ai-artifacts Repository
+# ai-artifacts
+
+## Hard Rules
+
+These are non-negotiable. If any rule conflicts with a task request, stop and ask.
+
+### Git Safety
+
+- Never push to `main`.
+- Before any `git push`, run `git branch --show-current` and abort if it returns `main`.
+- Never force-push unless explicitly asked.
+- All work targets `main` through a PR.
+
+### Worktree Requirement
+
+- Never make code changes in the main repo checkout. Always use a worktree.
+- Create worktrees with `node .github/skills/multi-feature/scripts/worktree.js create feat/<name> --from upstream/main`.
+- All file reads, writes, and bash commands must use the worktree path as working directory.
+
+### Skill Invocation
+
+- Never execute skill steps manually. Always invoke skills via the slash command mechanism (`/skill-name`).
+- Executing `git commit`, `git push`, `npm run validate:ai-artifacts` by hand does NOT count as using the skill. The skill must be invoked so it enforces the full process and leaves an audit trail.
+- Mandatory skills for every change: `/multi-feature` (before starting), `/ship` (to deliver).
+- Never skip a skill because you "already know" how to do it. The skill is the process, not a how-to.
+
+### Other Absolutes
+
+- Never commit secrets or API keys.
+- Never manually edit generated files (`AGENTS.md`, `CLAUDE.md`, `.opencode/` contents, `.github/copilot-instructions.md`). Edit sources and run `npm run ai-artifacts:sync`.
+- Always follow existing patterns and keep PR scope tight.
+- Write tests for package code changes. Use `/package-maintainer` for TDD.
+
+## Project Workflow
+
+Read `.github/WORKFLOW.md` for the full development pipeline and `.github/WORKFLOW.agents.md` for agent/skill management.
+
+### Pipeline (every change)
+
+| Step | Skill | Skip only if |
+|------|-------|--------------|
+| 0. Branch | `/multi-feature` | Never |
+| 1. Research | `/task-research-guidelines` | Trivial fix with obvious solution |
+| 2. Plan | `/task-plan-guidelines` | Single-file change with no design decision |
+| 3. Implement | `/task-implement-guidelines` | Never |
+| 3b. Refactor | `/package-maintainer` | Change does not touch `packages/ai-artifacts/` |
+| 4. Review | `/task-review-checklist` | Never |
+| 5. Doc check | `/doc-check` | No documentation exists for the changed area |
+| 6. Ship | `/ship` | Never |
+
+## Skills And Workflows
+
+- `multi-feature`: create/list/remove git worktrees for parallel development.
+- `ship`: validate, commit, push, and create PR in one pass.
+- `task-research-guidelines`: research phase — gather context and constraints.
+- `task-plan-guidelines`: plan phase — design implementation approach.
+- `task-implement-guidelines`: implement phase — structured code changes.
+- `task-review-checklist`: review phase — validate before commit.
+- `doc-check`: verify documentation stays current with code changes.
+- `package-maintainer`: TDD/ATDD refactoring loop for package JavaScript.
+- `pr-review`: handle external PR review comments.
+- `skill-audit`: audit skills for quality, safety, and composability.
+- `whitepaper-editor`: whitepaper editorial assistance.
+- `prompt-build` / `prompt-analyze` / `prompt-refactor`: prompt engineering pipeline.
+- `add-skill`: scaffold and register new skills (with RPI research step).
 
 ## Repository Scope
 
 This repository incubates `ai-artifacts` as an internal-public Amadeus project that may later become open-source.
 
-It has two main areas:
-
 | Area | Path | Purpose |
-|---|---|---|
-| Documentation | `docs/` | Whitepaper, rationale, adoption guidance and generated PDFs. |
-| Node package | `packages/ai-artifacts/` | CLI/package for versioning, composing and auditing AI artifacts. |
+|------|------|---------|
+| Documentation | `docs/` | Whitepaper, rationale, adoption guidance and generated PDFs |
+| Node package | `packages/ai-artifacts/` | CLI/package for versioning, composing and auditing AI artifacts |
+| Dogfooding | `.ai-artifacts/` | Generates repo instructions, skills, agents from upstream + overlays |
 
-## Nx Workflow
-
-This repository is an Nx workspace.
-
-Use these commands from the repository root:
-
-```bash
-npm run nx -- show projects
-npm run nx -- build whitepaper
-npm run nx -- test ai-artifacts
-npm run nx -- validate ai-artifacts
-```
-
-Shortcut scripts:
+## Nx Workspace
 
 ```bash
 npm run build:whitepaper
@@ -36,9 +86,9 @@ npm run validate:ai-artifacts
 
 This repository uses its own `packages/ai-artifacts` package to generate repository instructions, local skills, opencode agents and opencode configuration from `.ai-artifacts/artifacts.yml`.
 
-Source files live under `.ai-artifacts/files/` and `.github/overlays/`. Generated outputs include `AGENTS.md`, `CLAUDE.md`, `.opencode/opencode.json`, `.github/agent/*` and `.github/skills/*` (with symlinks at `.opencode/agent` and `.opencode/skills`).
+Source files live under `.github/overlays/`. Generated outputs include `AGENTS.md`, `CLAUDE.md`, `.opencode/opencode.json`, `.github/agent/*` and `.github/skills/*` (with symlinks at `.opencode/agent` and `.opencode/skills`).
 
-When changing repo instructions, generated skills, generated agents or generated opencode configuration, edit `.ai-artifacts/` sources first, then run:
+When changing generated artifacts, edit sources first, then run:
 
 ```bash
 npm run ai-artifacts:sync
@@ -48,49 +98,38 @@ npm run validate:ai-artifacts
 ## Package Direction
 
 - Current status: internal-public incubation inside Amadeus.
-- Future direction: external reusable package, eventually open-source if APIs, packaging and governance stabilize.
+- Future direction: external reusable package, eventually open-source.
 - Keep package code in `packages/ai-artifacts/`.
-- Keep consuming-repository configuration examples under `.ai-artifacts/` only when this repo needs to dogfood its own package.
-- Avoid hard-coding Travel Storefront assumptions into package logic. TSF can remain a concrete example in docs, but not a hidden product dependency.
+- Avoid hard-coding Travel Storefront assumptions into package logic.
 
 ## Whitepaper Editorial Rules
 
 - Write in the language requested for the document, respecting that language's punctuation, typography and grammar rules.
 - Keep the tone direct, practical and management-friendly.
 - Preserve the author's voice: practitioner, not academic.
-- Use first person for the project experience in the document's language, for example `my test project` and `we` in English.
-- Do not refer impersonally to Storefront as an external case study.
+- Use first person for the project experience (`my test project`, `we`).
 - The long version can be more detailed and manifesto-like.
 - The management version must be shorter, but not reduced to tables.
-- A table is a synthesis of an argument already explained. Never use a table as the only proof or as the first explanation of a concept.
-- Before any important table, include a short narrative paragraph explaining the reasoning, observation or proof.
-- Keep examples concrete when they prove the point: GMS Runner, agent QA, color picker, CI/CD scale-up, monorepo, PR environments.
-- Do not over-condense by removing the force of the proof.
+- A table is a synthesis of an argument already explained. Never use a table as the only proof.
+- Before any important table, include a short narrative paragraph explaining the reasoning.
+- Keep examples concrete when they prove the point.
 - Do not add `\newpage` manually in Markdown. Pagination is handled by `docs/whitepaper/chapter-pagebreaks.lua`.
 
 ## Core Content Decisions
 
-- The pilot's first goal is learning, setup and adoption, not immediate ROI or faster delivery.
+- The pilot's first goal is learning, setup and adoption, not immediate ROI.
 - Speed is a consequence of a working system, not the starting promise.
 - Governance must guide, inform, help and support. It must not impose a central framework.
 - Standards should become de facto standards because they prove their value.
-- Prefer monorepo when possible: code, docs, CI/CD, infra, agents, skills and tests should live together when it reduces friction.
-- The agentic flow is the full SDLC: ideation -> requirements -> user stories -> implementation -> validation -> release -> production.
-- The setup should emerge organically through adoption, failures and learning.
-- QA does not disappear. In the current prototype setup, QA is transverse expertise; in mature or critical products, stronger QA focus is required.
-- Non-developers must be trained to use GitHub, PRs, PR environments and acceptance criteria.
-- Code owners remain accountable for technical validation.
+- Prefer monorepo when possible.
+- The agentic flow is the full SDLC: ideation → requirements → user stories → implementation → validation → release → production.
+- QA does not disappear. Code owners remain accountable for technical validation.
 
-## Development Workflow
+## Working Style
 
-**MANDATORY**: Before starting any task, read `.github/WORKFLOW.md` and `.github/WORKFLOW.agents.md`. They define the required skill pipelines for this project. You MUST invoke the skills listed there — do not implement, review or ship without calling the corresponding skill. Skipping skills is not acceptable, even if you "already know" the answer.
-
-Read `.github/WORKFLOW.md` now, before doing anything else.
-
-## Do Not Do
-
-- Do not replace narrative proof with table-only content.
-- Do not manually edit generated `.generated.tex` files if they appear.
-- Do not introduce a central imposed framework tone.
-- Do not remove concrete examples unless the same proof is preserved elsewhere.
-- Do not make package behavior depend on the Travel Storefront repository layout.
+- Implement the issue fully before requesting review unless blocked.
+- If requirements are ambiguous, make a reasonable assumption and document it in the PR.
+- If validation fails, attempt to fix it before asking for help.
+- Do not fix unrelated problems; mention them separately.
+- Prefer the smallest correct change.
+- Follow existing patterns in the same directory.
