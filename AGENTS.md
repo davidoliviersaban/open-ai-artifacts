@@ -83,7 +83,9 @@ npm run validate:ai-artifacts
 
 ## Development Workflow
 
-All code and configuration changes must follow the structured pipeline defined in `WORKFLOW.md`. Read it before starting any implementation task.
+**MANDATORY**: Before starting any task, read `WORKFLOW.md`. It defines the required skill pipeline for this project. You MUST invoke the skills listed there — do not implement, review or ship without calling the corresponding skill. Skipping skills is not acceptable, even if you "already know" the answer.
+
+Read `WORKFLOW.md` now, before doing anything else.
 
 ## Do Not Do
 
