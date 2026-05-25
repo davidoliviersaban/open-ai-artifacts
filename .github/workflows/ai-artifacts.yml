@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - '.ai-artifacts/**'
+      - '.github/agent/**'
+      - '.github/overlays/**'
+      - '.github/skills/**'
       - '.opencode/opencode.json'
       - '.opencode/agent/**'
       - '.opencode/skills/**'
@@ -17,6 +20,9 @@ on:
       - main
     paths:
       - '.ai-artifacts/**'
+      - '.github/agent/**'
+      - '.github/overlays/**'
+      - '.github/skills/**'
       - '.opencode/opencode.json'
       - '.opencode/agent/**'
       - '.opencode/skills/**'

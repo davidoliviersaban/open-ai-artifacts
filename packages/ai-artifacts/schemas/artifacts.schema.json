@@ -18,6 +18,9 @@
     "reportsDir": {
       "$ref": "#/$defs/safePath"
     },
+    "overlaysDir": {
+      "$ref": "#/$defs/safePath"
+    },
     "riskPolicy": {
       "type": "object",
       "additionalProperties": false,
@@ -87,7 +90,8 @@
             "items": {
               "oneOf": [
                 { "$ref": "#/$defs/renderStep" },
-                { "$ref": "#/$defs/copyStep" }
+                { "$ref": "#/$defs/copyStep" },
+                { "$ref": "#/$defs/linkStep" }
               ]
             }
           }
@@ -160,6 +164,26 @@
           "properties": {
             "from": {
               "$ref": "#/$defs/reference"
+            },
+            "to": {
+              "$ref": "#/$defs/safePath"
+            }
+          }
+        }
+      }
+    },
+    "linkStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["link"],
+      "properties": {
+        "link": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["target", "to"],
+          "properties": {
+            "target": {
+              "$ref": "#/$defs/safePath"
             },
             "to": {
               "$ref": "#/$defs/safePath"

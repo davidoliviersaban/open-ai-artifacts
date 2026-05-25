@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const path = require('node:path')
 const test = require('node:test')
 
 const {
@@ -7,6 +9,7 @@ const {
   normalizeNewline,
   parseArtifactConfig,
   sha256,
+  validateArtifactConfig,
 } = require('./lib')
 
 test('composeContent appends overlays after a markdown separator', () => {
@@ -47,4 +50,32 @@ test('parseArtifactConfig supports escaped newlines in double-quoted strings', (
   const config = parseArtifactConfig('substitution:\n  to: "name: skill\\ndisable-model-invocation: true"')
 
   assert.equal(config.substitution.to, 'name: skill\ndisable-model-invocation: true')
+})
+
+test('schema documents overlaysDir and link steps supported by validation', () => {
+  const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'schemas/artifacts.schema.json'), 'utf8'))
+  const config = parseArtifactConfig(`version: 1
+overlaysDir: .github/overlays
+packages:
+  upstream:
+    type: git
+    repo: https://example.test/upstream.git
+    version: v1
+artifacts:
+  - id: opencode-skills
+    kind: config
+    target: .opencode/skills
+    steps:
+      - link:
+          target: .github/skills
+          to: .opencode/skills
+`)
+
+  assert.doesNotThrow(() => validateArtifactConfig(config))
+  assert.ok(schema.properties.overlaysDir, 'schema must model overlaysDir')
+  assert.ok(schema.$defs.linkStep, 'schema must model link steps')
+  assert.ok(
+    schema.properties.artifacts.items.properties.steps.items.oneOf.some((entry) => entry.$ref === '#/$defs/linkStep'),
+    'artifact step schema must allow link steps',
+  )
 })

@@ -78,6 +78,52 @@ test('installAIArtifacts check mode fails when installed workflow is stale', () 
   }
 })
 
+test('installAIArtifacts does not overwrite existing opencode artifact paths', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-opencode-collision-'))
+  const packageRoot = path.join(root, 'package')
+
+  try {
+    fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })
+    fs.writeFileSync(path.join(packageRoot, 'workflows/ai-artifacts.yml'), 'name: AI Artifacts\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    fs.mkdirSync(path.join(root, '.ai-artifacts'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.ai-artifacts/artifacts.yml'), `version: 1
+packages:
+  upstream:
+    type: git
+    repo: https://example.test/upstream.git
+    version: v1
+artifacts:
+  - id: opencode-skills
+    kind: config
+    target: .opencode/skills
+    steps:
+      - link:
+          target: .github/skills
+          to: .opencode/skills
+`, 'utf8')
+    fs.mkdirSync(path.join(root, '.opencode/skills'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.opencode/skills/local.txt'), 'user content\n', 'utf8')
+
+    assert.throws(
+      () => installAIArtifacts(root, { packageRoot }),
+      /.opencode\/skills already exists; remove it manually before installing opencode artifacts/,
+    )
+    assert.equal(fs.readFileSync(path.join(root, '.opencode/skills/local.txt'), 'utf8'), 'user content\n')
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('packaged workflow watches agentic source paths', () => {
+  const workflow = fs.readFileSync(path.join(__dirname, 'workflows/ai-artifacts.yml'), 'utf8')
+
+  assert.match(workflow, /'\.github\/agent\/\*\*'/)
+  assert.match(workflow, /'\.github\/overlays\/\*\*'/)
+  assert.match(workflow, /'\.github\/skills\/\*\*'/)
+})
+
 test('detectAgentTools detects common tool environment markers', () => {
   const tools = detectAgentTools({
     OPENCODE: '1',

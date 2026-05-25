@@ -43,8 +43,10 @@ function install(root, config) {
     const relativeTarget = path.relative(path.dirname(linkPath), targetPath)
 
     const existing = fs.lstatSync(linkPath, { throwIfNoEntry: false })
-    if (existing && existing.isSymbolicLink() && path.normalize(fs.readlinkSync(linkPath)) === path.normalize(relativeTarget)) continue
-    if (existing) fs.rmSync(linkPath, { recursive: true, force: true })
+    if (existing) {
+      if (existing.isSymbolicLink() && path.normalize(fs.readlinkSync(linkPath)) === path.normalize(relativeTarget)) continue
+      throw new Error(`${linkStep.link.to} already exists; remove it manually before installing opencode artifacts`)
+    }
 
     fs.mkdirSync(path.dirname(linkPath), { recursive: true })
     fs.symlinkSync(relativeTarget, linkPath)
