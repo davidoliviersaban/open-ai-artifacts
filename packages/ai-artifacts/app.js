@@ -208,8 +208,12 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
 
   function resolveInput(config, artifact, reference) {
     const [name, referencePath] = splitReference(reference)
+    if (name === 'root') {
+      return { path: path.join(root, referencePath), referencePath }
+    }
     if (name === 'local') {
-      return { path: path.join(root, '.ai-artifacts/files', artifact.id, referencePath), referencePath }
+      const baseDir = config.sourceDir || '.ai-artifacts/files'
+      return { path: path.join(root, baseDir, artifact.id, referencePath), referencePath }
     }
 
     const pkg = config.packages[name]

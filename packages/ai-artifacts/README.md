@@ -47,6 +47,11 @@ All configuration lives in `.ai-artifacts/artifacts.yml`:
 ```yaml
 version: 1
 
+# Where local source files live (relative to repo root).
+# Default: .ai-artifacts/files
+# Recommendation: use a single visible directory like .github/prompts
+sourceDir: .github/prompts
+
 packages:
   hve-core:
     type: git
@@ -54,6 +59,28 @@ packages:
     version: hve-core-v3.2.2
 
 artifacts:
+  # --- Shared artifacts ---
+
+  - id: repo-instructions
+    kind: agent
+    target: AGENTS.md
+    steps:
+      - copy:
+          from: local:AGENTS.md
+          to: AGENTS.md
+
+  # --- Claude Code (symlinks to shared artifacts) ---
+
+  - id: claude-instructions
+    kind: agent
+    target: CLAUDE.md
+    steps:
+      - link:
+          target: AGENTS.md
+          to: CLAUDE.md
+
+  # --- OpenCode skills (rendered from upstream + overlays) ---
+
   - id: task-research-guidelines
     kind: skill
     targetDir: .opencode/skills/task-research-guidelines
@@ -66,35 +93,65 @@ artifacts:
           substitutions:
             - from: "---\ndescription:"
               to: "---\nname: task-research-guidelines\ndescription:"
-            - from: "agent: Task Researcher"
-              to: "agent: task-researcher"
 ```
 
-## Directory layout
+## Source references
+
+Steps reference content using a `prefix:path` notation:
+
+| Prefix | Resolves to | Overridable |
+|--------|-------------|-------------|
+| `root:` | Repository root (always) | No |
+| `local:` | `<sourceDir>/<artifact-id>/path` | Yes, via `sourceDir` |
+| `<package>:` | Cloned upstream repo at locked commit | No |
+
+**Recommendation**: set `sourceDir` to a single visible directory (e.g. `.github/prompts`). This keeps all your source-of-truth files in one place, easy to find, edit, and review — separate from the ai-artifacts machinery.
+
+## Step types
+
+| Step | Purpose |
+|------|---------|
+| `render` | Read source → apply substitutions → append overlays → write target |
+| `copy` | Copy files/directories verbatim into target |
+| `link` | Create a relative symlink (single source of truth, no file duplication) |
+
+## Recommended directory layout
 
 ```
-.ai-artifacts/
-  artifacts.yml          # Playbook: packages + artifacts + steps
-  lock.yml               # Pinned commits + content hashes
-  vendor/                # Cloned upstream repos (gitignored)
-  overlays/              # Local markdown appended to upstream content
-    hve/                 #   Repository context appended to upstream HVE prompts
-  files/                 # Local source files for artifacts using local: refs
-  reports/               # Generated drift + risk reports
-  schemas/               # JSON Schema for artifacts.yml (optional)
+.ai-artifacts/                 # Tool config (always committed)
+  artifacts.yml                #   Playbook: packages + artifacts + steps
+  lock.yml                     #   Pinned commits + content hashes
+  vendor/                      #   Cloned upstream repos (gitignored)
+  overlays/                    #   Local markdown appended to upstream content
+  reports/                     #   Generated drift + risk reports
+  schemas/                     #   JSON Schema for artifacts.yml
 
-packages/ai-artifacts/
-  package.json           # npm package metadata and bin entrypoints
-  cli.js                 # Entry point
-  app.js                 # Core logic (fetch, sync, drift, risk, validate)
-  lib.js                 # Shared utilities (hashing, git, file I/O)
-  workflows/             # GitHub workflow templates shipped with the package
-  templates/             # Starter templates copied or adapted by installed repos
-  schemas/               # JSON Schema grammar for artifacts.yml
-  docs/                  # Package design, CI, and future roadmap
-  install.js             # Installs packaged automation into repo locations
-  *.test.js              # Test suite
+.github/prompts/               # Source of truth (sourceDir target)
+  repo-instructions/           #   local: refs resolve here per artifact id
+    AGENTS.md
+  opencode-config/
+    opencode.json
+
+# Generated outputs (managed by sync, may be symlinks)
+AGENTS.md
+CLAUDE.md -> AGENTS.md
+.claude/commands -> .opencode/skills
+.opencode/skills/*/SKILL.md
+.opencode/agent/*.md
 ```
+
+Keep `.ai-artifacts/` for **config and tooling only** (yaml, lock, vendor, reports). Keep source files in a visible, non-hidden directory that developers naturally commit and review.
+
+## Per-tool install modules
+
+The package ships per-tool modules that know how to check and install tool-specific artifacts:
+
+| Module | Tool | Responsibility |
+|--------|------|----------------|
+| `install.claude.js` | Claude Code | Check/create symlinks for `claude-*` artifacts |
+| `install.opencode.js` | OpenCode | Check that `.opencode/` targets exist |
+
+These are used by the doctor (to verify setup) and by the install script (to recreate missing artifacts on fresh clones).
 
 ## Key concepts
 
@@ -104,10 +161,12 @@ packages/ai-artifacts/
 | **Artifact** | One generated file or directory, produced by ordered steps |
 | **Render step** | Read source → apply substitutions → append overlays → write target |
 | **Copy step** | Copy files/directories verbatim into target |
+| **Link step** | Create a relative symlink to an existing target |
 | **Overlay** | Local markdown appended after upstream content |
-| **Substitution** | Literal replacement applied before overlays, useful for tool-specific frontmatter or vocabulary |
+| **Substitution** | Literal replacement applied before overlays |
 | **Lock file** | Records requested version, resolved commit, content hashes |
 | **Drift report** | Shows when upstream moved since last generation |
+| **sourceDir** | Configurable base directory for `local:` references |
 
 ## Design principles
 
@@ -116,16 +175,20 @@ packages/ai-artifacts/
 - **Trust agent knowledge** — overlays contain only repo-specific context (NFRs, output paths, constraints), not universal best practices the agent already knows.
 - **Drift detection, not auto-update** — reports drift; humans decide when to update.
 - **Generated files stay clean** — no inline generated header; provenance and generated target paths live in `lock.yml` and reports.
+- **Symlinks over copies** — when multiple tools need the same content, use `link` steps to avoid duplication.
+- **Config is config, sources are sources** — `.ai-artifacts/` holds tooling config; actual prompt/skill files live in `sourceDir`.
 - **Delivery includes automation** — workflow templates live in `packages/ai-artifacts/workflows/` and installed copies must stay identical.
 
 ## Install hooks
 
-`npm install` runs `node packages/ai-artifacts/install.js` through the root `postinstall` script. This installs packaged automation into repo-specific locations:
+`npm install` runs `node packages/ai-artifacts/install.js` through the root `postinstall` script. This installs packaged automation and recreates missing tool artifacts:
 
 | Packaged source | Installed path |
 |-----------------|----------------|
 | `packages/ai-artifacts/workflows/ai-artifacts.yml` | `.github/workflows/ai-artifacts.yml` |
 | `packages/ai-artifacts/schemas/artifacts.schema.json` | `.ai-artifacts/schemas/artifacts.schema.json` |
+
+Additionally, tool-specific modules (`install.claude.js`, `install.opencode.js`) check and create any missing symlinks or targets declared in artifacts.
 
 Run `npm run ai-artifacts:install -- --check` to verify installed files match the packaged sources without writing.
 

@@ -5,10 +5,11 @@ function parseArtifactConfig(content) {
 }
 
 function validateArtifactConfig(config) {
-  assertKnownFields('config', config, ['version', 'vendorDir', 'reportsDir', 'riskPolicy', 'packages', 'artifacts'])
+  assertKnownFields('config', config, ['version', 'vendorDir', 'reportsDir', 'riskPolicy', 'sourceDir', 'packages', 'artifacts'])
   if (config.version !== 1) throw new Error('config.version must be 1')
   if (!config.packages || typeof config.packages !== 'object') throw new Error('config.packages is required')
   if (!Array.isArray(config.artifacts)) throw new Error('config.artifacts must be an array')
+  if (config.sourceDir) validateSafeRelativePath(config.sourceDir, 'config: unsafe sourceDir')
   if (config.riskPolicy) validateRiskPolicy(config.riskPolicy)
 
   for (const [name, pkg] of Object.entries(config.packages)) {
@@ -69,7 +70,7 @@ function validateStep(config, artifact, step) {
 function validateReference(config, artifact, reference) {
   if (typeof reference !== 'string' || !reference.includes(':')) throw new Error(`artifact ${artifact.id}: invalid reference ${reference}`)
   const [name, refPath] = splitReference(reference)
-  if (name !== 'local' && !config.packages[name]) throw new Error(`artifact ${artifact.id}: unknown package ${name}`)
+  if (name !== 'local' && name !== 'root' && !config.packages[name]) throw new Error(`artifact ${artifact.id}: unknown package ${name}`)
   validateSafeRelativePath(refPath, `artifact ${artifact.id}: unsafe reference path`)
 }
 
