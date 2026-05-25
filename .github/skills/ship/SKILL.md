@@ -79,7 +79,7 @@ Target budget for a normal ship:
 | Validate | 3 | tests, AI artifacts validation, doc-check |
 | Commit | 1 | `git commit` |
 | Push | 2 | `git branch --show-current`, `git push` |
-| PR | 2 | `gh pr create`, one final `gh pr checks` or `gh pr view` |
+| PR | 2 | `gh pr create`, one final non-watching `gh pr view` |
 
 If the budget is exceeded, explain the reason in the final report or PR notes.
 - If `gh` is not available or PR creation fails, still report success for commit+push and note PR must be created manually.
