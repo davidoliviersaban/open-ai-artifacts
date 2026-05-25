@@ -13,6 +13,17 @@ packages:
 artifacts:
   # --- Tool symlinks (source of truth is .github/) ---
 
+  - id: copilot-instructions
+    kind: agent
+    target: .github/copilot-instructions.md
+    steps:
+      - render:
+          from: hve-core:.github/copilot-instructions.md
+          to: .github/copilot-instructions.md
+          overlays:
+            - hve/repo-context.md
+            - hve/copilot-autonomous.md
+
   - id: claude-instructions
     kind: agent
     target: CLAUDE.md
