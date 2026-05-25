@@ -7,20 +7,6 @@ packages:
     resolved: e69486a5f809ede45c63c0a31358c12912bd5168
     latest: e69486a5f809ede45c63c0a31358c12912bd5168
 artifacts:
-  repo-instructions:
-    kind: agent
-    target: AGENTS.md
-    outputs:
-      - path: AGENTS.md
-        type: fileCopy
-        regenerate: npm run ai-artifacts:sync
-    steps:
-      - index: 0
-        type: copy
-        from: local:AGENTS.md
-        to: AGENTS.md
-        sourceHash: sha256:7d5bbc4bc11c1a0a55c4827d248b0fdfa807b924faccdaa086e092c4c181a91d
-        generatedHash: sha256:7d5bbc4bc11c1a0a55c4827d248b0fdfa807b924faccdaa086e092c4c181a91d
   claude-instructions:
     kind: agent
     target: CLAUDE.md
@@ -47,62 +33,6 @@ artifacts:
         target: .opencode/skills
         to: .claude/commands
         generatedHash: sha256:af366ffdfd71a0d366a64628b96e3918ffc6cb669b2919f8dcda28377e64c0da
-  whitepaper-editor:
-    kind: skill
-    targetDir: .opencode/skills/whitepaper-editor
-    outputs:
-      - path: .opencode/skills/whitepaper-editor/SKILL.md
-        type: fileCopy
-        regenerate: npm run ai-artifacts:sync
-    steps:
-      - index: 0
-        type: copy
-        from: local:SKILL.md
-        to: SKILL.md
-        sourceHash: sha256:8832cf38efa6b960b5c979d24e0a57559d9319f7310e7249be514ebbe1abd015
-        generatedHash: sha256:8832cf38efa6b960b5c979d24e0a57559d9319f7310e7249be514ebbe1abd015
-  package-maintainer:
-    kind: skill
-    targetDir: .opencode/skills/package-maintainer
-    outputs:
-      - path: .opencode/skills/package-maintainer/SKILL.md
-        type: fileCopy
-        regenerate: npm run ai-artifacts:sync
-    steps:
-      - index: 0
-        type: copy
-        from: local:SKILL.md
-        to: SKILL.md
-        sourceHash: sha256:2357a181956c6bab2ee74f6bad354c00d476fb9a986ea2f104d5aba2bfa0d9d1
-        generatedHash: sha256:2357a181956c6bab2ee74f6bad354c00d476fb9a986ea2f104d5aba2bfa0d9d1
-  opencode-config:
-    kind: config
-    target: .opencode/opencode.json
-    outputs:
-      - path: .opencode/opencode.json
-        type: fileCopy
-        regenerate: npm run ai-artifacts:sync
-    steps:
-      - index: 0
-        type: copy
-        from: local:opencode.json
-        to: opencode.json
-        sourceHash: sha256:80c0149022f9456808ad9d8e604f588dbd5b25e1c1211b135a407c9892b1e4a6
-        generatedHash: sha256:80c0149022f9456808ad9d8e604f588dbd5b25e1c1211b135a407c9892b1e4a6
-  opencode-agents:
-    kind: agent
-    targetDir: .opencode/agent
-    outputs:
-      - path: .opencode/agent
-        type: directory
-        regenerate: npm run ai-artifacts:sync
-    steps:
-      - index: 0
-        type: copy
-        from: local:.
-        to: .
-        sourceHash: sha256:f1c038e729c7ec3f6d08bf7a7d5b08fc2810f0cc657ba9875d7e12eff0d45103
-        generatedHash: sha256:f1c038e729c7ec3f6d08bf7a7d5b08fc2810f0cc657ba9875d7e12eff0d45103
   task-research-guidelines:
     kind: skill
     targetDir: .opencode/skills/task-research-guidelines

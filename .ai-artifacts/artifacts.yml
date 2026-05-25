@@ -12,17 +12,7 @@ packages:
     version: hve-core-v3.2.2
 
 artifacts:
-  # --- Shared artifacts (tool-agnostic) ---
-
-  - id: repo-instructions
-    kind: agent
-    target: AGENTS.md
-    steps:
-      - copy:
-          from: local:AGENTS.md
-          to: AGENTS.md
-
-  # --- Claude Code ---
+  # --- Claude Code (symlinks to shared artifacts) ---
 
   - id: claude-instructions
     kind: agent
@@ -40,39 +30,7 @@ artifacts:
           target: .opencode/skills
           to: .claude/commands
 
-  # --- OpenCode skills ---
-
-  - id: whitepaper-editor
-    kind: skill
-    targetDir: .opencode/skills/whitepaper-editor
-    steps:
-      - copy:
-          from: local:SKILL.md
-          to: SKILL.md
-
-  - id: package-maintainer
-    kind: skill
-    targetDir: .opencode/skills/package-maintainer
-    steps:
-      - copy:
-          from: local:SKILL.md
-          to: SKILL.md
-
-  - id: opencode-config
-    kind: config
-    target: .opencode/opencode.json
-    steps:
-      - copy:
-          from: local:opencode.json
-          to: opencode.json
-
-  - id: opencode-agents
-    kind: agent
-    targetDir: .opencode/agent
-    steps:
-      - copy:
-          from: local:.
-          to: .
+  # --- OpenCode skills (rendered from upstream + overlays) ---
 
   - id: task-research-guidelines
     kind: skill
