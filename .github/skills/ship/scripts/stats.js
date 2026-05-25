@@ -14,16 +14,22 @@ const since = readArg('--since')
 const entries = readAuditEntries(root).filter((entry) => matchesScope(entry))
 const skillCounts = countBy(entries.filter((entry) => isSkillEntry(entry)), (entry) => `/${entry.skill}`)
 const scriptCounts = countBy(entries.filter((entry) => isScriptEntry(entry)), (entry) => scriptName(entry))
+const commandCounts = countBy(entries.filter((entry) => commandName(entry)), (entry) => commandName(entry))
 
 if (format === 'json') {
-  process.stdout.write(`${JSON.stringify({ branch, session: session || null, skills: toObject(skillCounts), scripts: toObject(scriptCounts) }, null, 2)}\n`)
+  process.stdout.write(`${JSON.stringify({ branch, session: session || null, skills: toObject(skillCounts), scripts: toObject(scriptCounts), commands: toObject(commandCounts), totals: totals() }, null, 2)}\n`)
 } else if (format === 'commit') {
   process.stdout.write(`Skills: ${commitList(skillCounts)}\n`)
   process.stdout.write(`Tools: ${commitList(scriptCounts)}\n`)
+  process.stdout.write(`Commands: ${totalCount(commandCounts)} total, ${commandCounts.size} unique\n`)
 } else {
+  process.stdout.write(summaryTable())
+  process.stdout.write('\n')
   process.stdout.write(markdownTable('Skill usage', 'Skill', skillCounts))
   process.stdout.write('\n')
   process.stdout.write(markdownTable('Script usage', 'Script', scriptCounts))
+  process.stdout.write('\n')
+  process.stdout.write(markdownTable('Command usage', 'Command', commandCounts))
 }
 
 function readArg(name) {
@@ -81,6 +87,11 @@ function scriptName(entry) {
   return entry.tool.replace(/^script:/, '')
 }
 
+function commandName(entry) {
+  if (typeof entry.command === 'string' && entry.command.trim()) return entry.command.trim()
+  return null
+}
+
 function countBy(items, keyFn) {
   const counts = new Map()
   for (const item of items) {
@@ -96,6 +107,32 @@ function markdownTable(title, label, counts) {
   if (counts.size === 0) lines.push(`| none | 0 |`)
   for (const [name, count] of counts) lines.push(`| ${name} | ${count} |`)
   return `${lines.join('\n')}\n`
+}
+
+function summaryTable() {
+  const values = totals()
+  return [
+    '### Summary',
+    '| Metric | Count |',
+    '| ------ | ----- |',
+    `| Skill calls | ${values.skills} |`,
+    `| Script calls | ${values.scripts} |`,
+    `| Command calls | ${values.commands} |`,
+    `| Unique commands | ${values.uniqueCommands} |`,
+  ].join('\n') + '\n'
+}
+
+function totals() {
+  return {
+    skills: totalCount(skillCounts),
+    scripts: totalCount(scriptCounts),
+    commands: totalCount(commandCounts),
+    uniqueCommands: commandCounts.size,
+  }
+}
+
+function totalCount(counts) {
+  return [...counts.values()].reduce((sum, count) => sum + count, 0)
 }
 
 function commitList(counts) {
