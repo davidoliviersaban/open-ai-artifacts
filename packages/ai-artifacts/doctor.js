@@ -20,6 +20,7 @@ function doctorAIArtifacts(root, options = {}) {
   checks.push(checkOptionalDir(path.join(root, '.opencode/agent'), 'opencode project agents exist'))
   checks.push(checkOptionalDir(path.join(root, '.opencode/skills'), 'opencode project skills exist'))
   checks.push(checkInstalledFiles(root, packageRoot))
+  checks.push(checkOverlaysDir(root))
   checks.push(checkSourceDir(root))
   checks.push(...checkRedundantCopies(root))
   checks.push(...checkClaudeSetup(root))
@@ -49,6 +50,19 @@ function detectAgentTools(env = process.env) {
   if (env.GITHUB_COPILOT_AGENT || /GITHUB_COPILOT/i.test(markerText)) tools.push({ name: 'github-copilot', confidence: 'low' })
 
   return dedupeTools(tools)
+}
+
+function checkOverlaysDir(root) {
+  const configPath = path.join(root, '.ai-artifacts/artifacts.yml')
+  if (!fs.existsSync(configPath)) return pass('overlays: no config')
+
+  const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
+  const usesOverlays = (config.artifacts || []).some((a) => a.steps.some((s) => s.render && (s.render.overlays || []).length > 0))
+  if (!usesOverlays) return pass('overlays: none used')
+
+  const overlaysDir = path.join(root, '.ai-artifacts/overlays')
+  if (!fs.existsSync(overlaysDir)) return fail('overlays: .ai-artifacts/overlays/ directory missing — overlays must live in .ai-artifacts/overlays/')
+  return pass('overlays: .ai-artifacts/overlays/')
 }
 
 function checkSourceDir(root) {

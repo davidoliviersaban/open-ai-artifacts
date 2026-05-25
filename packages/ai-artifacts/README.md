@@ -105,7 +105,20 @@ Steps reference content using a `prefix:path` notation:
 | `local:` | `<sourceDir>/<artifact-id>/path` | Yes, via `sourceDir` |
 | `<package>:` | Cloned upstream repo at locked commit | No |
 
-**Recommendation**: set `sourceDir` to a single visible directory (e.g. `.github/prompts`). This keeps all your source-of-truth files in one place, easy to find, edit, and review — separate from the ai-artifacts machinery.
+**Recommendation**: set `sourceDir` to a single visible directory (e.g. `.github/ai-sources`). This keeps all your source-of-truth files in one place, easy to find, edit, and review — separate from the ai-artifacts machinery. Better yet, place files directly at their target and use `link` steps — no duplication needed.
+
+## Overlays
+
+Overlays are fragments of repo-specific context appended to upstream content during render steps. They **must** live in `.ai-artifacts/overlays/` (not configurable). This is intentional: overlays are composition artifacts tied to the ai-artifacts pipeline, not standalone source files.
+
+```yaml
+steps:
+  - render:
+      from: hve-core:.github/prompts/task-research.prompt.md
+      to: SKILL.md
+      overlays:
+        - hve/repo-context.md    # resolves to .ai-artifacts/overlays/hve/repo-context.md
+```
 
 ## Step types
 
