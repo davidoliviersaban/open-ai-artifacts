@@ -7,7 +7,7 @@ The installer tries to copy these files into the consuming repository, but local
 - `install.js` checks and installs OpenCode-related repository artifacts.
 - `skill-audit.js` is the local skill audit plugin installed to `.opencode/plugins/skill-audit.js`.
 
-OpenCode auto-discovers plugins under `.opencode/plugins/`. The plugin appends local JSONL entries to `.ai-artifacts/audit.jsonl` and must never block normal tool execution. Each entry records `invocation_tool: "opencode"`, `invocation_origin` (`user` or `agent`) and `invocation_agent` when OpenCode exposes a named agent/subagent.
+OpenCode auto-discovers plugins under `.opencode/plugins/`. The plugin appends local skill JSONL entries to `.ai-artifacts/audit.jsonl` and local command/script entries to `.ai-artifacts/tools.audit.jsonl` plus `.ai-artifacts/audit.local.jsonl`. It must never block normal tool execution. Each entry records `invocation_tool: "opencode"`, `invocation_origin` (`user` or `agent`) and `invocation_agent` when OpenCode exposes a named agent/subagent.
 
 Expected installed location:
 
@@ -16,6 +16,7 @@ Expected installed location:
 Purpose:
 
 - Capture local skill usage without central infrastructure.
+- Capture local command and script usage so workflow stats can show delivery cost.
 - Keep audit data private to the developer machine by default.
 - Use the same `.ai-artifacts/audit.jsonl` format as other supported tools.
 - Rely on OpenCode plugin auto-discovery instead of requiring project-specific config when possible.

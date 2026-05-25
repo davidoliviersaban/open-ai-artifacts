@@ -25,8 +25,10 @@ async function SkillAuditPlugin(input, options = {}) {
           tool: payload.tool || payload.name || payload.tool_name || null,
           arg_keys: Object.keys(payload.args || {}).sort(),
         })
+        const command = detectCommandUsage(payload)
         const script = detectScriptUsage(payload)
         if (script) writeScriptAuditEntry(root, payload, script)
+        else if (command) writeCommandAuditEntry(root, payload, command)
         const match = detectSkillUsage(payload, root)
         if (!match) return
         const entry = {
@@ -49,9 +51,8 @@ async function SkillAuditPlugin(input, options = {}) {
 }
 
 function detectScriptUsage(event) {
-  const args = event.args || event.input || event.tool_input || {}
-  const command = args.command || args.cmd || ''
-  if (typeof command !== 'string') return null
+  const command = detectCommandUsage(event)
+  if (!command) return null
   const match = command.match(/node\s+([^\s;|&]+\.js)/)
   if (!match) return null
   const scriptPath = match[1]
@@ -61,13 +62,35 @@ function detectScriptUsage(event) {
   return null
 }
 
-function writeScriptAuditEntry(root, event, script) {
+function detectCommandUsage(event) {
   const args = event.args || event.input || event.tool_input || {}
-  const command = typeof args.command === 'string' ? args.command : ''
+  const command = args.command || args.cmd || args.script || event.command || ''
+  return typeof command === 'string' && command.trim() ? command.trim() : null
+}
+
+function writeScriptAuditEntry(root, event, script) {
+  const command = detectCommandUsage(event) || ''
   const entry = {
     timestamp: new Date().toISOString(),
     script: path.basename(script),
     script_path: script,
+    command: command.slice(0, 200),
+    tool: event.tool || event.name || event.tool_name || null,
+    ...detectInvocationContext(event),
+    session_id: event.sessionID || event.session_id || event.session?.id || null,
+    user: process.env.USER || process.env.USERNAME || null,
+    repo: path.basename(root),
+  }
+  const auditDir = path.join(root, '.ai-artifacts')
+  fs.mkdirSync(auditDir, { recursive: true })
+  const line = `${JSON.stringify(entry)}\n`
+  fs.appendFileSync(path.join(auditDir, 'tools.audit.jsonl'), line)
+  fs.appendFileSync(path.join(auditDir, 'audit.local.jsonl'), line)
+}
+
+function writeCommandAuditEntry(root, event, command) {
+  const entry = {
+    timestamp: new Date().toISOString(),
     command: command.slice(0, 200),
     tool: event.tool || event.name || event.tool_name || null,
     ...detectInvocationContext(event),
@@ -194,9 +217,11 @@ function realpathOrOriginal(value) {
 module.exports = SkillAuditPlugin
 module.exports.SkillAuditPlugin = SkillAuditPlugin
 module.exports.default = SkillAuditPlugin
+module.exports.detectCommandUsage = detectCommandUsage
 module.exports.detectSkillUsage = detectSkillUsage
 module.exports.detectScriptUsage = detectScriptUsage
 module.exports.detectInvocationContext = detectInvocationContext
 module.exports.mergeEventPayload = mergeEventPayload
 module.exports.writeDebug = writeDebug
+module.exports.writeCommandAuditEntry = writeCommandAuditEntry
 module.exports.writeScriptAuditEntry = writeScriptAuditEntry
