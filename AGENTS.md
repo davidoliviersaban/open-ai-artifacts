@@ -34,11 +34,11 @@ npm run validate:ai-artifacts
 
 ## Dogfooding ai-artifacts
 
-This repository uses its own `packages/ai-artifacts` package to generate repository instructions and local skills from `.ai-artifacts/artifacts.yml`.
+This repository uses its own `packages/ai-artifacts` package to generate repository instructions, local skills, opencode agents and opencode configuration from `.ai-artifacts/artifacts.yml`.
 
-Source files live under `.ai-artifacts/files/` and `.ai-artifacts/overlays/`. Generated outputs include `AGENTS.md`, `CLAUDE.md` and `.opencode/skills/*`.
+Source files live under `.ai-artifacts/files/` and `.ai-artifacts/overlays/`. Generated outputs include `AGENTS.md`, `CLAUDE.md`, `.opencode/opencode.json`, `.opencode/agent/*` and `.opencode/skills/*`.
 
-When changing repo instructions or generated skills, edit `.ai-artifacts/` sources first, then run:
+When changing repo instructions, generated skills, generated agents or generated opencode configuration, edit `.ai-artifacts/` sources first, then run:
 
 ```bash
 npm run ai-artifacts:sync

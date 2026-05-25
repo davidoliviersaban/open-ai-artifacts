@@ -1,6 +1,7 @@
 ---
+name: task-review-checklist
 description: "Initiates implementation review based on user context or automatic artifact discovery - Brought to you by microsoft/hve-core"
-agent: Task Reviewer
+agent: task-reviewer
 argument-hint: "[plan=...] [changes=...] [research=...] [scope=...]"
 ---
 

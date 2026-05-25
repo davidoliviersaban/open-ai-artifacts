@@ -14,6 +14,7 @@
     "ai-artifacts:risk": "node packages/ai-artifacts/cli.js risk",
     "ai-artifacts:summary": "node packages/ai-artifacts/cli.js summary",
     "ai-artifacts:install": "node packages/ai-artifacts/install.js",
+    "ai-artifacts:doctor": "node packages/ai-artifacts/install.js --doctor",
     "postinstall": "node -e \"const script='./packages/ai-artifacts/install.js'; if (require('node:fs').existsSync(script)) require(script).installAIArtifacts()\""
   },
   "devDependencies": {

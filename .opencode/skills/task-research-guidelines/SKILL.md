@@ -1,6 +1,7 @@
 ---
+name: task-research-guidelines
 description: "Initiates research for implementation planning based on user requirements - Brought to you by microsoft/hve-core"
-agent: Task Researcher
+agent: task-researcher
 argument-hint: "topic=... [chat={true|false}]"
 ---
 

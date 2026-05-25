@@ -1,0 +1,15 @@
+% Shared Pandoc/LaTeX tuning for the whitepaper PDFs.
+% Keep this file focused on rendering concerns; content stays in Markdown.
+
+\usepackage{xurl}
+\usepackage{etoolbox}
+
+% Let LaTeX relax line breaking slightly instead of emitting overfull boxes.
+\setlength{\emergencystretch}{3em}
+
+% Long URLs and repository paths should wrap cleanly.
+\urlstyle{same}
+
+% Several whitepaper tables contain long prose. Reducing table font size keeps
+% the Markdown readable while avoiding wide LaTeX alignment boxes.
+\AtBeginEnvironment{longtable}{\small}

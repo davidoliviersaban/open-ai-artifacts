@@ -4,9 +4,12 @@ on:
   pull_request:
     paths:
       - '.ai-artifacts/**'
-      - 'scripts/ai-artifacts/**'
-      - '.github/prompts/**'
-      - '.github/skills/**'
+      - '.opencode/opencode.json'
+      - '.opencode/agent/**'
+      - '.opencode/skills/**'
+      - 'packages/ai-artifacts/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
       - 'package.json'
       - 'package-lock.json'
   push:
@@ -14,9 +17,12 @@ on:
       - main
     paths:
       - '.ai-artifacts/**'
-      - 'scripts/ai-artifacts/**'
-      - '.github/prompts/**'
-      - '.github/skills/**'
+      - '.opencode/opencode.json'
+      - '.opencode/agent/**'
+      - '.opencode/skills/**'
+      - 'packages/ai-artifacts/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
       - 'package.json'
       - 'package-lock.json'
   schedule:

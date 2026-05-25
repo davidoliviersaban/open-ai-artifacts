@@ -1,0 +1,17 @@
+{
+  "name": "whitepaper",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/whitepaper-v3.pdf",
+        "{projectRoot}/whitepaper-management-summary.pdf"
+      ],
+      "options": {
+        "command": "./generate-pdfs.sh",
+        "cwd": "docs/whitepaper"
+      }
+    }
+  }
+}

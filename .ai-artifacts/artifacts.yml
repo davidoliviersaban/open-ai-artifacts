@@ -10,6 +10,8 @@ packages:
     version: hve-core-v3.2.2
 
 artifacts:
+  # --- Shared artifacts (tool-agnostic) ---
+
   - id: repo-instructions
     kind: agent
     target: AGENTS.md
@@ -18,13 +20,25 @@ artifacts:
           from: local:AGENTS.md
           to: AGENTS.md
 
+  # --- Claude Code ---
+
   - id: claude-instructions
     kind: agent
     target: CLAUDE.md
     steps:
-      - copy:
-          from: local:AGENTS.md
+      - link:
+          target: AGENTS.md
           to: CLAUDE.md
+
+  - id: claude-commands
+    kind: config
+    target: .claude/commands
+    steps:
+      - link:
+          target: .opencode/skills
+          to: .claude/commands
+
+  # --- OpenCode skills ---
 
   - id: whitepaper-editor
     kind: skill
@@ -42,6 +56,22 @@ artifacts:
           from: local:SKILL.md
           to: SKILL.md
 
+  - id: opencode-config
+    kind: config
+    target: .opencode/opencode.json
+    steps:
+      - copy:
+          from: local:opencode.json
+          to: opencode.json
+
+  - id: opencode-agents
+    kind: agent
+    targetDir: .opencode/agent
+    steps:
+      - copy:
+          from: local:.
+          to: .
+
   - id: task-research-guidelines
     kind: skill
     targetDir: .opencode/skills/task-research-guidelines
@@ -51,6 +81,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/repo-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: task-research-guidelines\ndescription:"
+            - from: "agent: Task Researcher"
+              to: "agent: task-researcher"
 
   - id: task-plan-guidelines
     kind: skill
@@ -61,6 +96,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/repo-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: task-plan-guidelines\ndescription:"
+            - from: "agent: Task Planner"
+              to: "agent: task-planner"
 
   - id: task-implement-guidelines
     kind: skill
@@ -71,6 +111,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/repo-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: task-implement-guidelines\ndescription:"
+            - from: "agent: Task Implementor"
+              to: "agent: task-implementor"
 
   - id: task-review-checklist
     kind: skill
@@ -81,6 +126,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/repo-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: task-review-checklist\ndescription:"
+            - from: "agent: Task Reviewer"
+              to: "agent: task-reviewer"
 
   - id: prompt-build
     kind: skill
@@ -91,6 +141,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/prompt-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: prompt-build\ndescription:"
+            - from: "agent: Prompt Builder"
+              to: "agent: prompt-builder"
 
   - id: prompt-analyze
     kind: skill
@@ -101,6 +156,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/prompt-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: prompt-analyze\ndescription:"
+            - from: "agent: Prompt Builder"
+              to: "agent: prompt-builder"
 
   - id: prompt-refactor
     kind: skill
@@ -111,6 +171,11 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/prompt-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: prompt-refactor\ndescription:"
+            - from: "agent: Prompt Builder"
+              to: "agent: prompt-builder"
 
   - id: doc-ops-update
     kind: skill
@@ -121,3 +186,8 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/doc-context.md
+          substitutions:
+            - from: "---\ndescription:"
+              to: "---\nname: doc-ops-update\ndescription:"
+            - from: "agent: Doc Ops"
+              to: "agent: doc-ops"

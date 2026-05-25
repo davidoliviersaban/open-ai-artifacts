@@ -1,7 +1,8 @@
 ---
+name: prompt-refactor
 description: "Refactors and cleans up prompt engineering artifacts through iterative improvement - Brought to you by microsoft/hve-core"
 argument-hint: "[promptFiles=...] [requirements=...]"
-agent: Prompt Builder
+agent: prompt-builder
 ---
 
 # Prompt Refactor

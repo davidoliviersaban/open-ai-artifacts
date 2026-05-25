@@ -1,6 +1,7 @@
 ---
+name: prompt-analyze
 description: "Evaluates prompt engineering artifacts against quality criteria and reports findings - Brought to you by microsoft/hve-core"
-agent: Prompt Builder
+agent: prompt-builder
 argument-hint: "[promptFiles=...]"
 ---
 

@@ -82,13 +82,13 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
 
     if (check) {
       if (stale.length > 0) throw new Error(`generated artifacts are stale: ${stale.join(', ')}`)
-      log('Generated artifacts are up to date.')
+            log('Generated artifacts are up to date.')
       return
     }
 
     lock.artifacts = nextArtifacts
     writeLock(lock)
-    log(`Generated ${config.artifacts.length} artifacts.`)
+        log(`Generated ${config.artifacts.length} artifacts.`)
   }
 
   function generateArtifact(config, artifact) {
@@ -106,6 +106,11 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
         const copied = generateCopyStep(config, artifact, step.copy, targetBase)
         outputs.push(copied.output)
         stepLocks.push({ index, type: 'copy', ...copied.lockEntry })
+      }
+      if (step.link) {
+        const linked = generateLinkStep(artifact, step.link)
+        outputs.push(linked.output)
+        stepLocks.push({ index, type: 'link', ...linked.lockEntry })
       }
     }
 
@@ -179,6 +184,28 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
     }
   }
 
+  function generateLinkStep(artifact, step) {
+    const linkPath = path.join(root, step.to)
+    const targetPath = path.join(root, step.target)
+    const relativeTarget = path.relative(path.dirname(linkPath), targetPath)
+    const relativePath = step.to
+
+    return {
+      output: {
+        type: 'symlink',
+        path: linkPath,
+        relativePath,
+        symlinkTarget: relativeTarget,
+        absoluteTarget: targetPath,
+      },
+      lockEntry: {
+        target: step.target,
+        to: step.to,
+        generatedHash: sha256(relativeTarget),
+      },
+    }
+  }
+
   function resolveInput(config, artifact, reference) {
     const [name, referencePath] = splitReference(reference)
     if (name === 'local') {
@@ -197,6 +224,11 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
   }
 
   function outputMatches(output) {
+    if (output.type === 'symlink') {
+      const stat = fs.lstatSync(output.path, { throwIfNoEntry: false })
+      if (!stat || !stat.isSymbolicLink()) return false
+      return path.normalize(fs.readlinkSync(output.path)) === path.normalize(output.symlinkTarget)
+    }
     if (!fs.existsSync(output.path)) return false
     if (output.type === 'file') {
       if (!fs.statSync(output.path).isFile()) return false
@@ -213,6 +245,16 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
     if (output.type === 'file') {
       ensureDir(path.dirname(output.path))
       fs.writeFileSync(output.path, output.content)
+      return
+    }
+    if (output.type === 'symlink') {
+      ensureDir(path.dirname(output.path))
+      const existing = fs.lstatSync(output.path, { throwIfNoEntry: false })
+      if (existing) {
+        if (existing.isSymbolicLink() && path.normalize(fs.readlinkSync(output.path)) === path.normalize(output.symlinkTarget)) return
+        fs.unlinkSync(output.path)
+      }
+      fs.symlinkSync(output.symlinkTarget, output.path)
       return
     }
     if (output.type === 'directory') {

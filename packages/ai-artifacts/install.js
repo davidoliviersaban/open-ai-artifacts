@@ -24,7 +24,9 @@ function installAIArtifacts(root = DEFAULT_ROOT, options = {}) {
   const installed = results.some((result) => result.installed)
   const checked = results.every((result) => result.checked)
 
-  return { installed, checked, files: results }
+  const toolResults = options.check ? [] : installToolArtifacts(root)
+
+  return { installed: installed || toolResults.length > 0, checked, files: results, tools: toolResults }
 }
 
 function installFile(file, options) {
@@ -50,19 +52,54 @@ function installFile(file, options) {
   return { installed: false, checked: false, source, target, label }
 }
 
+function installToolArtifacts(root) {
+  const configPath = path.join(root, '.ai-artifacts/artifacts.yml')
+  if (!fs.existsSync(configPath)) return []
+
+  const { parseArtifactConfig } = require('./lib')
+  const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
+  const results = []
+
+  const claudeInstall = require('./install.claude')
+  const claudeCheck = claudeInstall.check(root, config)
+  if (!claudeCheck.ok) {
+    const installed = claudeInstall.install(root, config)
+    results.push(...installed.map((i) => ({ tool: claudeInstall.TOOL_KEY, ...i })))
+  }
+
+  const opencodeInstall = require('./install.opencode')
+  const opencodeCheck = opencodeInstall.check(root, config)
+  if (!opencodeCheck.ok) {
+    const issues = opencodeInstall.install(root, config)
+    results.push(...issues.map((i) => ({ tool: opencodeInstall.TOOL_KEY, ...i })))
+  }
+
+  return results
+}
+
+module.exports = { installAIArtifacts }
+
 if (require.main === module) {
   try {
-    const result = installAIArtifacts(DEFAULT_ROOT, { check: process.argv.includes('--check') })
-    for (const file of result.files) {
-      const relativeTarget = path.relative(DEFAULT_ROOT, file.target)
-      if (result.checked) console.log(`${file.label} is installed: ${relativeTarget}`)
-      else if (file.installed) console.log(`Installed ${file.label}: ${relativeTarget}`)
-      else console.log(`${file.label} already installed: ${relativeTarget}`)
+    if (process.argv.includes('--doctor')) {
+      const { doctorAIArtifacts, printDoctor } = require('./doctor')
+      const result = doctorAIArtifacts(DEFAULT_ROOT)
+      printDoctor(result)
+      if (!result.ok) process.exitCode = 1
+    } else {
+      const result = installAIArtifacts(DEFAULT_ROOT, { check: process.argv.includes('--check') })
+      for (const file of result.files) {
+        const relativeTarget = path.relative(DEFAULT_ROOT, file.target)
+        if (result.checked) console.log(`${file.label} is installed: ${relativeTarget}`)
+        else if (file.installed) console.log(`Installed ${file.label}: ${relativeTarget}`)
+        else console.log(`${file.label} already installed: ${relativeTarget}`)
+      }
+      for (const tool of result.tools) {
+        console.log(`Installed [${tool.tool}]: ${tool.path} -> ${tool.target || ''}`)
+      }
     }
   } catch (error) {
     console.error(`ai-artifacts install failed: ${error.message}`)
     process.exitCode = 1
   }
 }
-
-module.exports = { installAIArtifacts }

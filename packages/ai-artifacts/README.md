@@ -1,6 +1,6 @@
 # ai-artifacts
 
-Dependency management for AI prompts, skills, and instructions. Tracks upstream sources, applies local overlays, and detects drift.
+Dependency management for AI prompts, agents, skills, instructions and tool configuration. Tracks upstream sources, applies local overlays, and detects drift.
 
 > **Status**: Incubating as an internal-public Amadeus package under `packages/ai-artifacts/`. Repository-specific configuration lives in `.ai-artifacts/` in consuming repositories.
 
@@ -8,7 +8,7 @@ This directory is a self-contained package named `@amadeus-nexwave/ai-artifacts`
 
 ## Why
 
-AI coding agents (Copilot, Claude Code, Cursor, etc.) rely on repository-level instruction files (`CLAUDE.md`, `.github/copilot-instructions.md`, skills, prompts) to understand project conventions. Managing these files by hand creates real problems:
+AI coding agents (opencode, Copilot, Claude Code, Cursor, etc.) rely on repository-level instruction files (`AGENTS.md`, `CLAUDE.md`, skills, agents and prompts) to understand project conventions. Managing these files by hand creates real problems:
 
 1. **Silent drift** -- upstream prompt libraries evolve, but local copies don't update themselves. You fall behind without knowing it.
 2. **Tool fragmentation** -- Claude, Copilot, and Cursor each need their own format. Copy-pasting between them leads to divergence and inconsistency.
@@ -20,10 +20,10 @@ AI coding agents (Copilot, Claude Code, Cursor, etc.) rely on repository-level i
 ## What it does
 
 ```text
-upstream source (HVE Core, web-quality-skills, …)
-+ local overlays (TSF-specific guidance)
+upstream source (HVE Core, shared skills, reusable agents, ...)
++ local overlays (repository-specific guidance)
 + substitutions (tool-neutral wording)
-= generated artifact (.github/skills/*, CLAUDE.md, …)
+= generated artifact (.opencode/skills/*, .opencode/agent/*, CLAUDE.md, ...)
 ```
 
 The CLI pins upstream versions, locks exact commits, generates final artifacts consumed by AI agents, and reports when upstream moves.
@@ -36,6 +36,7 @@ npm run ai-artifacts:sync       # Generate artifacts from sources + overlays
 npm run ai-artifacts:sync -- --check  # Verify artifacts are up to date (CI)
 npm run ai-artifacts:drift      # Report upstream drift
 npm run ai-artifacts:risk       # Report risk assessment
+npm run ai-artifacts:doctor     # Check local install and best-effort tool context
 npm run validate:ai-artifacts   # All checks in one pass
 ```
 
@@ -55,17 +56,18 @@ packages:
 artifacts:
   - id: task-research-guidelines
     kind: skill
-    targetDir: .github/skills/task-research-guidelines
+    targetDir: .opencode/skills/task-research-guidelines
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/task-research.prompt.md
           to: SKILL.md
           overlays:
-            - common/tool-neutral.md
-            - rpi/task-research.md
+            - hve/repo-context.md
           substitutions:
-            - from: .copilot-tracking/
-              to: .ai-tracking/
+            - from: "---\ndescription:"
+              to: "---\nname: task-research-guidelines\ndescription:"
+            - from: "agent: Task Researcher"
+              to: "agent: task-researcher"
 ```
 
 ## Directory layout
@@ -76,9 +78,7 @@ artifacts:
   lock.yml               # Pinned commits + content hashes
   vendor/                # Cloned upstream repos (gitignored)
   overlays/              # Local markdown appended to upstream content
-    common/              #   Tool-neutral overlay
-    rpi/                 #   RPI workflow overlays (research, plan, implement, review)
-    web-quality/         #   Web quality audit overlays
+    hve/                 #   Repository context appended to upstream HVE prompts
   files/                 # Local source files for artifacts using local: refs
   reports/               # Generated drift + risk reports
   schemas/               # JSON Schema for artifacts.yml (optional)
@@ -105,6 +105,7 @@ packages/ai-artifacts/
 | **Render step** | Read source → apply substitutions → append overlays → write target |
 | **Copy step** | Copy files/directories verbatim into target |
 | **Overlay** | Local markdown appended after upstream content |
+| **Substitution** | Literal replacement applied before overlays, useful for tool-specific frontmatter or vocabulary |
 | **Lock file** | Records requested version, resolved commit, content hashes |
 | **Drift report** | Shows when upstream moved since last generation |
 

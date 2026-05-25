@@ -11,7 +11,10 @@
   "files": [
     "app.js",
     "cli.js",
+    "doctor.js",
     "install.js",
+    "install.claude.js",
+    "install.opencode.js",
     "lib.js",
     "docs/",
     "schemas/",

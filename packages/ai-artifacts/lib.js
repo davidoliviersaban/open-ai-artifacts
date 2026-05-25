@@ -35,7 +35,7 @@ function validateArtifactConfig(config) {
 }
 
 function validateStep(config, artifact, step) {
-  const stepTypes = ['render', 'copy'].filter((type) => step[type])
+  const stepTypes = ['render', 'copy', 'link'].filter((type) => step[type])
   if (stepTypes.length !== 1) throw new Error(`artifact ${artifact.id}: each step must have exactly one type`)
   const type = stepTypes[0]
   const value = step[type]
@@ -56,6 +56,13 @@ function validateStep(config, artifact, step) {
     validateReference(config, artifact, value.from)
     if (!value.to) throw new Error(`artifact ${artifact.id}: copy.to is required`)
     validateSafeRelativePath(value.to, `artifact ${artifact.id}: unsafe copy.to`)
+  }
+  if (type === 'link') {
+    assertKnownFields(`artifact ${artifact.id}.link`, value, ['target', 'to'])
+    if (!value.target) throw new Error(`artifact ${artifact.id}: link.target is required`)
+    if (!value.to) throw new Error(`artifact ${artifact.id}: link.to is required`)
+    validateSafeRelativePath(value.target, `artifact ${artifact.id}: unsafe link.target`)
+    validateSafeRelativePath(value.to, `artifact ${artifact.id}: unsafe link.to`)
   }
 }
 
