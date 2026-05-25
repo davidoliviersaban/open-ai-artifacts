@@ -20,6 +20,7 @@ function doctorAIArtifacts(root, options = {}) {
   checks.push(checkOptionalDir(path.join(root, '.opencode/agent'), 'opencode project agents exist'))
   checks.push(checkOptionalDir(path.join(root, '.opencode/skills'), 'opencode project skills exist'))
   checks.push(checkInstalledFiles(root, packageRoot))
+  checks.push(checkSourceDir(root))
   checks.push(...checkClaudeSetup(root))
   checks.push(...checkOpencodeSetup(root))
 
@@ -47,6 +48,21 @@ function detectAgentTools(env = process.env) {
   if (env.GITHUB_COPILOT_AGENT || /GITHUB_COPILOT/i.test(markerText)) tools.push({ name: 'github-copilot', confidence: 'low' })
 
   return dedupeTools(tools)
+}
+
+function checkSourceDir(root) {
+  const configPath = path.join(root, '.ai-artifacts/artifacts.yml')
+  if (!fs.existsSync(configPath)) return pass('sourceDir: no config')
+
+  const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
+  const sourceDir = config.sourceDir || '.ai-artifacts/files'
+  if (sourceDir.startsWith('.ai-artifacts')) {
+    const resolvedDir = path.join(root, sourceDir)
+    const hasFiles = fs.existsSync(resolvedDir) && fs.readdirSync(resolvedDir).length > 0
+    const detail = hasFiles ? ` (${sourceDir}/ contains files)` : ''
+    return warn(`sourceDir is inside .ai-artifacts${detail} — consider moving sources to a visible directory (e.g. .github/prompts) and setting sourceDir in artifacts.yml`)
+  }
+  return pass(`sourceDir: ${sourceDir}`)
 }
 
 function checkOpencodeSetup(root) {
