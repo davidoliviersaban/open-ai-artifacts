@@ -18,9 +18,11 @@ function writeAuditEntry(input) {
     user: process.env.USER || process.env.USERNAME || null,
     repo: path.basename(cwd),
   }
-  const auditFile = path.join(cwd, '.ai-artifacts', 'audit.jsonl')
-  fs.mkdirSync(path.dirname(auditFile), { recursive: true })
-  fs.appendFileSync(auditFile, `${JSON.stringify(entry)}\n`)
+  const auditDir = path.join(cwd, '.ai-artifacts')
+  fs.mkdirSync(auditDir, { recursive: true })
+  const line = `${JSON.stringify(entry)}\n`
+  fs.appendFileSync(path.join(auditDir, 'audit.jsonl'), line)
+  fs.appendFileSync(path.join(auditDir, 'audit.local.jsonl'), line)
 }
 
 if (require.main === module) main()

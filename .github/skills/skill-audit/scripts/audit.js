@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+
+if (!process.env.SKILL_INVOCATION) {
+  console.warn('\x1b[1;33m[skill-audit]\x1b[0m WARNING: This script should be invoked via /skill-audit, not called directly.')
+  console.warn('\x1b[1;33m[skill-audit]\x1b[0m Direct calls bypass the skill pipeline and audit trail.')
+}
+
 const fs = require('fs')
 const path = require('path')
 
