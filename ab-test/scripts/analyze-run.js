@@ -16,34 +16,62 @@ function analyzeDebugLog(debugLogPath) {
   const filesWritten = new Set()
   const bashCommands = []
   const errors = []
+  let skillsLoaded = 0
+
+  // Debug log is plain text: "2026-05-25T23:27:56.089Z [INFO] [Stall] tool_dispatch_start tool=Read toolUseId=..."
+  const toolDispatchRe = /tool_dispatch_start\s+tool=(\S+)/
+  const skillsLoadedRe = /Loaded (\d+) unique skills/
+  const errorRe = /\[ERROR\]/
 
   for (const line of lines) {
-    let entry
-    try { entry = JSON.parse(line) } catch { continue }
-
-    // Tool use detection
-    if (entry.type === 'tool_use' || entry.tool_name) {
-      const tool = entry.tool_name || entry.name || 'unknown'
+    const toolMatch = line.match(toolDispatchRe)
+    if (toolMatch) {
+      const tool = toolMatch[1]
       toolCalls.push(tool)
 
-      if (tool === 'Read' && entry.input?.file_path) {
-        filesRead.add(entry.input.file_path)
-      }
-      if ((tool === 'Edit' || tool === 'Write') && entry.input?.file_path) {
-        filesWritten.add(entry.input.file_path)
-      }
-      if (tool === 'Bash' && entry.input?.command) {
-        bashCommands.push(entry.input.command)
-      }
       if (tool === 'Skill') {
-        skillInvocations.push(entry.input?.skill || 'unknown')
+        skillInvocations.push('unknown')
       }
     }
 
-    // Error detection
-    if (entry.is_error || entry.type === 'error') {
-      errors.push(entry.message || entry.error || JSON.stringify(entry).slice(0, 200))
+    const skillsMatch = line.match(skillsLoadedRe)
+    if (skillsMatch) {
+      skillsLoaded = Number(skillsMatch[1])
     }
+
+    if (errorRe.test(line)) {
+      errors.push(line.slice(0, 200))
+    }
+  }
+
+  // Extract file/bash details from stdout.json if available (JSON output mode)
+  const stdoutPath = path.join(path.dirname(debugLogPath), 'stdout.json')
+  if (fs.existsSync(stdoutPath)) {
+    try {
+      const stdout = JSON.parse(fs.readFileSync(stdoutPath, 'utf8'))
+      if (stdout.messages) {
+        for (const msg of stdout.messages) {
+          if (msg.role !== 'assistant' || !Array.isArray(msg.content)) continue
+          for (const block of msg.content) {
+            if (block.type !== 'tool_use') continue
+            if (block.name === 'Read' && block.input?.file_path) {
+              filesRead.add(block.input.file_path)
+            }
+            if ((block.name === 'Edit' || block.name === 'Write') && block.input?.file_path) {
+              filesWritten.add(block.input.file_path)
+            }
+            if (block.name === 'Bash' && block.input?.command) {
+              bashCommands.push(block.input.command)
+            }
+            if (block.name === 'Skill') {
+              const idx = skillInvocations.indexOf('unknown')
+              if (idx >= 0) skillInvocations[idx] = block.input?.skill || 'unknown'
+              else skillInvocations.push(block.input?.skill || 'unknown')
+            }
+          }
+        }
+      }
+    } catch { /* stdout may not be valid JSON */ }
   }
 
   // Count tool usage
@@ -56,6 +84,7 @@ function analyzeDebugLog(debugLogPath) {
     total_tool_calls: toolCalls.length,
     tool_counts: toolCounts,
     skill_invocations: skillInvocations,
+    skills_loaded: skillsLoaded,
     files_read: [...filesRead],
     files_written: [...filesWritten],
     bash_commands: bashCommands,
@@ -137,8 +166,9 @@ function printAnalysis(analysis) {
     for (const [tool, count] of sorted) {
       console.log(`            ${tool}: ${count}`)
     }
+    console.log(`  Skills:   ${analysis.tools.skills_loaded} loaded, ${analysis.tools.skill_invocations.length} invoked`)
     if (analysis.tools.skill_invocations.length > 0) {
-      console.log(`  Skills invoked: ${analysis.tools.skill_invocations.join(', ')}`)
+      console.log(`            ${analysis.tools.skill_invocations.join(', ')}`)
     }
     if (analysis.tools.errors.length > 0) {
       console.log(`  Errors:   ${analysis.tools.errors.length}`)
