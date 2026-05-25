@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+
+if (!process.env.SKILL_INVOCATION) {
+  console.warn('\x1b[1;33m[pr-review]\x1b[0m WARNING: This script should be invoked via /pr-review, not called directly.')
+  console.warn('\x1b[1;33m[pr-review]\x1b[0m Direct calls bypass the skill pipeline and audit trail.')
+}
+
 const { execSync } = require('child_process')
 const path = require('path')
 

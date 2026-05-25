@@ -4,6 +4,11 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
 
+if (!process.env.SKILL_INVOCATION) {
+  console.warn('\x1b[1;33m[worktree]\x1b[0m WARNING: This script should be invoked via /multi-feature, not called directly.')
+  console.warn('\x1b[1;33m[worktree]\x1b[0m Direct calls bypass the skill pipeline and audit trail.')
+}
+
 const WORKTREE_PREFIX = 'ai-artifacts--'
 
 function findRepoRoot() {
@@ -90,19 +95,40 @@ function installDeps(worktreePath) {
 }
 
 function linkAuditFile(mainRoot, worktreePath) {
+  const auditDir = path.join(worktreePath, '.ai-artifacts')
+  fs.mkdirSync(auditDir, { recursive: true })
+
+  // Global audit: symlink to main repo for consolidated view
   const auditSource = path.join(mainRoot, '.ai-artifacts', 'audit.jsonl')
-  const auditTarget = path.join(worktreePath, '.ai-artifacts', 'audit.jsonl')
-  fs.mkdirSync(path.dirname(auditTarget), { recursive: true })
-  const existing = fs.lstatSync(auditTarget, { throwIfNoEntry: false })
-  if (existing) {
-    if (existing.isSymbolicLink()) return
-    fs.unlinkSync(auditTarget)
+  const auditTarget = path.join(auditDir, 'audit.jsonl')
+  const existingGlobal = fs.lstatSync(auditTarget, { throwIfNoEntry: false })
+  if (existingGlobal) {
+    if (!existingGlobal.isSymbolicLink()) fs.unlinkSync(auditTarget)
   }
-  if (!fs.existsSync(auditSource)) {
-    fs.writeFileSync(auditSource, '')
+  if (!existingGlobal || !existingGlobal.isSymbolicLink()) {
+    if (!fs.existsSync(auditSource)) fs.writeFileSync(auditSource, '')
+    fs.symlinkSync(auditSource, auditTarget)
   }
-  fs.symlinkSync(auditSource, auditTarget)
-  log('Audit file symlinked to main repo.')
+
+  // Tools audit: symlink to main repo
+  const toolsSource = path.join(mainRoot, '.ai-artifacts', 'tools.audit.jsonl')
+  const toolsTarget = path.join(auditDir, 'tools.audit.jsonl')
+  const existingTools = fs.lstatSync(toolsTarget, { throwIfNoEntry: false })
+  if (existingTools) {
+    if (!existingTools.isSymbolicLink()) fs.unlinkSync(toolsTarget)
+  }
+  if (!existingTools || !existingTools.isSymbolicLink()) {
+    if (!fs.existsSync(toolsSource)) fs.writeFileSync(toolsSource, '')
+    fs.symlinkSync(toolsSource, toolsTarget)
+  }
+
+  // Local audit: feature-scoped, stays in the worktree
+  const localAudit = path.join(auditDir, 'audit.local.jsonl')
+  if (!fs.existsSync(localAudit)) {
+    fs.writeFileSync(localAudit, '')
+  }
+
+  log('Audit files configured (global symlinks + local trail).')
 }
 
 function linkVendorDir(mainRoot, worktreePath) {

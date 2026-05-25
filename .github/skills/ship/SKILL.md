@@ -19,22 +19,30 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
 
 3. **If any validation fails**: Report the failure clearly. Do NOT proceed. The user must fix the issue first.
 
-4. **Generate commit message**: Analyze the staged diff and produce a conventional commit message:
+4. **Collect audit trail**: Read `.ai-artifacts/audit.jsonl` and `.ai-artifacts/tools.audit.jsonl`. Filter entries matching the current branch/session. Extract the list of skills invoked and scripts called during this feature.
+
+5. **Generate commit message**: Analyze the staged diff and produce a conventional commit message:
    - First line: `type(scope): short description` (max 70 chars)
    - Blank line
    - Body: 1-3 bullet points explaining WHY, not what
+   - `Skills: /skill-a, /skill-b, /skill-c`
+   - `Tools: script-x.js, script-y.js`
    - Types: feat, fix, refactor, chore, docs, test
 
-5. **Commit and push**: Execute:
+6. **Commit and push**: Execute:
    - `git commit -m "<generated message>\n\nCo-Authored-By: <agent> <noreply@anthropic.com>"`
    - `git push` (with `-u` if the branch has no upstream tracking)
 
-6. **Create pull request**: If the current branch is not `main` and `no-pr` was not specified:
+7. **Create pull request**: If the current branch is not `main` and `no-pr` was not specified:
    - Generate a PR title from the commit message first line
    - Generate a PR body with:
      ```
      ## Summary
      - <1-3 bullet points from commit body>
+
+     ## Pipeline
+     - Skills: /skill-a, /skill-b, /skill-c
+     - Tools: script-x.js, script-y.js
 
      ## Validations
      - [x] Tests pass
@@ -44,7 +52,7 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
    - Create the PR: `gh pr create --title "<title>" --body "<body>"`
    - If already on `main`, skip PR creation.
 
-7. **Report**: Confirm what was shipped (commit hash, branch, remote, PR URL if created).
+8. **Report**: Confirm what was shipped (commit hash, branch, remote, PR URL if created).
 
 ## Rules
 
