@@ -61,6 +61,33 @@ test('opencode skill audit plugin appends tool audit entry for script execution'
   }
 })
 
+test('opencode skill audit plugin appends command audit entry for non-script bash execution', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-opencode-audit-'))
+
+  try {
+    const plugin = await exportedSkillAuditPlugin({ project: { root } })
+
+    await plugin['tool.execute.after']({
+      tool: 'bash',
+      session_id: 'session-command',
+      args: { command: 'git status --short --branch' },
+    })
+
+    const toolAuditFile = path.join(root, '.ai-artifacts', 'tools.audit.jsonl')
+    const localAuditFile = path.join(root, '.ai-artifacts', 'audit.local.jsonl')
+    const toolEntry = JSON.parse(fs.readFileSync(toolAuditFile, 'utf8').trim())
+    const localEntry = JSON.parse(fs.readFileSync(localAuditFile, 'utf8').trim())
+
+    assert.equal(toolEntry.command, 'git status --short --branch')
+    assert.equal(toolEntry.tool, 'bash')
+    assert.equal(toolEntry.session_id, 'session-command')
+    assert.equal('script' in toolEntry, false)
+    assert.equal(localEntry.command, 'git status --short --branch')
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
 test('opencode skill audit plugin supports two-argument OpenCode hook payloads', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-opencode-audit-'))
 
