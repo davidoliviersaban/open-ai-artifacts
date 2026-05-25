@@ -90,7 +90,7 @@ function runClaude(worktree, flags, prompt, debugFile) {
   const result = spawnSync('claude', [...allFlags, prompt], {
     cwd: worktree,
     encoding: 'utf8',
-    timeout: 600000,
+    timeout: 300000,
     maxBuffer: 50 * 1024 * 1024,
   })
   const elapsed = Math.round((Date.now() - start) / 1000)

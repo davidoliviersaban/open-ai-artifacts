@@ -55,6 +55,17 @@ function removeScoringWorktree(repoRoot, worktree) {
 
 function applyDiff(worktree, diffFile) {
   if (!fs.existsSync(diffFile) || fs.statSync(diffFile).size === 0) return
+  // First, replicate the same cleanup prepareWorktree does so the diff applies cleanly
+  const abTestDir = path.join(worktree, 'ab-test')
+  if (fs.existsSync(abTestDir)) fs.rmSync(abTestDir, { recursive: true })
+  const claudeDir = path.join(worktree, '.claude')
+  if (fs.existsSync(claudeDir)) fs.rmSync(claudeDir, { recursive: true })
+  const adrFile = path.join(worktree, 'docs', 'adr', '010-ab-test-framework.md')
+  if (fs.existsSync(adrFile)) fs.unlinkSync(adrFile)
+
+  // Stage removals so the worktree matches the baseline
+  execSync('git add -A && git commit -m "score-baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
+
   try {
     execSync(`git apply "${diffFile}"`, { cwd: worktree, stdio: 'pipe' })
   } catch (err) {
