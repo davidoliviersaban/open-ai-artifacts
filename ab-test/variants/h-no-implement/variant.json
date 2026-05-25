@@ -1,0 +1,12 @@
+{
+  "id": "h-no-implement",
+  "name": "Full pipeline minus /task-implement-guidelines",
+  "description": "All skills except the implementation skill. Tests if structured implementation guidance improves code output.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "disabled_skills": ["task-implement-guidelines"],
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

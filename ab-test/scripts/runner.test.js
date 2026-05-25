@@ -115,6 +115,18 @@ describe('prepareWorktree', () => {
     prepareWorktree(tmpDir, { claude_md: 'inherit' })
     assert.equal(fs.readFileSync(path.join(tmpDir, 'CLAUDE.md'), 'utf8'), '# Original')
   })
+
+  it('removes individually disabled skills', () => {
+    fs.mkdirSync(path.join(tmpDir, '.github', 'skills', 'ship'), { recursive: true })
+    fs.mkdirSync(path.join(tmpDir, '.github', 'skills', 'task-plan-guidelines'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, '.github', 'skills', 'ship', 'skill.md'), '# Ship')
+    fs.writeFileSync(path.join(tmpDir, '.github', 'skills', 'task-plan-guidelines', 'skill.md'), '# Plan')
+
+    prepareWorktree(tmpDir, { claude_md: 'inherit', disabled_skills: ['ship'] })
+
+    assert.ok(!fs.existsSync(path.join(tmpDir, '.github', 'skills', 'ship')))
+    assert.ok(fs.existsSync(path.join(tmpDir, '.github', 'skills', 'task-plan-guidelines')))
+  })
 })
 
 describe('loadChallenge', () => {

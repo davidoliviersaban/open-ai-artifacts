@@ -55,10 +55,26 @@ function prepareWorktree(worktree, variant) {
   const claudeMdPath = path.join(worktree, 'CLAUDE.md')
   if (variant.claude_md === 'none') {
     if (fs.existsSync(claudeMdPath)) fs.unlinkSync(claudeMdPath)
+    // Also remove skills and agents so the agent has truly zero context
+    const skillsDir = path.join(worktree, '.github', 'skills')
+    if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
+    const agentsDir = path.join(worktree, '.github', 'agent')
+    if (fs.existsSync(agentsDir)) fs.rmSync(agentsDir, { recursive: true })
   } else if (variant.claude_md === 'custom') {
     fs.writeFileSync(claudeMdPath, variant.claude_md_content || '')
+    // Remove skills for custom mode too — skills only available with 'inherit'
+    const skillsDir = path.join(worktree, '.github', 'skills')
+    if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
   }
-  // 'inherit' = keep as-is
+  // 'inherit' = keep as-is (CLAUDE.md + skills stay)
+
+  // Remove individually disabled skills
+  if (variant.disabled_skills && variant.disabled_skills.length > 0) {
+    for (const skill of variant.disabled_skills) {
+      const skillDir = path.join(worktree, '.github', 'skills', skill)
+      if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true })
+    }
+  }
 }
 
 function buildClaudeFlags(variant, modelOverride, budget) {
