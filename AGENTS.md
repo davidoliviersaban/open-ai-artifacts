@@ -81,6 +81,10 @@ npm run validate:ai-artifacts
 - Non-developers must be trained to use GitHub, PRs, PR environments and acceptance criteria.
 - Code owners remain accountable for technical validation.
 
+## Development Workflow
+
+All code and configuration changes must follow the structured pipeline defined in `WORKFLOW.md`. Read it before starting any implementation task.
+
 ## Do Not Do
 
 - Do not replace narrative proof with table-only content.
