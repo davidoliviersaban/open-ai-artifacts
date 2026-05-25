@@ -15,6 +15,9 @@ Implement a local audit trail using Claude Code hooks (PostToolUse on the Skill 
 - skill name
 - session ID
 - tool name (Skill, Read on SKILL.md, etc.)
+- invocation tool (`claude-code` or `opencode`)
+- invocation origin (`user` or `agent`)
+- invocation agent name when the hook payload exposes one
 
 The hook is project-scoped (`.claude/settings.json`), runs async, and does not block the tool call. The audit file is gitignored — each developer accumulates their own local data.
 
@@ -22,11 +25,11 @@ A periodic aggregation script (or future centralized collector) can consume the 
 
 ## Logged Fields
 
-`timestamp`, `skill`, `tool`, `session_id`, `user`, `repo`.
+`timestamp`, `skill`, `tool`, `invocation_tool`, `invocation_origin`, `invocation_agent`, `session_id`, `user`, `repo`.
 
 ## Known Limitations
 
-**Caller identity (which agent invoked the skill) is not available.** Claude Code's hook payload provides `session_id`, `tool_name`, `tool_input`, `cwd`, and `transcript_path` — but no field identifying the calling agent. Since a skill can be invoked by any agent (main, subagent, custom), the `agent:` field in a skill's frontmatter only declares an association, not the actual caller. We accept this gap.
+**Caller identity depends on tool payloads.** Claude Code and OpenCode hooks always identify the tool integration because each hook is tool-specific. Agent identity is recorded only when the hook payload exposes a named agent/subagent. Otherwise `invocation_origin` can still distinguish direct user calls from agent calls when the payload exposes that origin, but `invocation_agent` remains `null`.
 
 ## Alternatives Considered
 
@@ -38,11 +41,11 @@ Rejected for now: origin is derivable from `artifacts.yml` at analysis time (a s
 | Tool | Mechanism | Status |
 |------|-----------|--------|
 | Claude Code | PostToolUse hook on Skill matcher (`.claude/settings.json`) | Implemented |
-| OpenCode | Custom plugin via `tool.execute.after` hook | Deferred — plugin API not yet stable |
+| OpenCode | Custom plugin via `tool.execute.after` hook | Implemented |
 
 ## Addendum: OpenCode Implementation
 
-OpenCode should use the same local audit file and JSONL shape as Claude Code: `.ai-artifacts/audit.jsonl` with `timestamp`, `skill`, `tool`, `session_id`, `user`, and `repo`. The implementation should be project-scoped and local-only by default.
+OpenCode should use the same local audit file and JSONL shape as Claude Code: `.ai-artifacts/audit.jsonl` with `timestamp`, `skill`, `tool`, `invocation_tool`, `invocation_origin`, `invocation_agent`, `session_id`, `user`, and `repo`. The implementation should be project-scoped and local-only by default.
 
 The recommended mechanism is an OpenCode project plugin provided by the base framework at `packages/ai-artifacts/opencode/skill-audit.js` and installed into `.opencode/plugin/skill-audit.js`. The plugin registers `tool.execute.after` and appends one JSON object per detected skill invocation. It must be best-effort: logging failures must not fail or slow down the agentic workflow.
 
@@ -60,6 +63,9 @@ The plugin should derive fields as follows:
 | `timestamp` | `new Date().toISOString()` |
 | `skill` | skill name parsed from the tool payload path or skill tool input |
 | `tool` | OpenCode hook tool name |
+| `invocation_tool` | Fixed by the hook implementation: `opencode` for OpenCode, `claude-code` for Claude Code |
+| `invocation_origin` | `agent` when the payload exposes an agent/subagent or an agent origin marker; otherwise `user` |
+| `invocation_agent` | Named agent/subagent from the hook payload when available; otherwise `null` |
 | `session_id` | session identifier from the hook payload when available; otherwise `null` |
 | `user` | `process.env.USER` or `process.env.USERNAME`, otherwise `null` |
 | `repo` | repository root from the OpenCode plugin project/directory context |
@@ -76,7 +82,7 @@ OpenCode configuration should register the plugin explicitly only if auto-discov
 
 Claude Code should follow the same packaging model: the base framework provides the hook at `packages/ai-artifacts/claude/audit-skill.js` and installs it into `.claude/hooks/audit-skill.js`.
 
-Known limitations for OpenCode mirror the Claude Code limitations: caller agent identity may not be available, and skill origin should still be derived during aggregation from `artifacts.yml` rather than duplicated in each log entry. The implementation should be revisited if OpenCode exposes a first-class skill invocation event with agent identity.
+Known limitations for OpenCode mirror the Claude Code limitations: exact caller agent identity may not be available, and skill origin should still be derived during aggregation from `artifacts.yml` rather than duplicated in each log entry. The implementation should be revisited if OpenCode exposes a first-class skill invocation event with richer agent identity.
 
 ## Consequences
 

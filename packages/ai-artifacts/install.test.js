@@ -4,8 +4,10 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
+const { detectInvocationContext: detectClaudeInvocationContext } = require('./claude/audit-skill')
 const { detectAgentTools, doctorAIArtifacts } = require('./doctor')
 const { installAIArtifacts } = require('./install')
+const { detectInvocationContext: detectOpencodeInvocationContext } = require('./opencode/skill-audit')
 
 test('installAIArtifacts installs packaged files to repo paths', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-'))
@@ -162,6 +164,29 @@ test('framework provides tool-specific audit files', () => {
   assert.equal(fs.existsSync(path.join(__dirname, 'claude/audit-skill.js')), true)
   assert.equal(fs.existsSync(path.join(__dirname, 'opencode/install.js')), true)
   assert.equal(fs.existsSync(path.join(__dirname, 'opencode/skill-audit.js')), true)
+})
+
+test('audit entries distinguish direct user and named agent invocations', () => {
+  assert.deepEqual(detectClaudeInvocationContext({ origin: 'user' }), {
+    invocation_origin: 'user',
+    invocation_tool: 'claude-code',
+    invocation_agent: null,
+  })
+  assert.deepEqual(detectClaudeInvocationContext({ agent: { name: 'task-reviewer' } }), {
+    invocation_origin: 'agent',
+    invocation_tool: 'claude-code',
+    invocation_agent: 'task-reviewer',
+  })
+  assert.deepEqual(detectOpencodeInvocationContext({ source: 'agent' }), {
+    invocation_origin: 'agent',
+    invocation_tool: 'opencode',
+    invocation_agent: null,
+  })
+  assert.deepEqual(detectOpencodeInvocationContext({ session: { agent: 'doc-ops' } }), {
+    invocation_origin: 'agent',
+    invocation_tool: 'opencode',
+    invocation_agent: 'doc-ops',
+  })
 })
 
 function writePackageInstallFiles(packageRoot) {
