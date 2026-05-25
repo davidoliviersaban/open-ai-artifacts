@@ -3,6 +3,8 @@
 
 version: 1
 
+sourceDir: .github/ai-sources
+
 packages:
   hve-core:
     type: git
