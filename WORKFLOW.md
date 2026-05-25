@@ -2,6 +2,33 @@
 
 This project enforces a structured workflow for any code or configuration change. Each step uses a dedicated skill that must be invoked in order.
 
+## Project Structure
+
+| Path | Purpose |
+|------|---------|
+| `docs/whitepaper/` | Whitepaper sources (Markdown, Lua filters, PDF output) |
+| `docs/adr/` | Architecture Decision Records |
+| `docs/research/` | Research documents and references |
+| `docs/installation-guide.md` | Installation and setup guide |
+| `packages/ai-artifacts/` | Node CLI package (versioning, composing, auditing AI artifacts) |
+| `.ai-artifacts/` | Dogfooding config — generates `AGENTS.md`, `CLAUDE.md`, skills, agents |
+
+## Available Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `/task-research-guidelines` | Research phase — gather context and constraints |
+| `/task-plan-guidelines` | Plan phase — design implementation approach |
+| `/task-implement-guidelines` | Implement phase — structured code changes |
+| `/task-review-checklist` | Review phase — validate before commit |
+| `/doc-check` | Documentation check — ensure docs stay current |
+| `/doc-ops-update` | Documentation quality assurance and updates |
+| `/prompt-build` | Build or improve prompt engineering artifacts |
+| `/prompt-analyze` | Evaluate prompt artifacts against quality criteria |
+| `/prompt-refactor` | Refactor and clean up prompt artifacts |
+| `/code-review` | Review code for reuse, quality and efficiency |
+| `/ship` | Validate, commit and push in one pass |
+
 ## Pipeline
 
 | Step | Skill | When to skip |
