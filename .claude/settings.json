@@ -9,6 +9,15 @@
             "command": "node .claude/hooks/audit-skill.js"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/audit-bash-scripts.js"
+          }
+        ]
       }
     ]
   }

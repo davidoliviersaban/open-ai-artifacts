@@ -8,3 +8,4 @@ node_modules/
 .ai-artifacts/reports/
 .ai-artifacts/schemas/
 .ai-artifacts/audit.jsonl
+.ai-artifacts/tools.audit.jsonl
