@@ -206,14 +206,14 @@ artifacts:
           from: upstream:skills/demo/SKILL.md
           to: SKILL.md
       - copy:
-          from: local:scripts
+          from: root:sources/demo-skill/scripts
           to: scripts
       - copy:
-          from: local:references
+          from: root:sources/demo-skill/references
           to: references
 `)
-    writeFile(path.join(tempRoot, '.ai-artifacts/files/demo-skill/scripts/run.js'), 'console.log("audit")\n')
-    writeFile(path.join(tempRoot, '.ai-artifacts/files/demo-skill/references/scoring.md'), '# Scoring\n')
+    writeFile(path.join(tempRoot, 'sources/demo-skill/scripts/run.js'), 'console.log("audit")\n')
+    writeFile(path.join(tempRoot, 'sources/demo-skill/references/scoring.md'), '# Scoring\n')
 
     const app = createApp({ root: tempRoot, log: () => {}, quiet: true, packageRoot: path.join(tempRoot, 'scripts/ai-artifacts') })
     app.fetchSources()
@@ -271,10 +271,10 @@ artifacts:
           from: upstream:refs/core-web-vitals.md
           to: references/core-web-vitals.md
       - copy:
-          from: local:references
+          from: root:sources/analytics/references
           to: references
 `)
-    writeFile(path.join(tempRoot, '.ai-artifacts/files/analytics/references/travel-storefront-analytics.md'), '# TSF Analytics\n')
+    writeFile(path.join(tempRoot, 'sources/analytics/references/travel-storefront-analytics.md'), '# TSF Analytics\n')
 
     const app = createApp({ root: tempRoot, log: () => {}, quiet: true, packageRoot: path.join(tempRoot, 'scripts/ai-artifacts') })
     app.fetchSources()

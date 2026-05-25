@@ -21,7 +21,6 @@ function doctorAIArtifacts(root, options = {}) {
   checks.push(checkOptionalDir(path.join(root, '.opencode/skills'), 'opencode project skills exist'))
   checks.push(checkInstalledFiles(root, packageRoot))
   checks.push(checkOverlaysDir(root))
-  checks.push(checkSourceDir(root))
   checks.push(...checkRedundantCopies(root))
   checks.push(...checkClaudeSetup(root))
   checks.push(...checkOpencodeSetup(root))
@@ -60,27 +59,10 @@ function checkOverlaysDir(root) {
   const usesOverlays = (config.artifacts || []).some((a) => a.steps.some((s) => s.render && (s.render.overlays || []).length > 0))
   if (!usesOverlays) return pass('overlays: none used')
 
-  const overlaysDir = path.join(root, '.ai-artifacts/overlays')
-  if (!fs.existsSync(overlaysDir)) return fail('overlays: .ai-artifacts/overlays/ directory missing — overlays must live in .ai-artifacts/overlays/')
-  return pass('overlays: .ai-artifacts/overlays/')
-}
-
-function checkSourceDir(root) {
-  const configPath = path.join(root, '.ai-artifacts/artifacts.yml')
-  if (!fs.existsSync(configPath)) return pass('sourceDir: no config')
-
-  const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
-  const usesLocal = (config.artifacts || []).some((a) => a.steps.some((s) => (s.copy && s.copy.from.startsWith('local:')) || (s.render && s.render.from.startsWith('local:'))))
-  if (!usesLocal) return pass('sourceDir: no local references')
-
-  const sourceDir = config.sourceDir || '.ai-artifacts/files'
-  if (sourceDir.startsWith('.ai-artifacts')) {
-    const resolvedDir = path.join(root, sourceDir)
-    const hasFiles = fs.existsSync(resolvedDir) && fs.readdirSync(resolvedDir).length > 0
-    const detail = hasFiles ? ` (${sourceDir}/ contains files)` : ''
-    return warn(`sourceDir is inside .ai-artifacts${detail} — set sourceDir to a visible directory (e.g. .github/ai-sources) in artifacts.yml, or place files directly at their target and use link steps to avoid duplication`)
-  }
-  return pass(`sourceDir: ${sourceDir}`)
+  const overlaysDirRel = config.overlaysDir || '.ai-artifacts/overlays'
+  const overlaysDir = path.join(root, overlaysDirRel)
+  if (!fs.existsSync(overlaysDir)) return fail(`overlays: ${overlaysDirRel}/ directory missing`)
+  return pass(`overlays: ${overlaysDirRel}`)
 }
 
 function checkRedundantCopies(root) {
@@ -94,17 +76,17 @@ function checkRedundantCopies(root) {
     for (const step of artifact.steps) {
       if (!step.copy) continue
       const [prefix] = step.copy.from.split(':')
-      if (prefix !== 'local' && prefix !== 'root') continue
+      if (prefix !== 'root') continue
       const hasOverlays = artifact.steps.some((s) => s.render && (s.render.overlays || []).length > 0)
       const hasSubstitutions = artifact.steps.some((s) => s.render && (s.render.substitutions || []).length > 0)
       if (!hasOverlays && !hasSubstitutions) {
         const target = artifact.target || `${artifact.targetDir}/${step.copy.to}`
-        warnings.push(warn(`artifact ${artifact.id}: copies local file to ${target} — consider placing the file directly at its target and using a link step or removing the artifact`))
+        warnings.push(warn(`artifact ${artifact.id}: copies file to ${target} — consider placing the file directly at its target and using a link step or removing the artifact`))
       }
     }
   }
 
-  return warnings.length > 0 ? warnings : [pass('no redundant local copies')]
+  return warnings.length > 0 ? warnings : [pass('no redundant copies')]
 }
 
 function checkOpencodeSetup(root) {

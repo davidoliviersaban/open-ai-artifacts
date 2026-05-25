@@ -133,8 +133,9 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
     sourceContent = applySubstitutions(sourceContent, step.substitutions || [])
 
     const overlays = []
+    const overlaysDir = path.join(root, config.overlaysDir || '.ai-artifacts/overlays')
     for (const overlay of step.overlays || []) {
-      const overlayPath = path.join(root, '.ai-artifacts/overlays', overlay)
+      const overlayPath = path.join(overlaysDir, overlay)
       if (!fs.existsSync(overlayPath)) throw new Error(`artifact ${artifact.id}: overlay not found: ${overlay}`)
       overlays.push({ path: overlay, content: fs.readFileSync(overlayPath, 'utf8') })
     }
@@ -210,10 +211,6 @@ function createApp({ root = process.cwd(), log = console.log, quiet = false, pac
     const [name, referencePath] = splitReference(reference)
     if (name === 'root') {
       return { path: path.join(root, referencePath), referencePath }
-    }
-    if (name === 'local') {
-      const baseDir = config.sourceDir || '.ai-artifacts/files'
-      return { path: path.join(root, baseDir, artifact.id, referencePath), referencePath }
     }
 
     const pkg = config.packages[name]
