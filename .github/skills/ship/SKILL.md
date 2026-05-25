@@ -19,7 +19,7 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
 
 3. **If any validation fails**: Report the failure clearly. Do NOT proceed. The user must fix the issue first.
 
-4. **Collect audit trail**: Read `.ai-artifacts/audit.jsonl` and `.ai-artifacts/tools.audit.jsonl`. Filter entries matching the current branch/session. Extract the list of skills invoked and scripts called during this feature.
+4. **Collect audit trail**: Read `.ai-artifacts/audit.jsonl` and `.ai-artifacts/tools.audit.jsonl`. Filter entries matching the current branch/session. Count invocations per skill and per script during this feature.
 
 5. **Generate commit message**: Analyze the staged diff and produce a conventional commit message:
    - First line: `type(scope): short description` (max 70 chars)
@@ -41,8 +41,18 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
      - <1-3 bullet points from commit body>
 
      ## Pipeline
-     - Skills: /skill-a, /skill-b, /skill-c
-     - Tools: script-x.js, script-y.js
+
+     ### Skill usage
+     | Skill | Count |
+     |-------|-------|
+     | /skill-a | 1 |
+     | /skill-b | 2 |
+
+     ### Script usage
+     | Script | Count |
+     |--------|-------|
+     | script-x.js | 1 |
+     | script-y.js | 3 |
 
      ## Validations
      - [x] Tests pass
@@ -62,4 +72,5 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
 - If doc-check finds issues, list them and stop — do not commit with known stale docs.
 - If tests or validation fail, stop and report. Do not retry automatically.
 - Always create a PR unless on `main` or `no-pr` is specified. The PR is the deliverable.
+- The PR body MUST include `### Skill usage` and `### Script usage` Markdown tables with exact invocation counts. Do not replace these tables with comma-separated lists.
 - If `gh` is not available or PR creation fails, still report success for commit+push and note PR must be created manually.
