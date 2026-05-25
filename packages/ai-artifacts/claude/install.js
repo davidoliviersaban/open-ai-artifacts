@@ -8,7 +8,12 @@ function check(root, config) {
   for (const artifact of getClaudeArtifacts(config)) {
     for (const step of artifact.steps.filter((s) => s.link)) {
       const linkPath = path.join(root, step.link.to)
-      const expectedTarget = path.relative(path.dirname(linkPath), path.join(root, step.link.target))
+      const targetFullPath = path.join(root, step.link.target)
+      const expectedTarget = path.relative(path.dirname(linkPath), targetFullPath)
+      if (!fs.existsSync(targetFullPath)) {
+        issues.push({ artifact: artifact.id, path: step.link.target, issue: 'symlink target does not exist' })
+        continue
+      }
       const stat = fs.lstatSync(linkPath, { throwIfNoEntry: false })
       if (!stat) {
         issues.push({ artifact: artifact.id, path: step.link.to, issue: 'missing' })

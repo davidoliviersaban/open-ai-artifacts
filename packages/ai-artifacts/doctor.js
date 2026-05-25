@@ -94,7 +94,7 @@ function checkOpencodeSetup(root) {
   if (!fs.existsSync(configPath)) return []
 
   const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
-  const { check } = require('./install.opencode')
+  const { check } = require('./opencode/install')
   const result = check(root, config)
   if (result.ok) return [pass('opencode: artifacts configured')]
   return result.issues.map((issue) => fail(`opencode [${issue.artifact}] ${issue.path}: ${issue.issue}`))
@@ -105,7 +105,7 @@ function checkClaudeSetup(root) {
   if (!fs.existsSync(configPath)) return []
 
   const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
-  const { check } = require('./install.claude')
+  const { check } = require('./claude/install')
   const result = check(root, config)
   if (result.ok) return [pass('claude-code: artifacts configured')]
   return result.issues.map((issue) => fail(`claude-code [${issue.artifact}] ${issue.path}: ${issue.issue}`))

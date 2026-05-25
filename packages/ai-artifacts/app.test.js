@@ -304,6 +304,8 @@ test('app validateAll fails when risk policy failOn includes detected risk level
     writePackagedWorkflow(tempRoot)
     writeFile(path.join(tempRoot, '.github/workflows/ai-artifacts.yml'), 'name: AI Artifacts\n')
     writeFile(path.join(tempRoot, '.ai-artifacts/schemas/artifacts.schema.json'), '{"title":"schema"}\n')
+    writeFile(path.join(tempRoot, '.claude/hooks/audit-skill.js'), 'claude audit\n')
+    writeFile(path.join(tempRoot, '.opencode/plugin/skill-audit.js'), 'opencode audit\n')
     writeFile(path.join(tempRoot, '.ai-artifacts/artifacts.yml'), `version: 1
 riskPolicy:
   failOn:
@@ -504,6 +506,8 @@ function writeFile(filePath, content) {
 function writePackagedWorkflow(root) {
   writeFile(path.join(root, 'scripts/ai-artifacts/workflows/ai-artifacts.yml'), 'name: AI Artifacts\n')
   writeFile(path.join(root, 'scripts/ai-artifacts/schemas/artifacts.schema.json'), '{"title":"schema"}\n')
+  writeFile(path.join(root, 'scripts/ai-artifacts/claude/audit-skill.js'), 'claude audit\n')
+  writeFile(path.join(root, 'scripts/ai-artifacts/opencode/skill-audit.js'), 'opencode audit\n')
 }
 
 function git(cwd, args) {

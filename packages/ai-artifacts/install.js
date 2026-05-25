@@ -19,6 +19,16 @@ function installAIArtifacts(root = DEFAULT_ROOT, options = {}) {
       source: path.join(packageRoot, 'schemas/artifacts.schema.json'),
       target: path.join(root, '.ai-artifacts/schemas/artifacts.schema.json'),
     },
+    {
+      label: 'Claude Code skill audit hook',
+      source: path.join(packageRoot, 'claude/audit-skill.js'),
+      target: path.join(root, '.claude/hooks/audit-skill.js'),
+    },
+    {
+      label: 'OpenCode skill audit plugin',
+      source: path.join(packageRoot, 'opencode/skill-audit.js'),
+      target: path.join(root, '.opencode/plugin/skill-audit.js'),
+    },
   ]
   const results = files.map((file) => installFile(file, options))
   const installed = results.some((result) => result.installed)
@@ -60,14 +70,14 @@ function installToolArtifacts(root) {
   const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
   const results = []
 
-  const claudeInstall = require('./install.claude')
+  const claudeInstall = require('./claude/install')
   const claudeCheck = claudeInstall.check(root, config)
   if (!claudeCheck.ok) {
     const installed = claudeInstall.install(root, config)
     results.push(...installed.map((i) => ({ tool: claudeInstall.TOOL_KEY, ...i })))
   }
 
-  const opencodeInstall = require('./install.opencode')
+  const opencodeInstall = require('./opencode/install')
   const opencodeCheck = opencodeInstall.check(root, config)
   if (!opencodeCheck.ok) {
     const issues = opencodeInstall.install(root, config)

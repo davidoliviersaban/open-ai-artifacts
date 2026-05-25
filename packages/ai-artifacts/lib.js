@@ -249,7 +249,7 @@ function serializeYaml(data, indent = 0) {
 
 const AI_ARTIFACT_PATTERNS = [
   /^\.ai-artifacts\/artifacts\.yml$/,
-  /^\.ai-artifacts\/files\//,
+  /^\.ai-artifacts\/overlays\//,
   /^\.github\/overlays\//,
   /^\.github\/skills\//,
   /^\.github\/agent\//,

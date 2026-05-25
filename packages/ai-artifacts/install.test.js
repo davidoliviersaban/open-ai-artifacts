@@ -12,20 +12,17 @@ test('installAIArtifacts installs packaged files to repo paths', () => {
   const packageRoot = path.join(root, 'package')
 
   try {
-    const sourcePath = path.join(packageRoot, 'workflows/ai-artifacts.yml')
-    const schemaSourcePath = path.join(packageRoot, 'schemas/artifacts.schema.json')
     const targetPath = path.join(root, '.github/workflows/ai-artifacts.yml')
     const schemaTargetPath = path.join(root, '.ai-artifacts/schemas/artifacts.schema.json')
-    fs.mkdirSync(path.dirname(sourcePath), { recursive: true })
-    fs.mkdirSync(path.dirname(schemaSourcePath), { recursive: true })
-    fs.writeFileSync(sourcePath, 'name: AI Artifacts\n', 'utf8')
-    fs.writeFileSync(schemaSourcePath, '{"title":"schema"}\n', 'utf8')
+    writePackageInstallFiles(packageRoot)
 
     const result = installAIArtifacts(root, { packageRoot })
 
     assert.equal(result.installed, true)
     assert.equal(fs.readFileSync(targetPath, 'utf8'), 'name: AI Artifacts\n')
     assert.equal(fs.readFileSync(schemaTargetPath, 'utf8'), '{"title":"schema"}\n')
+    assert.equal(fs.readFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'utf8'), 'claude audit\n')
+    assert.equal(fs.readFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'utf8'), 'opencode audit\n')
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
   }
@@ -36,12 +33,7 @@ test('installAIArtifacts is idempotent when files are already installed', () => 
   const packageRoot = path.join(root, 'package')
 
   try {
-    const sourcePath = path.join(packageRoot, 'workflows/ai-artifacts.yml')
-    const schemaSourcePath = path.join(packageRoot, 'schemas/artifacts.schema.json')
-    fs.mkdirSync(path.dirname(sourcePath), { recursive: true })
-    fs.mkdirSync(path.dirname(schemaSourcePath), { recursive: true })
-    fs.writeFileSync(sourcePath, 'name: AI Artifacts\n', 'utf8')
-    fs.writeFileSync(schemaSourcePath, '{"title":"schema"}\n', 'utf8')
+    writePackageInstallFiles(packageRoot)
 
     const first = installAIArtifacts(root, { packageRoot })
     const second = installAIArtifacts(root, { packageRoot })
@@ -59,18 +51,17 @@ test('installAIArtifacts check mode fails when installed workflow is stale', () 
   const packageRoot = path.join(root, 'package')
 
   try {
-    const sourcePath = path.join(packageRoot, 'workflows/ai-artifacts.yml')
-    const schemaSourcePath = path.join(packageRoot, 'schemas/artifacts.schema.json')
     const targetPath = path.join(root, '.github/workflows/ai-artifacts.yml')
     const schemaTargetPath = path.join(root, '.ai-artifacts/schemas/artifacts.schema.json')
-    fs.mkdirSync(path.dirname(sourcePath), { recursive: true })
-    fs.mkdirSync(path.dirname(schemaSourcePath), { recursive: true })
     fs.mkdirSync(path.dirname(targetPath), { recursive: true })
     fs.mkdirSync(path.dirname(schemaTargetPath), { recursive: true })
-    fs.writeFileSync(sourcePath, 'name: AI Artifacts\n', 'utf8')
-    fs.writeFileSync(schemaSourcePath, '{"title":"schema"}\n', 'utf8')
+    writePackageInstallFiles(packageRoot)
     fs.writeFileSync(targetPath, 'name: stale\n', 'utf8')
     fs.writeFileSync(schemaTargetPath, '{"title":"schema"}\n', 'utf8')
+    fs.mkdirSync(path.join(root, '.claude/hooks'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'claude audit\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'opencode audit\n', 'utf8')
 
     assert.throws(() => installAIArtifacts(root, { check: true, packageRoot }), /workflow is stale/)
   } finally {
@@ -83,10 +74,7 @@ test('installAIArtifacts does not overwrite existing opencode artifact paths', (
   const packageRoot = path.join(root, 'package')
 
   try {
-    fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
-    fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })
-    fs.writeFileSync(path.join(packageRoot, 'workflows/ai-artifacts.yml'), 'name: AI Artifacts\n', 'utf8')
-    fs.writeFileSync(path.join(packageRoot, 'schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    writePackageInstallFiles(packageRoot)
     fs.mkdirSync(path.join(root, '.ai-artifacts'), { recursive: true })
     fs.writeFileSync(path.join(root, '.ai-artifacts/artifacts.yml'), `version: 1
 packages:
@@ -149,14 +137,15 @@ test('doctorAIArtifacts reports required setup and optional opencode outputs', (
     fs.mkdirSync(path.join(root, '.opencode/agent'), { recursive: true })
     fs.mkdirSync(path.join(root, '.opencode/skills'), { recursive: true })
     fs.writeFileSync(path.join(root, '.opencode/opencode.json'), '{}\n', 'utf8')
-    fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
-    fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })
-    fs.writeFileSync(path.join(packageRoot, 'workflows/ai-artifacts.yml'), 'name: AI Artifacts\n', 'utf8')
-    fs.writeFileSync(path.join(packageRoot, 'schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    writePackageInstallFiles(packageRoot)
     fs.mkdirSync(path.join(root, '.github/workflows'), { recursive: true })
     fs.mkdirSync(path.join(root, '.ai-artifacts/schemas'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.claude/hooks'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
     fs.writeFileSync(path.join(root, '.github/workflows/ai-artifacts.yml'), 'name: AI Artifacts\n', 'utf8')
     fs.writeFileSync(path.join(root, '.ai-artifacts/schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'claude audit\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'opencode audit\n', 'utf8')
 
     const result = doctorAIArtifacts(root, { packageRoot, env: { OPENCODE: '1' } })
 
@@ -167,3 +156,21 @@ test('doctorAIArtifacts reports required setup and optional opencode outputs', (
     fs.rmSync(root, { recursive: true, force: true })
   }
 })
+
+test('framework provides tool-specific audit files', () => {
+  assert.equal(fs.existsSync(path.join(__dirname, 'claude/install.js')), true)
+  assert.equal(fs.existsSync(path.join(__dirname, 'claude/audit-skill.js')), true)
+  assert.equal(fs.existsSync(path.join(__dirname, 'opencode/install.js')), true)
+  assert.equal(fs.existsSync(path.join(__dirname, 'opencode/skill-audit.js')), true)
+})
+
+function writePackageInstallFiles(packageRoot) {
+  fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
+  fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })
+  fs.mkdirSync(path.join(packageRoot, 'claude'), { recursive: true })
+  fs.mkdirSync(path.join(packageRoot, 'opencode'), { recursive: true })
+  fs.writeFileSync(path.join(packageRoot, 'workflows/ai-artifacts.yml'), 'name: AI Artifacts\n', 'utf8')
+  fs.writeFileSync(path.join(packageRoot, 'schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+  fs.writeFileSync(path.join(packageRoot, 'claude/audit-skill.js'), 'claude audit\n', 'utf8')
+  fs.writeFileSync(path.join(packageRoot, 'opencode/skill-audit.js'), 'opencode audit\n', 'utf8')
+}
