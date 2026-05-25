@@ -56,6 +56,9 @@ function checkSourceDir(root) {
   if (!fs.existsSync(configPath)) return pass('sourceDir: no config')
 
   const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
+  const usesLocal = (config.artifacts || []).some((a) => a.steps.some((s) => (s.copy && s.copy.from.startsWith('local:')) || (s.render && s.render.from.startsWith('local:'))))
+  if (!usesLocal) return pass('sourceDir: no local references')
+
   const sourceDir = config.sourceDir || '.ai-artifacts/files'
   if (sourceDir.startsWith('.ai-artifacts')) {
     const resolvedDir = path.join(root, sourceDir)
