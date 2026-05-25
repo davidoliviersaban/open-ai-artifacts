@@ -27,16 +27,50 @@ function installAIArtifacts(root = DEFAULT_ROOT, options = {}) {
     {
       label: 'OpenCode skill audit plugin',
       source: path.join(packageRoot, 'opencode/skill-audit.js'),
-      target: path.join(root, '.opencode/plugin/skill-audit.js'),
+      target: path.join(root, '.opencode/plugins/skill-audit.js'),
     },
   ]
   const results = files.map((file) => installFile(file, options))
+  results.push(installLegacyOpencodePluginLink(root, options))
   const installed = results.some((result) => result.installed)
   const checked = results.every((result) => result.checked)
 
   const toolResults = options.check ? [] : installToolArtifacts(root)
 
   return { installed: installed || toolResults.length > 0, checked, files: results, tools: toolResults }
+}
+
+function installLegacyOpencodePluginLink(root, options) {
+  const label = 'OpenCode legacy skill audit plugin link'
+  const target = path.join(root, '.opencode/plugins/skill-audit.js')
+  const link = path.join(root, '.opencode/plugin/skill-audit.js')
+  const relativeTarget = path.relative(path.dirname(link), target)
+  const existing = fs.lstatSync(link, { throwIfNoEntry: false })
+
+  if (options.check) {
+    if (!existing || !existing.isSymbolicLink() || path.normalize(fs.readlinkSync(link)) !== path.normalize(relativeTarget)) {
+      throw new Error(`installed ${label} is stale`)
+    }
+    return { installed: false, checked: true, source: target, target: link, label }
+  }
+
+  fs.mkdirSync(path.dirname(link), { recursive: true })
+  if (existing) {
+    if (existing.isSymbolicLink() && path.normalize(fs.readlinkSync(link)) === path.normalize(relativeTarget)) {
+      return { installed: false, checked: false, source: target, target: link, label }
+    }
+    if (!existing.isFile() || !isManagedLegacyOpencodePlugin(fs.readFileSync(link, 'utf8'))) {
+      throw new Error(`${label} target exists and is not managed by ai-artifacts: ${link}`)
+    }
+    fs.unlinkSync(link)
+  }
+
+  fs.symlinkSync(relativeTarget, link)
+  return { installed: true, checked: false, source: target, target: link, label }
+}
+
+function isManagedLegacyOpencodePlugin(content) {
+  return content.includes('const fs = require(\'node:fs\')') && content.includes('detectSkillUsage') && content.includes("const auditFile = path.join(root, '.ai-artifacts', 'audit.jsonl')")
 }
 
 function installFile(file, options) {

@@ -9,4 +9,5 @@ node_modules/
 .ai-artifacts/schemas/
 .ai-artifacts/audit.jsonl
 .ai-artifacts/audit.local.jsonl
+.ai-artifacts/opencode-plugin-debug.jsonl
 .ai-artifacts/tools.audit.jsonl

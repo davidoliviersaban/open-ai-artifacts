@@ -24,7 +24,9 @@ test('installAIArtifacts installs packaged files to repo paths', () => {
     assert.equal(fs.readFileSync(targetPath, 'utf8'), 'name: AI Artifacts\n')
     assert.equal(fs.readFileSync(schemaTargetPath, 'utf8'), '{"title":"schema"}\n')
     assert.equal(fs.readFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'utf8'), 'claude audit\n')
-    assert.equal(fs.readFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'utf8'), 'opencode audit\n')
+    assert.equal(fs.readFileSync(path.join(root, '.opencode/plugins/skill-audit.js'), 'utf8'), 'opencode audit\n')
+    assert.equal(fs.lstatSync(path.join(root, '.opencode/plugin/skill-audit.js')).isSymbolicLink(), true)
+    assert.equal(fs.readlinkSync(path.join(root, '.opencode/plugin/skill-audit.js')), '../plugins/skill-audit.js')
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
   }
@@ -48,6 +50,48 @@ test('installAIArtifacts is idempotent when files are already installed', () => 
   }
 })
 
+test('installAIArtifacts migrates legacy opencode plugin file to symlink', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-opencode-legacy-'))
+  const packageRoot = path.join(root, 'package')
+
+  try {
+    writePackageInstallFiles(packageRoot)
+    fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
+    fs.writeFileSync(
+      path.join(root, '.opencode/plugin/skill-audit.js'),
+      "const fs = require('node:fs')\nfunction detectSkillUsage() {}\nconst auditFile = path.join(root, '.ai-artifacts', 'audit.jsonl')\n",
+      'utf8',
+    )
+
+    installAIArtifacts(root, { packageRoot })
+
+    assert.equal(fs.readFileSync(path.join(root, '.opencode/plugins/skill-audit.js'), 'utf8'), 'opencode audit\n')
+    assert.equal(fs.lstatSync(path.join(root, '.opencode/plugin/skill-audit.js')).isSymbolicLink(), true)
+    assert.equal(fs.readlinkSync(path.join(root, '.opencode/plugin/skill-audit.js')), '../plugins/skill-audit.js')
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('installAIArtifacts does not replace custom legacy opencode plugin file', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-opencode-custom-'))
+  const packageRoot = path.join(root, 'package')
+
+  try {
+    writePackageInstallFiles(packageRoot)
+    fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'custom plugin\n', 'utf8')
+
+    assert.throws(
+      () => installAIArtifacts(root, { packageRoot }),
+      /OpenCode legacy skill audit plugin link target exists and is not managed by ai-artifacts/,
+    )
+    assert.equal(fs.readFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'utf8'), 'custom plugin\n')
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
 test('installAIArtifacts check mode fails when installed workflow is stale', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-check-'))
   const packageRoot = path.join(root, 'package')
@@ -61,9 +105,11 @@ test('installAIArtifacts check mode fails when installed workflow is stale', () 
     fs.writeFileSync(targetPath, 'name: stale\n', 'utf8')
     fs.writeFileSync(schemaTargetPath, '{"title":"schema"}\n', 'utf8')
     fs.mkdirSync(path.join(root, '.claude/hooks'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.opencode/plugins'), { recursive: true })
     fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
     fs.writeFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'claude audit\n', 'utf8')
-    fs.writeFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'opencode audit\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.opencode/plugins/skill-audit.js'), 'opencode audit\n', 'utf8')
+    fs.symlinkSync('../plugins/skill-audit.js', path.join(root, '.opencode/plugin/skill-audit.js'))
 
     assert.throws(() => installAIArtifacts(root, { check: true, packageRoot }), /workflow is stale/)
   } finally {
@@ -143,11 +189,13 @@ test('doctorAIArtifacts reports required setup and optional opencode outputs', (
     fs.mkdirSync(path.join(root, '.github/workflows'), { recursive: true })
     fs.mkdirSync(path.join(root, '.ai-artifacts/schemas'), { recursive: true })
     fs.mkdirSync(path.join(root, '.claude/hooks'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.opencode/plugins'), { recursive: true })
     fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
     fs.writeFileSync(path.join(root, '.github/workflows/ai-artifacts.yml'), 'name: AI Artifacts\n', 'utf8')
     fs.writeFileSync(path.join(root, '.ai-artifacts/schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
     fs.writeFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'claude audit\n', 'utf8')
-    fs.writeFileSync(path.join(root, '.opencode/plugin/skill-audit.js'), 'opencode audit\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.opencode/plugins/skill-audit.js'), 'opencode audit\n', 'utf8')
+    fs.symlinkSync('../plugins/skill-audit.js', path.join(root, '.opencode/plugin/skill-audit.js'))
 
     const result = doctorAIArtifacts(root, { packageRoot, env: { OPENCODE: '1' } })
 
