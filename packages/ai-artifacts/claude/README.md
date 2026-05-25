@@ -7,7 +7,7 @@ The installer tries to copy these files into the consuming repository, but local
 - `install.js` checks and installs Claude-related repository artifacts.
 - `audit-skill.js` is the local skill audit hook installed to `.claude/hooks/audit-skill.js`.
 
-The hook appends local JSONL entries to `.ai-artifacts/audit.jsonl`. The audit file is ignored by Git so each developer keeps their own local usage trail.
+The hook appends local JSONL entries to `.ai-artifacts/audit.jsonl`. The audit file is ignored by Git so each developer keeps their own local usage trail. Each entry records `invocation_tool: "claude-code"`, `invocation_origin` (`user` or `agent`) and `invocation_agent` when Claude exposes a named agent/subagent.
 
 Expected installed location:
 
