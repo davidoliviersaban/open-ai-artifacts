@@ -81,3 +81,43 @@ artifacts:
           to: SKILL.md
           overlays:
             - hve/repo-context.md
+
+  - id: prompt-build
+    kind: skill
+    targetDir: .opencode/skills/prompt-build
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/prompt-build.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/prompt-context.md
+
+  - id: prompt-analyze
+    kind: skill
+    targetDir: .opencode/skills/prompt-analyze
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/prompt-analyze.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/prompt-context.md
+
+  - id: prompt-refactor
+    kind: skill
+    targetDir: .opencode/skills/prompt-refactor
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/prompt-refactor.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/prompt-context.md
+
+  - id: doc-ops-update
+    kind: skill
+    targetDir: .opencode/skills/doc-ops-update
+    steps:
+      - render:
+          from: hve-core:.github/prompts/hve-core/doc-ops-update.prompt.md
+          to: SKILL.md
+          overlays:
+            - hve/doc-context.md

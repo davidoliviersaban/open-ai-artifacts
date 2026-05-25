@@ -19,8 +19,8 @@ artifacts:
         type: copy
         from: local:AGENTS.md
         to: AGENTS.md
-        sourceHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
-        generatedHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
+        sourceHash: sha256:3a731081a20867bea6110cd75f4a23739dab30b93d687981f737fe71826ea65c
+        generatedHash: sha256:3a731081a20867bea6110cd75f4a23739dab30b93d687981f737fe71826ea65c
   claude-instructions:
     kind: agent
     target: CLAUDE.md
@@ -33,8 +33,8 @@ artifacts:
         type: copy
         from: local:AGENTS.md
         to: CLAUDE.md
-        sourceHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
-        generatedHash: sha256:ab1754ad26060f293c566d3755fcf4dee74c6578105ebdc0ae65c723381cc47d
+        sourceHash: sha256:3a731081a20867bea6110cd75f4a23739dab30b93d687981f737fe71826ea65c
+        generatedHash: sha256:3a731081a20867bea6110cd75f4a23739dab30b93d687981f737fe71826ea65c
   whitepaper-editor:
     kind: skill
     targetDir: .opencode/skills/whitepaper-editor
@@ -47,8 +47,8 @@ artifacts:
         type: copy
         from: local:SKILL.md
         to: SKILL.md
-        sourceHash: sha256:f76e51ce9209f3b4269a7d8d98d7a044724e172a26244573946c1d7512919ea8
-        generatedHash: sha256:f76e51ce9209f3b4269a7d8d98d7a044724e172a26244573946c1d7512919ea8
+        sourceHash: sha256:8832cf38efa6b960b5c979d24e0a57559d9319f7310e7249be514ebbe1abd015
+        generatedHash: sha256:8832cf38efa6b960b5c979d24e0a57559d9319f7310e7249be514ebbe1abd015
   package-maintainer:
     kind: skill
     targetDir: .opencode/skills/package-maintainer
@@ -61,8 +61,8 @@ artifacts:
         type: copy
         from: local:SKILL.md
         to: SKILL.md
-        sourceHash: sha256:519eb015ce1df7532179a59a9194b6e855e76a0a354b84f362e1e01a3026340c
-        generatedHash: sha256:519eb015ce1df7532179a59a9194b6e855e76a0a354b84f362e1e01a3026340c
+        sourceHash: sha256:f911d7edb6835dd8f44e7af548e2d18cd14b9bcd9ee822dd11b4f63a88e89151
+        generatedHash: sha256:f911d7edb6835dd8f44e7af548e2d18cd14b9bcd9ee822dd11b4f63a88e89151
   task-research-guidelines:
     kind: skill
     targetDir: .opencode/skills/task-research-guidelines
@@ -76,8 +76,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-research.prompt.md
         to: SKILL.md
         sourceHash: sha256:79f5c17d5574fa943993658ddba557f97ee560d72c7a61e58cfde64486eac32a
-        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
-        generatedHash: sha256:738d2d83e8c6685ca114c3b6616939ebd00c1fe74f4efc268a6c86d2a52f50a1
+        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
+        generatedHash: sha256:a8c62275d3fb2a0f7b4566388f09156c1261fd8c88d9007238a08a9e4aeb27e0
   task-plan-guidelines:
     kind: skill
     targetDir: .opencode/skills/task-plan-guidelines
@@ -91,8 +91,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-plan.prompt.md
         to: SKILL.md
         sourceHash: sha256:5af7ff5ad380626e77c19e8f43b9510d69b60ca6400ec0e7b6a8239f3fb15772
-        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
-        generatedHash: sha256:cc750cd318c2fa2bc2e42a8795019f0d0f622d2db240fe98ac26dc2e90f337a1
+        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
+        generatedHash: sha256:c4c77de7114122e1d99c2991d7632614acf47bc21cbd88ecc0501aaf2db298b3
   task-implement-guidelines:
     kind: skill
     targetDir: .opencode/skills/task-implement-guidelines
@@ -106,8 +106,8 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-implement.prompt.md
         to: SKILL.md
         sourceHash: sha256:7a5ca125137eb213cf2c1f0ccd0d3a0a3ede16648cf02493e63a32816678db93
-        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
-        generatedHash: sha256:1e74143c4f0d2a68601f2439e11566af0e5669982aec7f556b3301ac4c31a8bb
+        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
+        generatedHash: sha256:7e62adf64707fffee63b010e92e41b22e4aa14509aeafe40f1557d8bcc9ba8c3
   task-review-checklist:
     kind: skill
     targetDir: .opencode/skills/task-review-checklist
@@ -121,5 +121,65 @@ artifacts:
         from: hve-core:.github/prompts/hve-core/task-review.prompt.md
         to: SKILL.md
         sourceHash: sha256:f082943eefe64c44b321c0725ab7119dedf810ce0852273978073c412db3a7ae
-        overlayHash: sha256:ae844c0f9e6d0976d7b01e06da9cb85b2049c87e7d081c5cddd741151a82c8f6
-        generatedHash: sha256:fb37358d27563a65458a31b081bfb8af5ab8be49216c0a450b6b38f872afa39a
+        overlayHash: sha256:0319f1d1a5a5ed8260c4cd3907ac7d581c3d1c71e05810bf1912595749d0f3dd
+        generatedHash: sha256:17849f480e8cd259ff6efa7ce86cde0ed089229eeecd85df197dfb32c854fc72
+  prompt-build:
+    kind: skill
+    targetDir: .opencode/skills/prompt-build
+    outputs:
+      - path: .opencode/skills/prompt-build/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/prompt-build.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:136fa53eadccf9966ba7a1422d16897c11c555f7059c8aab8f2050510e8e3b8b
+        overlayHash: sha256:ff7337fb8b86fdfccc89f7c160213b4a42e809a8b9b5311f2391d7d55975d425
+        generatedHash: sha256:e7aed5ef35a96e5166a00776135b98d169036a17e7510072da3a6815506c42ed
+  prompt-analyze:
+    kind: skill
+    targetDir: .opencode/skills/prompt-analyze
+    outputs:
+      - path: .opencode/skills/prompt-analyze/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/prompt-analyze.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:8a09525418d5e8930b511d0d61653137d194b16e19589919120fc3b01c1df1c7
+        overlayHash: sha256:ff7337fb8b86fdfccc89f7c160213b4a42e809a8b9b5311f2391d7d55975d425
+        generatedHash: sha256:d2d7710a06005fb0e16c3c41e6dccbff2194d3ab70dcb066c064e0575d8cf24e
+  prompt-refactor:
+    kind: skill
+    targetDir: .opencode/skills/prompt-refactor
+    outputs:
+      - path: .opencode/skills/prompt-refactor/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/prompt-refactor.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:33c1d1bb851f07d50f5b950aa5b9db260a402ddc83d38e2843e639b673204e81
+        overlayHash: sha256:ff7337fb8b86fdfccc89f7c160213b4a42e809a8b9b5311f2391d7d55975d425
+        generatedHash: sha256:a717644eaa11468af005e1d454383a045ec2a23ab4d6e4446c451b39a1824167
+  doc-ops-update:
+    kind: skill
+    targetDir: .opencode/skills/doc-ops-update
+    outputs:
+      - path: .opencode/skills/doc-ops-update/SKILL.md
+        type: file
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: render
+        from: hve-core:.github/prompts/hve-core/doc-ops-update.prompt.md
+        to: SKILL.md
+        sourceHash: sha256:3a1ac69bd6c501efc156572f0d64a2dd57cc3f1da3aa35e6e5147c69775e0d71
+        overlayHash: sha256:a086a74ac5f3a9c7c6c970f2413dddd7e0df39fa6745c7463ff1e97d110193a8
+        generatedHash: sha256:5d74fb8fa7ac926db2e89ded44f4299a07f1a5f8f76f3fb080f44ca1148d505a

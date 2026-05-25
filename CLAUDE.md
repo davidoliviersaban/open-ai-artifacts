@@ -55,10 +55,10 @@ npm run validate:ai-artifacts
 
 ## Whitepaper Editorial Rules
 
-- Write in French with accents.
+- Write in the language requested for the document, respecting that language's punctuation, typography and grammar rules.
 - Keep the tone direct, practical and management-friendly.
 - Preserve the author's voice: practitioner, not academic.
-- Use first person for the project experience: `mon projet test`, `nous`.
+- Use first person for the project experience in the document's language, for example `my test project` and `we` in English.
 - Do not refer impersonally to Storefront as an external case study.
 - The long version can be more detailed and manifesto-like.
 - The management version must be shorter, but not reduced to tables.
@@ -83,7 +83,6 @@ npm run validate:ai-artifacts
 
 ## Do Not Do
 
-- Do not create or maintain `.eml` files. Email sending is out of scope for this repo.
 - Do not replace narrative proof with table-only content.
 - Do not manually edit generated `.generated.tex` files if they appear.
 - Do not introduce a central imposed framework tone.
