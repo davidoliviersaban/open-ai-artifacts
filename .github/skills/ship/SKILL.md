@@ -25,19 +25,16 @@ Run all pre-commit validations then generate a commit message and the exact comm
    - Body: 1-3 bullet points explaining WHY, not what
    - Types: feat, fix, refactor, chore, docs, test
 
-5. **Output the ship script**: Print the exact commands the user should run:
+5. **Commit and push**: Execute:
+   - `git commit -m "<generated message>\n\nCo-Authored-By: <agent> <noreply@anthropic.com>"`
+   - `git push`
 
-```bash
-git commit -m "<generated message>
-
-Co-Authored-By: <agent> <noreply@anthropic.com>"
-git push
-```
+6. **Report**: Confirm what was shipped (commit hash, branch, remote).
 
 ## Rules
 
-- Do NOT commit or push yourself. Only output the commands.
-- Do NOT skip validations. All must pass before generating the commit message.
+- Do NOT skip validations. All must pass before committing.
 - If the user provided a `message=` argument, use it as the commit message instead of generating one (still validate first).
 - Keep commit messages concise. The diff speaks for itself.
-- If doc-check finds issues, list them and stop — do not generate a commit message with known stale docs.
+- If doc-check finds issues, list them and stop — do not commit with known stale docs.
+- If tests or validation fail, stop and report. Do not retry automatically.

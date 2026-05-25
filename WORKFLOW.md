@@ -20,10 +20,6 @@ This project enforces a structured workflow for any code or configuration change
 - If a step reveals issues, loop back to the appropriate earlier step before continuing.
 - Do not commit or push until step 4 (and step 5 if applicable) passes cleanly.
 
-## Validation before commit
+## Ship
 
-Before committing, verify:
-1. `npm run test:ai-artifacts` passes
-2. `npm run validate:ai-artifacts` passes
-3. `/task-review-checklist` has no blocking findings
-4. `/doc-check` reports no stale documentation (when applicable)
+Once implementation and review are done, call `/ship` to validate, commit and push. It runs tests, validation, doc-check, generates the commit message and executes git commit+push in one pass.
