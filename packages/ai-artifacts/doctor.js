@@ -21,6 +21,7 @@ function doctorAIArtifacts(root, options = {}) {
   checks.push(checkOptionalDir(path.join(root, '.opencode/skills'), 'opencode project skills exist'))
   checks.push(checkInstalledFiles(root, packageRoot))
   checks.push(checkSourceDir(root))
+  checks.push(...checkRedundantCopies(root))
   checks.push(...checkClaudeSetup(root))
   checks.push(...checkOpencodeSetup(root))
 
@@ -60,9 +61,33 @@ function checkSourceDir(root) {
     const resolvedDir = path.join(root, sourceDir)
     const hasFiles = fs.existsSync(resolvedDir) && fs.readdirSync(resolvedDir).length > 0
     const detail = hasFiles ? ` (${sourceDir}/ contains files)` : ''
-    return warn(`sourceDir is inside .ai-artifacts${detail} — consider moving sources to a visible directory (e.g. .github/prompts) and setting sourceDir in artifacts.yml`)
+    return warn(`sourceDir is inside .ai-artifacts${detail} — set sourceDir to a visible directory (e.g. .github/ai-sources) in artifacts.yml, or place files directly at their target and use link steps to avoid duplication`)
   }
   return pass(`sourceDir: ${sourceDir}`)
+}
+
+function checkRedundantCopies(root) {
+  const configPath = path.join(root, '.ai-artifacts/artifacts.yml')
+  if (!fs.existsSync(configPath)) return []
+
+  const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
+  const warnings = []
+
+  for (const artifact of config.artifacts || []) {
+    for (const step of artifact.steps) {
+      if (!step.copy) continue
+      const [prefix] = step.copy.from.split(':')
+      if (prefix !== 'local' && prefix !== 'root') continue
+      const hasOverlays = artifact.steps.some((s) => s.render && (s.render.overlays || []).length > 0)
+      const hasSubstitutions = artifact.steps.some((s) => s.render && (s.render.substitutions || []).length > 0)
+      if (!hasOverlays && !hasSubstitutions) {
+        const target = artifact.target || `${artifact.targetDir}/${step.copy.to}`
+        warnings.push(warn(`artifact ${artifact.id}: copies local file to ${target} — consider placing the file directly at its target and using a link step or removing the artifact`))
+      }
+    }
+  }
+
+  return warnings.length > 0 ? warnings : [pass('no redundant local copies')]
 }
 
 function checkOpencodeSetup(root) {
