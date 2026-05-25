@@ -105,6 +105,20 @@ function linkAuditFile(mainRoot, worktreePath) {
   log('Audit file symlinked to main repo.')
 }
 
+function linkVendorDir(mainRoot, worktreePath) {
+  const vendorSource = path.join(mainRoot, '.ai-artifacts', 'vendor')
+  if (!fs.existsSync(vendorSource)) return
+  const vendorTarget = path.join(worktreePath, '.ai-artifacts', 'vendor')
+  fs.mkdirSync(path.dirname(vendorTarget), { recursive: true })
+  const existing = fs.lstatSync(vendorTarget, { throwIfNoEntry: false })
+  if (existing) {
+    if (existing.isSymbolicLink()) return
+    fs.rmSync(vendorTarget, { recursive: true })
+  }
+  fs.symlinkSync(vendorSource, vendorTarget)
+  log('Vendor directory symlinked to main repo.')
+}
+
 function cmdCreate(args) {
   const branch = args[0]
   if (!branch) usage(1)
@@ -162,6 +176,7 @@ function cmdCreate(args) {
   saveRegistry(mainRoot, registry)
 
   linkAuditFile(mainRoot, worktreePath)
+  linkVendorDir(mainRoot, worktreePath)
 
   if (!skipInstall) {
     try {
