@@ -11,7 +11,7 @@ packages:
     version: hve-core-v3.2.2
 
 artifacts:
-  # --- Claude Code (symlinks to shared artifacts) ---
+  # --- Tool symlinks (source of truth is .github/) ---
 
   - id: claude-instructions
     kind: agent
@@ -26,14 +26,32 @@ artifacts:
     target: .claude/commands
     steps:
       - link:
-          target: .opencode/skills
+          target: .github/skills
           to: .claude/commands
 
-  # --- OpenCode skills (rendered from upstream + overlays) ---
+  # --- OpenCode (symlinks to .github/ source of truth) ---
+
+  - id: opencode-skills
+    kind: config
+    target: .opencode/skills
+    steps:
+      - link:
+          target: .github/skills
+          to: .opencode/skills
+
+  - id: opencode-agents
+    kind: config
+    target: .opencode/agent
+    steps:
+      - link:
+          target: .github/agent
+          to: .opencode/agent
+
+  # --- Skills (rendered from upstream + overlays) ---
 
   - id: task-research-guidelines
     kind: skill
-    targetDir: .opencode/skills/task-research-guidelines
+    targetDir: .github/skills/task-research-guidelines
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/task-research.prompt.md
@@ -48,7 +66,7 @@ artifacts:
 
   - id: task-plan-guidelines
     kind: skill
-    targetDir: .opencode/skills/task-plan-guidelines
+    targetDir: .github/skills/task-plan-guidelines
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/task-plan.prompt.md
@@ -63,7 +81,7 @@ artifacts:
 
   - id: task-implement-guidelines
     kind: skill
-    targetDir: .opencode/skills/task-implement-guidelines
+    targetDir: .github/skills/task-implement-guidelines
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/task-implement.prompt.md
@@ -78,7 +96,7 @@ artifacts:
 
   - id: task-review-checklist
     kind: skill
-    targetDir: .opencode/skills/task-review-checklist
+    targetDir: .github/skills/task-review-checklist
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/task-review.prompt.md
@@ -93,7 +111,7 @@ artifacts:
 
   - id: prompt-build
     kind: skill
-    targetDir: .opencode/skills/prompt-build
+    targetDir: .github/skills/prompt-build
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/prompt-build.prompt.md
@@ -108,7 +126,7 @@ artifacts:
 
   - id: prompt-analyze
     kind: skill
-    targetDir: .opencode/skills/prompt-analyze
+    targetDir: .github/skills/prompt-analyze
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/prompt-analyze.prompt.md
@@ -123,7 +141,7 @@ artifacts:
 
   - id: prompt-refactor
     kind: skill
-    targetDir: .opencode/skills/prompt-refactor
+    targetDir: .github/skills/prompt-refactor
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/prompt-refactor.prompt.md
@@ -138,7 +156,7 @@ artifacts:
 
   - id: doc-ops-update
     kind: skill
-    targetDir: .opencode/skills/doc-ops-update
+    targetDir: .github/skills/doc-ops-update
     steps:
       - render:
           from: hve-core:.github/prompts/hve-core/doc-ops-update.prompt.md

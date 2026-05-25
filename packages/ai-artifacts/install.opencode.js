@@ -7,17 +7,50 @@ function check(root, config) {
   const issues = []
   for (const artifact of getOpencodeArtifacts(config)) {
     const targetPath = artifact.target ? path.join(root, artifact.target) : path.join(root, artifact.targetDir)
-    if (!fs.existsSync(targetPath)) {
-      issues.push({ artifact: artifact.id, path: artifact.target || artifact.targetDir, issue: 'missing' })
+    const linkStep = (artifact.steps || []).find((s) => s.link)
+
+    if (linkStep) {
+      const linkPath = path.join(root, linkStep.link.to)
+      const expectedTarget = path.relative(path.dirname(linkPath), path.join(root, linkStep.link.target))
+      const stat = fs.lstatSync(linkPath, { throwIfNoEntry: false })
+      if (!stat) {
+        issues.push({ artifact: artifact.id, path: linkStep.link.to, issue: 'missing' })
+      } else if (!stat.isSymbolicLink()) {
+        issues.push({ artifact: artifact.id, path: linkStep.link.to, issue: 'expected symlink, found regular file/directory — remove it and run sync' })
+      } else {
+        const actual = fs.readlinkSync(linkPath)
+        if (path.normalize(actual) !== path.normalize(expectedTarget)) {
+          issues.push({ artifact: artifact.id, path: linkStep.link.to, issue: `symlink points to ${actual}, expected ${expectedTarget}` })
+        }
+      }
+    } else {
+      if (!fs.existsSync(targetPath)) {
+        issues.push({ artifact: artifact.id, path: artifact.target || artifact.targetDir, issue: 'missing' })
+      }
     }
   }
   return { ok: issues.length === 0, issues }
 }
 
 function install(root, config) {
-  const issues = check(root, config)
-  if (issues.ok) return []
-  return issues.issues
+  const installed = []
+  for (const artifact of getOpencodeArtifacts(config)) {
+    const linkStep = (artifact.steps || []).find((s) => s.link)
+    if (!linkStep) continue
+
+    const linkPath = path.join(root, linkStep.link.to)
+    const targetPath = path.join(root, linkStep.link.target)
+    const relativeTarget = path.relative(path.dirname(linkPath), targetPath)
+
+    const existing = fs.lstatSync(linkPath, { throwIfNoEntry: false })
+    if (existing && existing.isSymbolicLink() && path.normalize(fs.readlinkSync(linkPath)) === path.normalize(relativeTarget)) continue
+    if (existing) fs.rmSync(linkPath, { recursive: true, force: true })
+
+    fs.mkdirSync(path.dirname(linkPath), { recursive: true })
+    fs.symlinkSync(relativeTarget, linkPath)
+    installed.push({ artifact: artifact.id, path: linkStep.link.to, target: linkStep.link.target })
+  }
+  return installed
 }
 
 function getOpencodeArtifacts(config) {

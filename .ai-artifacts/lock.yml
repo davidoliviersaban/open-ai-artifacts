@@ -30,14 +30,40 @@ artifacts:
     steps:
       - index: 0
         type: link
-        target: .opencode/skills
+        target: .github/skills
         to: .claude/commands
-        generatedHash: sha256:af366ffdfd71a0d366a64628b96e3918ffc6cb669b2919f8dcda28377e64c0da
+        generatedHash: sha256:e1863d3087a3b0a106ce13a5d1adb5e548f5c9e3ed500913c8b1cc104f938927
+  opencode-skills:
+    kind: config
+    target: .opencode/skills
+    outputs:
+      - path: .opencode/skills
+        type: symlink
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: link
+        target: .github/skills
+        to: .opencode/skills
+        generatedHash: sha256:e1863d3087a3b0a106ce13a5d1adb5e548f5c9e3ed500913c8b1cc104f938927
+  opencode-agents:
+    kind: config
+    target: .opencode/agent
+    outputs:
+      - path: .opencode/agent
+        type: symlink
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: link
+        target: .github/agent
+        to: .opencode/agent
+        generatedHash: sha256:9a6ee9bf01bdd69a74cb506fef667514378b0e798fc1d2567818e077618b9d42
   task-research-guidelines:
     kind: skill
-    targetDir: .opencode/skills/task-research-guidelines
+    targetDir: .github/skills/task-research-guidelines
     outputs:
-      - path: .opencode/skills/task-research-guidelines/SKILL.md
+      - path: .github/skills/task-research-guidelines/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -50,9 +76,9 @@ artifacts:
         generatedHash: sha256:999bd6fc2f44bfa9d3c06b8b85f891bae75bc3586e980105c23735e1c78a9c07
   task-plan-guidelines:
     kind: skill
-    targetDir: .opencode/skills/task-plan-guidelines
+    targetDir: .github/skills/task-plan-guidelines
     outputs:
-      - path: .opencode/skills/task-plan-guidelines/SKILL.md
+      - path: .github/skills/task-plan-guidelines/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -65,9 +91,9 @@ artifacts:
         generatedHash: sha256:d69a7d351fb50b242c91f900608bccde8a7cfa62f1f76264d5f3a09a21ef44dd
   task-implement-guidelines:
     kind: skill
-    targetDir: .opencode/skills/task-implement-guidelines
+    targetDir: .github/skills/task-implement-guidelines
     outputs:
-      - path: .opencode/skills/task-implement-guidelines/SKILL.md
+      - path: .github/skills/task-implement-guidelines/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -80,9 +106,9 @@ artifacts:
         generatedHash: sha256:431fe3bbed756ab4a2cfa6fd017fdc56e1d8a400d75986d2f61d81a62ee80f8a
   task-review-checklist:
     kind: skill
-    targetDir: .opencode/skills/task-review-checklist
+    targetDir: .github/skills/task-review-checklist
     outputs:
-      - path: .opencode/skills/task-review-checklist/SKILL.md
+      - path: .github/skills/task-review-checklist/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -95,9 +121,9 @@ artifacts:
         generatedHash: sha256:09dd3cd5f7b411215e44c9ebb083ca0d6466e3da3fd80765713d5aff67bcce7d
   prompt-build:
     kind: skill
-    targetDir: .opencode/skills/prompt-build
+    targetDir: .github/skills/prompt-build
     outputs:
-      - path: .opencode/skills/prompt-build/SKILL.md
+      - path: .github/skills/prompt-build/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -110,9 +136,9 @@ artifacts:
         generatedHash: sha256:c90f50ba9856152d10ae8e93eb93c311a9fc4f8115ce3db2171eda8ad01b7d3d
   prompt-analyze:
     kind: skill
-    targetDir: .opencode/skills/prompt-analyze
+    targetDir: .github/skills/prompt-analyze
     outputs:
-      - path: .opencode/skills/prompt-analyze/SKILL.md
+      - path: .github/skills/prompt-analyze/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -125,9 +151,9 @@ artifacts:
         generatedHash: sha256:2bfd49230e69cf9bd33dff96937fce8212dbbbe07422d7c65d860cb4a6dc3256
   prompt-refactor:
     kind: skill
-    targetDir: .opencode/skills/prompt-refactor
+    targetDir: .github/skills/prompt-refactor
     outputs:
-      - path: .opencode/skills/prompt-refactor/SKILL.md
+      - path: .github/skills/prompt-refactor/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
@@ -140,9 +166,9 @@ artifacts:
         generatedHash: sha256:e4bd1bc1c854845c7931bd08078dd99ab3063e7a5034a2a34be8d46b90a8058f
   doc-ops-update:
     kind: skill
-    targetDir: .opencode/skills/doc-ops-update
+    targetDir: .github/skills/doc-ops-update
     outputs:
-      - path: .opencode/skills/doc-ops-update/SKILL.md
+      - path: .github/skills/doc-ops-update/SKILL.md
         type: file
         regenerate: npm run ai-artifacts:sync
     steps:
