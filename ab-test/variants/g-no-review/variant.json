@@ -1,0 +1,12 @@
+{
+  "id": "g-no-review",
+  "name": "Full pipeline minus /task-review-checklist",
+  "description": "All skills except review. Tests if self-review catches errors the agent would otherwise miss.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "disabled_skills": ["task-review-checklist"],
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

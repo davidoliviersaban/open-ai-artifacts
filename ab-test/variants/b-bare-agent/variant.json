@@ -1,0 +1,11 @@
+{
+  "id": "b-bare-agent",
+  "name": "No CLAUDE.md, no skills, just the prompt",
+  "description": "Normal Claude Code but with CLAUDE.md removed and skills disabled. Tests what the agent does with zero project context.",
+  "claude_md": "none",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": true,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

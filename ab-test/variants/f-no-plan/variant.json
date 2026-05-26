@@ -1,0 +1,12 @@
+{
+  "id": "f-no-plan",
+  "name": "Full pipeline minus /task-plan-guidelines",
+  "description": "All skills except planning. Tests if planning phase helps on a medium-complexity task.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "disabled_skills": ["task-plan-guidelines"],
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

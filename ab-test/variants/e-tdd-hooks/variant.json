@@ -1,0 +1,13 @@
+{
+  "id": "e-tdd-hooks",
+  "name": "TDD/refactoring guidance + hook enforcement",
+  "description": "Minimal CLAUDE.md with TDD/Tidy First coding approach combined with mechanical hook enforcement (tests run after edits, Stop gate).",
+  "claude_md": "custom",
+  "claude_md_content": "# ai-artifacts\n\n## Project Context\n\nThis repo incubates `ai-artifacts`, an internal Node.js package for managing AI prompt/skill artifacts.\n\n| Area | Path | Purpose |\n|------|------|------|\n| Package | `packages/ai-artifacts/` | CLI/library for versioning and composing AI artifacts |\n| Tests | `packages/ai-artifacts/*.test.js` | Node.js native test runner |\n\n## How to validate\n\n```bash\nnpm run test:ai-artifacts\nnpm run validate:ai-artifacts\n```\n\n## Coding Approach\n\n- Behavior first: identify the observable behavior, acceptance criteria or failing test that justifies the change.\n- Test where useful: prefer a small regression/unit test before changing behavior; use ATDD-style examples when the behavior is user-facing.\n- Tidy first when it reduces risk: separate small structural cleanup from behavior changes when it makes the intended change safer.\n- Refactor in small steps: preserve behavior, keep tests green, and avoid mixing broad cleanup with feature work.\n- Single responsibility: is this function or file doing one coherent job?\n- Composability: would a small extraction make the behavior easier to test or reuse without adding ceremony?\n- Practicality: is the abstraction justified by current usage, or is a little duplication clearer until the feature proves itself in real use?\n- Do not over-apply the rules. For new or unvalidated features, prefer local clarity, explicit tests and modest duplication over premature frameworks.\n\n## Guardrails\n\n- Do not add external dependencies unless strictly necessary\n- Follow existing patterns in the same directory\n- Keep changes minimal and focused",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "hooks": true,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

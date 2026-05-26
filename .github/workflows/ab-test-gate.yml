@@ -1,0 +1,69 @@
+name: A/B Test Gate
+
+on:
+  pull_request:
+    paths:
+      - '.ai-artifacts/**'
+      - '.github/overlays/**'
+      - '.github/skills/**'
+      - '.claude/hooks/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-benchmark:
+    name: Verify benchmark was run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for benchmark results in PR
+        run: |
+          # Look for benchmark result files committed with this PR
+          CHANGED=$(git diff --name-only origin/main...HEAD)
+
+          # If prompt/skill files changed, benchmark results should exist
+          PROMPT_CHANGES=$(echo "$CHANGED" | grep -E '^\.(ai-artifacts|github/(overlays|skills)|claude/hooks)/|^(AGENTS|CLAUDE)\.md$' || true)
+
+          if [ -z "$PROMPT_CHANGES" ]; then
+            echo "No prompt/skill changes detected, skipping gate."
+            exit 0
+          fi
+
+          echo "Prompt/skill changes detected:"
+          echo "$PROMPT_CHANGES"
+          echo ""
+
+          # Check if ab-test run data exists for the winning variant
+          if [ -d "ab-test/runs" ] && ls ab-test/runs/*/score.json >/dev/null 2>&1; then
+            LATEST_REPORT="ab-test/runs/report.json"
+            if [ -f "$LATEST_REPORT" ]; then
+              echo "✓ Benchmark report found."
+              echo ""
+              # Show summary from report
+              node -e "
+                const r = require('./$LATEST_REPORT');
+                console.log('Variants tested:', Object.keys(r.variants || {}).length);
+                console.log('Winner:', r.winner || 'N/A');
+                console.log('Score:', r.winner_score || 'N/A');
+              " 2>/dev/null || true
+              exit 0
+            fi
+          fi
+
+          echo ""
+          echo "⚠ No benchmark results found."
+          echo ""
+          echo "When changing agent instructions, skills, or hooks, run the A/B benchmark"
+          echo "to validate the change doesn't regress autonomous execution quality:"
+          echo ""
+          echo "  node ab-test/scripts/batch.js --variants e-tdd-hooks --iterations 3 --model opus"
+          echo ""
+          echo "Then commit the report.json with your PR."
+          echo ""
+          exit 1

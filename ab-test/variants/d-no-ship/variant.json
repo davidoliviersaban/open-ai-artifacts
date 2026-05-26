@@ -1,0 +1,12 @@
+{
+  "id": "d-no-ship",
+  "name": "Full pipeline minus /ship",
+  "description": "All skills available except ship. Tests if /ship adds value to code quality or just handles delivery.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "disabled_skills": ["ship"],
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "e-no-research",
+  "name": "Full pipeline minus /task-research-guidelines",
+  "description": "All skills except research. Tests if the research phase adds value for a well-specified coding task.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "disabled_skills": ["task-research-guidelines"],
+  "extra_flags": ["--dangerously-skip-permissions"]
+}
