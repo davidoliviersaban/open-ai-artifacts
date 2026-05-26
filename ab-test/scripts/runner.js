@@ -29,7 +29,14 @@ function createWorktree(repoRoot, name) {
   return worktree
 }
 
-function prepareWorktree(worktree, variant) {
+function prepareWorktree(worktree, variant, repoRoot) {
+  // Symlink node_modules so npm scripts (nx, tests) work in the worktree
+  const nodeModulesSrc = path.join(repoRoot, 'node_modules')
+  const nodeModulesDst = path.join(worktree, 'node_modules')
+  if (fs.existsSync(nodeModulesSrc) && !fs.existsSync(nodeModulesDst)) {
+    fs.symlinkSync(nodeModulesSrc, nodeModulesDst)
+  }
+
   // Remove ab-test dir so agent cannot see acceptance criteria or scoring logic
   const abTestDir = path.join(worktree, 'ab-test')
   if (fs.existsSync(abTestDir)) {
@@ -62,11 +69,108 @@ function prepareWorktree(worktree, variant) {
     if (fs.existsSync(agentsDir)) fs.rmSync(agentsDir, { recursive: true })
   } else if (variant.claude_md === 'custom') {
     fs.writeFileSync(claudeMdPath, variant.claude_md_content || '')
-    // Remove skills for custom mode too — skills only available with 'inherit'
-    const skillsDir = path.join(worktree, '.github', 'skills')
-    if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
+    // Remove skills unless variant explicitly keeps them (disable_skills: false)
+    if (variant.disable_skills !== false) {
+      const skillsDir = path.join(worktree, '.github', 'skills')
+      if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
+    }
   }
-  // 'inherit' = keep as-is (CLAUDE.md + skills stay)
+  // 'inherit' = keep CLAUDE.md + skills, but strip rules that block headless execution
+  if (variant.claude_md === 'inherit') {
+    if (fs.existsSync(claudeMdPath)) {
+      let content = fs.readFileSync(claudeMdPath, 'utf8')
+      // Remove Worktree Requirement (prevents coding directly in the worktree)
+      content = content.replace(/### Worktree Requirement[\s\S]*?(?=###|## )/m, '')
+      // Remove Git Safety (irrelevant in test — no push happens)
+      content = content.replace(/### Git Safety[\s\S]*?(?=###|## )/m, '')
+      // Remove Skill Invocation mandate (forces /multi-feature + /ship which can't work headless)
+      content = content.replace(/### Skill Invocation[\s\S]*?(?=###|## )/m, '')
+      // Remove pipeline table (references mandatory skills that block implementation)
+      content = content.replace(/### Pipeline \(every change\)[\s\S]*?(?=## )/m, '')
+      // Add autonomous execution directive
+      content += '\n\n## Autonomous Execution\n\n'
+      content += '- You are running in autonomous mode. Implement directly without asking for confirmation.\n'
+      content += '- Work in the current directory. Do not create worktrees or branches.\n'
+      content += '- Before finishing, run the test suite and fix any failures.\n'
+      fs.writeFileSync(claudeMdPath, content)
+    }
+  }
+
+  // Install enforcement hooks if variant requests them
+  if (variant.hooks) {
+    const hooksDir = path.join(worktree, '.claude', 'hooks')
+    fs.mkdirSync(hooksDir, { recursive: true })
+
+    // Write validation hooks inline (self-contained, no external dependency)
+    fs.writeFileSync(path.join(hooksDir, 'validate-on-edit.js'), `
+const { execSync } = require('node:child_process')
+const fs = require('node:fs')
+const STAMP_FILE = '/tmp/.claude-hook-test-stamp'
+function main() {
+  const input = JSON.parse(fs.readFileSync('/dev/stdin', 'utf8'))
+  const filePath = (input.tool_input && (input.tool_input.file_path || input.tool_input.file)) || ''
+  const cwd = input.cwd || process.cwd()
+  if (!filePath || !/packages\\/ai-artifacts\\/.*\\.(js|ts|mjs)$/.test(filePath)) {
+    process.stdout.write(JSON.stringify({ continue: true }))
+    return
+  }
+  const now = Math.floor(Date.now() / 1000)
+  if (fs.existsSync(STAMP_FILE)) {
+    const last = Number(fs.readFileSync(STAMP_FILE, 'utf8').trim())
+    if ((now - last) < 10) { process.stdout.write(JSON.stringify({ continue: true })); return }
+  }
+  fs.writeFileSync(STAMP_FILE, String(now))
+  try {
+    execSync('npm run test:ai-artifacts', { cwd, encoding: 'utf8', timeout: 60000, stdio: 'pipe' })
+    process.stdout.write(JSON.stringify({ continue: true }))
+  } catch (err) {
+    const output = ((err.stdout || '') + (err.stderr || '')).slice(-2000)
+    process.stdout.write(JSON.stringify({
+      continue: true,
+      hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext: 'TESTS FAILED after your edit. Fix before continuing:\\n\\n' + output }
+    }))
+  }
+}
+main()
+`)
+
+    fs.writeFileSync(path.join(hooksDir, 'validate-on-stop.js'), `
+const { execSync } = require('node:child_process')
+const fs = require('node:fs')
+function main() {
+  const input = JSON.parse(fs.readFileSync('/dev/stdin', 'utf8'))
+  const cwd = input.cwd || process.cwd()
+  let changed = ''
+  try { changed = execSync('git diff --name-only HEAD', { cwd, encoding: 'utf8', stdio: 'pipe' }) } catch {}
+  if (!changed.includes('packages/ai-artifacts/')) {
+    process.stdout.write(JSON.stringify({ continue: true }))
+    return
+  }
+  try {
+    execSync('npm run test:ai-artifacts', { cwd, encoding: 'utf8', timeout: 60000, stdio: 'pipe' })
+    process.stdout.write(JSON.stringify({ continue: true }))
+  } catch (err) {
+    const output = ((err.stdout || '') + (err.stderr || '')).slice(-2000)
+    process.stderr.write('Tests are still failing. Fix them before finishing:\\n\\n' + output)
+    process.exit(2)
+  }
+}
+main()
+`)
+
+    // Write settings.json with enforcement hooks
+    const settings = {
+      hooks: {
+        PostToolUse: [
+          { matcher: 'Edit|Write', hooks: [{ type: 'command', command: 'node .claude/hooks/validate-on-edit.js' }] },
+        ],
+        Stop: [
+          { hooks: [{ type: 'command', command: 'node .claude/hooks/validate-on-stop.js' }] },
+        ],
+      },
+    }
+    fs.writeFileSync(path.join(worktree, '.claude', 'settings.json'), JSON.stringify(settings, null, 2))
+  }
 
   // Remove individually disabled skills
   if (variant.disabled_skills && variant.disabled_skills.length > 0) {
@@ -154,7 +258,7 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
   const worktree = createWorktree(repoRoot, runId)
 
   try {
-    prepareWorktree(worktree, variant)
+    prepareWorktree(worktree, variant, repoRoot)
 
     // Commit the clean state so we can diff only what the agent changes
     execSync('git add -A && git commit -m "baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })

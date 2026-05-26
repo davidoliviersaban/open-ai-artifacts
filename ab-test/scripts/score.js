@@ -42,6 +42,12 @@ function createScoringWorktree(repoRoot, runDir) {
   const name = `ab-score-${path.basename(runDir)}`
   const worktree = path.join('/tmp', name)
   execSync(`git worktree add "${worktree}" HEAD --detach`, { cwd: repoRoot, stdio: 'pipe' })
+  // Symlink node_modules so npm scripts work
+  const nodeModulesSrc = path.join(repoRoot, 'node_modules')
+  const nodeModulesDst = path.join(worktree, 'node_modules')
+  if (fs.existsSync(nodeModulesSrc) && !fs.existsSync(nodeModulesDst)) {
+    fs.symlinkSync(nodeModulesSrc, nodeModulesDst)
+  }
   return worktree
 }
 

@@ -1,0 +1,13 @@
+{
+  "id": "d-hook-enforced",
+  "name": "Hook-enforced validation with lightweight CLAUDE.md",
+  "description": "Simplified CLAUDE.md (context only, no pipeline mandate). Hooks mechanically run tests after edits and block stop if tests fail. Skills available but optional.",
+  "claude_md": "custom",
+  "claude_md_content": "# ai-artifacts\n\n## Project Context\n\nThis repo incubates `ai-artifacts`, an internal Node.js package for managing AI prompt/skill artifacts.\n\n| Area | Path | Purpose |\n|------|------|------|\n| Package | `packages/ai-artifacts/` | CLI/library for versioning and composing AI artifacts |\n| Tests | `packages/ai-artifacts/*.test.js` | Node.js native test runner |\n| Docs | `docs/` | Whitepaper, rationale, adoption guidance |\n| Dogfooding | `.ai-artifacts/` | Generates repo instructions from upstream + overlays |\n\n## Validation\n\n```bash\nnpm run test:ai-artifacts\nnpm run validate:ai-artifacts\n```\n\nHooks run tests automatically after edits to package source. If you see test failures in hook output, fix them before continuing.\n\n## Available Skills\n\nUse these when they add value — not mandatory:\n\n- `/task-research-guidelines` — research unfamiliar areas\n- `/task-plan-guidelines` — plan multi-file changes\n- `/package-maintainer` — TDD loop for package code\n- `/task-review-checklist` — self-review complex changes\n- `/doc-check` — verify docs match code\n- `/ship` — validate + commit + push + PR\n\n## Guardrails\n\n- Never commit secrets or API keys\n- Write tests for new functionality\n- Follow existing patterns in the same directory\n- Keep changes minimal and focused\n- Do not add external dependencies unless strictly necessary\n- Do not manually edit generated files (AGENTS.md, CLAUDE.md, .opencode/ contents)\n\n## Working Style\n\n- Implement fully before asking for review\n- If requirements are ambiguous, make a reasonable assumption\n- Prefer the smallest correct change\n- Follow existing patterns in the same directory",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "hooks": true,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

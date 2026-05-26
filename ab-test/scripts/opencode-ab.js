@@ -232,15 +232,26 @@ function runVariant(variant) {
 }
 
 async function main() {
+  const parallel = process.argv.includes('--parallel')
+
   console.log(`\n=== OpenCode A/B Test ===`)
   console.log(`Model:     ${model}`)
   console.log(`Challenge: story-ac`)
   console.log(`Variants:  ${variants.map(v => v.id).join(', ')}`)
+  console.log(`Mode:      ${parallel ? 'parallel' : 'sequential'}`)
   console.log(`Timestamp: ${ts}`)
   console.log('')
 
-  // Run all 3 in parallel
-  const results = await Promise.all(variants.map(v => runVariant(v)))
+  // Sequential by default (OpenCode shares a sqlite DB that deadlocks under parallel access)
+  let results
+  if (parallel) {
+    results = await Promise.all(variants.map(v => runVariant(v)))
+  } else {
+    results = []
+    for (const v of variants) {
+      results.push(await runVariant(v))
+    }
+  }
 
   console.log(`\n\n=== RESULTS ===\n`)
   console.log('Variant                  | Time | Tokens | Cost   | Tools | Skills | Steps')
