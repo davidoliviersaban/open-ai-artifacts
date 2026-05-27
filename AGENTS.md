@@ -95,35 +95,13 @@ npm run ai-artifacts:sync
 npm run validate:ai-artifacts
 ```
 
-## Package Direction
+## Documentation Maintenance
 
-- Current status: internal-public incubation inside Amadeus.
-- Future direction: external reusable package, eventually open-source.
-- Keep package code in `packages/ai-artifacts/`.
-- Avoid hard-coding Travel Storefront assumptions into package logic.
+When adding or changing public API, CLI behavior, config schema, or validation rules, update the closest existing documentation in the same commit.
 
-## Whitepaper Editorial Rules
+Prefer updating existing docs over creating new files. Keep documentation concise and factual — one short section is better than a new page.
 
-- Write in the language requested for the document, respecting that language's punctuation, typography and grammar rules.
-- Keep the tone direct, practical and management-friendly.
-- Preserve the author's voice: practitioner, not academic.
-- Use first person for the project experience (`my test project`, `we`).
-- The long version can be more detailed and manifesto-like.
-- The management version must be shorter, but not reduced to tables.
-- A table is a synthesis of an argument already explained. Never use a table as the only proof.
-- Before any important table, include a short narrative paragraph explaining the reasoning.
-- Keep examples concrete when they prove the point.
-- Do not add `\newpage` manually in Markdown. Pagination is handled by `docs/whitepaper/chapter-pagebreaks.lua`.
-
-## Core Content Decisions
-
-- The pilot's first goal is learning, setup and adoption, not immediate ROI.
-- Speed is a consequence of a working system, not the starting promise.
-- Governance must guide, inform, help and support. It must not impose a central framework.
-- Standards should become de facto standards because they prove their value.
-- Prefer monorepo when possible.
-- The agentic flow is the full SDLC: ideation → requirements → user stories → implementation → validation → release → production.
-- QA does not disappear. Code owners remain accountable for technical validation.
+Documentation is not needed for: internal refactors, test-only changes, or cleanup with no observable behavior change.
 
 ## Working Style
 
