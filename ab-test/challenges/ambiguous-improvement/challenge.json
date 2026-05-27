@@ -1,0 +1,67 @@
+{
+  "id": "ambiguous-improvement",
+  "title": "Ambiguous: improve the doctor command output",
+  "description": "Vague improvement request that requires the agent to explore, understand the existing code, and make autonomous design decisions. Tests exploration strategy, judgment, and delivery without hand-holding.",
+  "difficulty": "hard",
+  "prompt": "The `doctor` command output is hard to read and doesn't help users fix problems. Make it better.\n\nThe code is in `packages/ai-artifacts/doctor.js` and you can run it with `node packages/ai-artifacts/cli.js doctor` from the repo root.\n\nRequirements:\n- Don't break existing tests\n- Commit on a feature branch with a conventional commit message\n- Write tests for any new behavior you add",
+  "base_branch": "main",
+  "acceptance_criteria": [
+    {
+      "id": "existing_tests_pass",
+      "description": "No regressions in existing test suite",
+      "command": "npm run test:ai-artifacts"
+    },
+    {
+      "id": "doctor_still_works",
+      "description": "doctor command still runs without error",
+      "command": "node -e \"const {doctorAIArtifacts}=require('./packages/ai-artifacts/doctor.js'); const result=doctorAIArtifacts('.',{packageRoot:require('path').resolve('packages/ai-artifacts')}); if(typeof result.ok!=='boolean') process.exit(1)\""
+    },
+    {
+      "id": "printDoctor_still_exported",
+      "description": "printDoctor is still exported",
+      "command": "node -e \"const m=require('./packages/ai-artifacts/doctor.js'); if(typeof m.printDoctor!=='function') process.exit(1)\""
+    },
+    {
+      "id": "doctor_modified",
+      "description": "Agent actually changed doctor.js (not a no-op)",
+      "command": "node -e \"const fs=require('fs'); const diff=fs.readFileSync(require('path').join(process.env.RUN_DIR,'changes.diff'),'utf8'); if(!diff.includes('doctor.js')) process.exit(1)\""
+    },
+    {
+      "id": "output_improved",
+      "description": "printDoctor output contains grouping, color codes, or structured sections (not flat list)",
+      "command": "node -e \"const {printDoctor,doctorAIArtifacts}=require('./packages/ai-artifacts/doctor.js'); const result=doctorAIArtifacts('.',{packageRoot:require('path').resolve('packages/ai-artifacts')}); let output=''; const origLog=console.log; console.log=(...args)=>{output+=args.join(' ')+'\\n'}; printDoctor(result); console.log=origLog; const hasStructure=output.includes('─')||output.includes('━')||output.includes('\\x1b[')||output.includes('##')||/^[A-Z][a-z]+:/m.test(output)||output.includes('Summary:')||output.includes('Issues:')||output.split('\\n').filter(l=>/^\\s*$/.test(l)).length>=2; if(!hasStructure) process.exit(1)\""
+    },
+    {
+      "id": "actionable_output",
+      "description": "Failed checks include a hint or suggested fix",
+      "command": "node -e \"const {printDoctor}=require('./packages/ai-artifacts/doctor.js'); let output=''; const origLog=console.log; console.log=(...args)=>{output+=args.join(' ')+'\\n'}; printDoctor({ok:false,detectedTools:[],checks:[{status:'fail',message:'artifact lock exists'}]}); console.log=origLog; const lower=output.toLowerCase(); if(!lower.includes('run')||(!lower.includes('fetch')&&!lower.includes('sync')&&!lower.includes('fix')&&!lower.includes('create'))) process.exit(1)\""
+    },
+    {
+      "id": "has_new_tests",
+      "description": "Agent added test coverage for the improvements",
+      "command": "node -e \"const fs=require('fs'); const diff=fs.readFileSync(require('path').join(process.env.RUN_DIR,'changes.diff'),'utf8'); if(!diff.includes('.test.js')&&!diff.includes('test(')) process.exit(1)\""
+    },
+    {
+      "id": "multiple_files_changed",
+      "description": "Agent modified at least 2 files (doctor.js + tests)",
+      "command": "node -e \"const fs=require('fs'); const diff=fs.readFileSync(require('path').join(process.env.RUN_DIR,'changes.diff'),'utf8'); const files=(diff.match(/^diff --git/gm)||[]).length; if(files<2) process.exit(1)\""
+    },
+    {
+      "id": "committed_on_branch",
+      "description": "Agent committed on a feature branch",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.current_branch||d.current_branch==='main'||d.commits.length===0) process.exit(1)\""
+    },
+    {
+      "id": "commit_message_conventional",
+      "description": "Commit message follows conventional format",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.commits[0]||!/^(feat|fix|refactor|chore|docs|test)\\\\(.+\\\\): .+/.test(d.commits[0].subject)) process.exit(1)\""
+    }
+  ],
+  "scoring": {
+    "criteria_weight": 0.5,
+    "efficiency_weight": 0.3,
+    "code_quality_weight": 0.2,
+    "max_tokens_budget": 60000,
+    "max_time_seconds": 300
+  }
+}

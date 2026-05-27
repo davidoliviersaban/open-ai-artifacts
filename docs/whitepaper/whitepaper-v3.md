@@ -431,11 +431,33 @@ L'objectif n'est pas de créer une usine à gaz propriétaire, ni une doctrine i
 | `AGENTS.md` devient un fourre-tout. | `AGENTS.md` contient les règles critiques et référence le reste. |
 | Chaque équipe reinvente ses prompts. | Les équipes composent une base partagee avec des overlays locaux. |
 
+**Mesurer l'impact du contenu : benchmark A/B sur les instructions**
+
+Les affirmations qui précèdent ne sont pas que qualitatives. Un framework de benchmark A/B permet de mesurer objectivement l'impact de chaque section du fichier d'instructions sur la performance de l'agent.
+
+Le protocole est simple : on fixe une tâche, on fait varier uniquement le contenu du fichier d'instructions, et on mesure le résultat (critères passés, temps, coût en tokens). En répétant chaque configuration plusieurs fois, on obtient des résultats statistiquement significatifs.
+
+Sur mon projet pilote, trois profils de tâche ont été testés avec cinq variantes d'instructions : implémentation green-field avec delivery complète, refactoring multi-fichier, et tâche ambiguë sans spécification détaillée. Les résultats quantifient trois catégories de contenu dans un fichier d'instructions :
+
+| Catégorie | Exemples | Impact mesuré |
+|---|---|---|
+| Opérationnel | Commandes de validation, working style, workflow interdit | +valeur sur tous les types de tâche |
+| Contextuel | Liste des skills, structure du repo, rôles des modules | +valeur uniquement sur tâches ambiguës (+13% de score, -34% de temps) |
+| Bruit | Règles éditoriales d'un whitepaper, philosophie projet, stratégie long-terme | -valeur partout : +25% de temps, +30% de coût, zéro bénéfice fonctionnel |
+
+Le résultat contre-intuitif : la configuration minimale compacte (2000 caractères ciblés) bat la configuration complète (5000 caractères) sur les tâches claires, mais échoue sur les tâches ambiguës. L'agent sans contexte projet passe deux fois plus de temps à explorer et rate quand même des critères de qualité. La configuration intermédiaire — le contenu opérationnel et contextuel sans le bruit — gagne sur les trois profils de tâche sans exception.
+
+La règle pratique qui en découle : chaque section du fichier d'instructions doit justifier sa présence par un impact mesurable. Si une section ne change pas le comportement de l'agent sur un benchmark représentatif, elle dilue les sections qui comptent. Supprimer du texte n'appauvrit pas l'agent — cela renforce le signal des instructions restantes.
+
+Un deuxième finding concerne la documentation. Un agent avec une guidance explicite ("quand tu ajoutes une API publique, mets à jour la documentation existante la plus proche") met à jour la documentation dans 100% des cas. Sans cette instruction, même un agent performant oublie la documentation dans 30% des runs. Une ligne d'instruction vaut mieux qu'un paragraphe d'explication.
+
 **Actions concrètes**
 
 1. Extraire les instructions critiques des conversations et les versionner.
 2. Supprimer des instructions tout ce que le modèle sait déjà, sauf rappel court et intentionnel.
 3. Mettre en place un audit régulier des agents, skills, prompts et tools.
+4. Benchmarker le fichier d'instructions : mesurer l'impact de chaque section avant de l'ajouter ou la supprimer.
+5. Ajouter une instruction courte et explicite pour chaque comportement attendu de l'agent (ex. documentation), plutôt que de compter sur le contexte implicite.
 
 ---
 

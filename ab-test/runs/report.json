@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-05-27T08:28:08.575Z",
+  "generated_at": "2026-05-27T14:00:47.125Z",
   "summaries": [
+    {
+      "variant": "a-inherit",
+      "runs": 5,
+      "avg_score": 0.8732,
+      "median_score": 0.884,
+      "avg_criteria": 0.9492307692307692,
+      "avg_tokens": 8186,
+      "median_tokens": 7244,
+      "avg_time": 158,
+      "avg_cost": 0.7839001999999999,
+      "full_pass_rate": 0.6
+    },
     {
       "variant": "b-bare-agent",
       "runs": 1,
@@ -26,27 +38,498 @@
       "full_pass_rate": 0
     },
     {
-      "variant": "j-tdd-hooks-doc-aware",
+      "variant": "j-doc-aware-no-hooks",
       "runs": 1,
-      "avg_score": 0.923,
-      "median_score": 0.923,
-      "avg_criteria": 1,
-      "avg_tokens": 7140,
-      "median_tokens": 7140,
-      "avg_time": 111,
-      "avg_cost": 0.567003,
-      "full_pass_rate": 1
+      "avg_score": 0.777,
+      "median_score": 0.777,
+      "avg_criteria": 0.9,
+      "avg_tokens": 14444,
+      "median_tokens": 14444,
+      "avg_time": 273,
+      "avg_cost": 1.3296492499999997,
+      "full_pass_rate": 0
+    },
+    {
+      "variant": "j-tdd-hooks-doc-aware",
+      "runs": 4,
+      "avg_score": 0.8985000000000001,
+      "median_score": 0.914,
+      "avg_criteria": 0.9615384615384616,
+      "avg_tokens": 7235,
+      "median_tokens": 7160,
+      "avg_time": 123,
+      "avg_cost": 0.5734345000000001,
+      "full_pass_rate": 0.75
+    },
+    {
+      "variant": "k-inherit-trimmed",
+      "runs": 5,
+      "avg_score": 0.8863999999999999,
+      "median_score": 0.904,
+      "avg_criteria": 0.9692307692307693,
+      "avg_tokens": 8921,
+      "median_tokens": 7697,
+      "avg_time": 148,
+      "avg_cost": 0.7729076999999999,
+      "full_pass_rate": 0.8
     }
   ],
   "winner": {
-    "winner": "j-tdd-hooks-doc-aware",
-    "winner_score": 0.923,
-    "runner_up": "b-bare-agent",
-    "runner_up_score": 0.92,
-    "delta": 0.0030000000000000027,
+    "winner": "b-bare-agent",
+    "winner_score": 0.92,
+    "runner_up": "j-tdd-hooks-doc-aware",
+    "runner_up_score": 0.8985000000000001,
+    "delta": 0.021499999999999964,
     "confident": false
   },
   "runs": [
+    {
+      "run_id": "a-inherit_ambiguous-improvement_20260527103034_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "criteria_score": 0.9,
+      "efficiency_score": 0.5654166666666667,
+      "code_quality_score": 1,
+      "final_score": 0.82,
+      "tokens_used": 11750,
+      "cost_usd": 1.0146252500000001,
+      "time_seconds": 202,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": false
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:30:34.247Z",
+      "worktree": "/tmp/ab-test-a-inherit_ambiguous-improvement_20260527103034_iter1",
+      "completed_at": "2026-05-27T10:33:56.567Z",
+      "elapsed_seconds": 202,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1428,
+        "output_tokens": 10322,
+        "cache_read_tokens": 1001433,
+        "cache_write_tokens": 39795,
+        "total_tokens": 11750,
+        "cost_usd": 1.0146252500000001,
+        "num_turns": 34,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 202
+      }
+    },
+    {
+      "run_id": "a-inherit_cross-file-refactor_20260527102347_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.7619583333333333,
+      "code_quality_score": 1,
+      "final_score": 0.852,
+      "tokens_used": 5965,
+      "cost_usd": 0.5273365,
+      "time_seconds": 113,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:23:47.649Z",
+      "worktree": "/tmp/ab-test-a-inherit_cross-file-refactor_20260527102347_iter1",
+      "completed_at": "2026-05-27T10:25:40.642Z",
+      "elapsed_seconds": 113,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 780,
+        "output_tokens": 5185,
+        "cache_read_tokens": 471448,
+        "cache_write_tokens": 25294,
+        "total_tokens": 5965,
+        "cost_usd": 0.5273365,
+        "num_turns": 18,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 113
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527083155_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6856666666666666,
+      "code_quality_score": 1,
+      "final_score": 0.906,
+      "tokens_used": 7100,
+      "cost_usd": 0.740322,
+      "time_seconds": 146,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "started_at": "2026-05-27T08:31:55.654Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527083155_iter1",
+      "completed_at": "2026-05-27T08:34:22.104Z",
+      "elapsed_seconds": 146,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1331,
+        "output_tokens": 5769,
+        "cache_read_tokens": 792434,
+        "cache_write_tokens": 30916,
+        "total_tokens": 7100,
+        "cost_usd": 0.740322,
+        "num_turns": 31,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 146
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527094032_iter2",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6129366666666667,
+      "code_quality_score": 1,
+      "final_score": 0.884,
+      "tokens_used": 8873,
+      "cost_usd": 0.9332395,
+      "time_seconds": 179,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 2,
+      "started_at": "2026-05-27T09:40:32.649Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527094032_iter2",
+      "completed_at": "2026-05-27T09:43:31.489Z",
+      "elapsed_seconds": 179,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1337,
+        "output_tokens": 7536,
+        "cache_read_tokens": 1059934,
+        "cache_write_tokens": 33310,
+        "total_tokens": 8873,
+        "cost_usd": 0.9332395,
+        "num_turns": 41,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 179
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527094623_iter3",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6808933333333334,
+      "code_quality_score": 1,
+      "final_score": 0.904,
+      "tokens_used": 7244,
+      "cost_usd": 0.7039777500000001,
+      "time_seconds": 148,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 3,
+      "started_at": "2026-05-27T09:46:23.593Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527094623_iter3",
+      "completed_at": "2026-05-27T09:48:51.791Z",
+      "elapsed_seconds": 148,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1446,
+        "output_tokens": 5798,
+        "cache_read_tokens": 744858,
+        "cache_write_tokens": 28699,
+        "total_tokens": 7244,
+        "cost_usd": 0.7039777500000001,
+        "num_turns": 30,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 148
+      }
+    },
     {
       "run_id": "b-bare-agent_semantic-merge-deliver_20260527082106_iter1",
       "variant": "b-bare-agent",
@@ -238,6 +721,168 @@
       }
     },
     {
+      "run_id": "j-doc-aware-no-hooks_ambiguous-improvement_20260527135237_iter1",
+      "variant": "j-doc-aware-no-hooks",
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "criteria_score": 0.9,
+      "efficiency_score": 0.4246333333333333,
+      "code_quality_score": 1,
+      "final_score": 0.777,
+      "tokens_used": 14444,
+      "cost_usd": 1.3296492499999997,
+      "time_seconds": 273,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": false
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "started_at": "2026-05-27T13:52:38.059Z",
+      "worktree": "/tmp/ab-test-j-doc-aware-no-hooks_ambiguous-improvement_20260527135237_iter1",
+      "completed_at": "2026-05-27T13:57:11.352Z",
+      "elapsed_seconds": 273,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 2040,
+        "output_tokens": 12404,
+        "cache_read_tokens": 1484686,
+        "cache_write_tokens": 42721,
+        "total_tokens": 14444,
+        "cost_usd": 1.3296492499999997,
+        "num_turns": 48,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 273
+      }
+    },
+    {
+      "run_id": "j-tdd-hooks-doc-aware_cross-file-refactor_20260527102556_iter1",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.734525,
+      "code_quality_score": 1,
+      "final_score": 0.843,
+      "tokens_used": 8857,
+      "cost_usd": 0.491167,
+      "time_seconds": 115,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:25:56.724Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_cross-file-refactor_20260527102556_iter1",
+      "completed_at": "2026-05-27T10:27:51.471Z",
+      "elapsed_seconds": 115,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 3844,
+        "output_tokens": 5013,
+        "cache_read_tokens": 388819,
+        "cache_write_tokens": 24354,
+        "total_tokens": 8857,
+        "cost_usd": 0.491167,
+        "num_turns": 16,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 115
+      }
+    },
+    {
       "run_id": "j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527082602_iter1",
       "variant": "j-tdd-hooks-doc-aware",
       "criteria_passed": 15,
@@ -330,6 +975,643 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 111
+      }
+    },
+    {
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094345_iter2",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6882,
+      "code_quality_score": 1,
+      "final_score": 0.906,
+      "tokens_used": 7180,
+      "cost_usd": 0.6569157499999999,
+      "time_seconds": 144,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 2,
+      "started_at": "2026-05-27T09:43:45.484Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094345_iter2",
+      "completed_at": "2026-05-27T09:46:10.015Z",
+      "elapsed_seconds": 144,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1743,
+        "output_tokens": 5437,
+        "cache_read_tokens": 659389,
+        "cache_write_tokens": 29213,
+        "total_tokens": 7180,
+        "cost_usd": 0.6569157499999999,
+        "num_turns": 27,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 144
+      }
+    },
+    {
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094905_iter3",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.7390366666666666,
+      "code_quality_score": 1,
+      "final_score": 0.922,
+      "tokens_used": 5763,
+      "cost_usd": 0.5786522500000002,
+      "time_seconds": 122,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 3,
+      "started_at": "2026-05-27T09:49:05.947Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094905_iter3",
+      "completed_at": "2026-05-27T09:51:08.287Z",
+      "elapsed_seconds": 122,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 915,
+        "output_tokens": 4848,
+        "cache_read_tokens": 550367,
+        "cache_write_tokens": 28431,
+        "total_tokens": 5763,
+        "cost_usd": 0.5786522500000002,
+        "num_turns": 23,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 122
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_ambiguous-improvement_20260527135729_iter1",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "criteria_score": 1,
+      "efficiency_score": 0.613775,
+      "code_quality_score": 1,
+      "final_score": 0.884,
+      "tokens_used": 10347,
+      "cost_usd": 0.9946864999999998,
+      "time_seconds": 180,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": true
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "started_at": "2026-05-27T13:57:29.242Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_ambiguous-improvement_20260527135729_iter1",
+      "completed_at": "2026-05-27T14:00:29.443Z",
+      "elapsed_seconds": 180,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 851,
+        "output_tokens": 9496,
+        "cache_read_tokens": 1045938,
+        "cache_write_tokens": 36810,
+        "total_tokens": 10347,
+        "cost_usd": 0.9946864999999998,
+        "num_turns": 33,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 180
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_cross-file-refactor_20260527102806_iter1",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.674925,
+      "code_quality_score": 1,
+      "final_score": 0.826,
+      "tokens_used": 12809,
+      "cost_usd": 0.7028552499999999,
+      "time_seconds": 131,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:28:06.257Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_cross-file-refactor_20260527102806_iter1",
+      "completed_at": "2026-05-27T10:30:17.843Z",
+      "elapsed_seconds": 131,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 6651,
+        "output_tokens": 6158,
+        "cache_read_tokens": 645388,
+        "cache_write_tokens": 30873,
+        "total_tokens": 12809,
+        "cost_usd": 0.7028552499999999,
+        "num_turns": 24,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 131
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_semantic-merge-deliver_20260527101117_iter1",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6786300000000001,
+      "code_quality_score": 1,
+      "final_score": 0.904,
+      "tokens_used": 7137,
+      "cost_usd": 0.8245377500000001,
+      "time_seconds": 150,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:11:18.026Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_semantic-merge-deliver_20260527101117_iter1",
+      "completed_at": "2026-05-27T10:13:48.061Z",
+      "elapsed_seconds": 150,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 970,
+        "output_tokens": 6167,
+        "cache_read_tokens": 948213,
+        "cache_write_tokens": 30625,
+        "total_tokens": 7137,
+        "cost_usd": 0.8245377500000001,
+        "num_turns": 35,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 150
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_semantic-merge-deliver_20260527101402_iter2",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6946966666666667,
+      "code_quality_score": 1,
+      "final_score": 0.908,
+      "tokens_used": 7697,
+      "cost_usd": 0.7037159999999997,
+      "time_seconds": 137,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 2,
+      "started_at": "2026-05-27T10:14:02.240Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_semantic-merge-deliver_20260527101402_iter2",
+      "completed_at": "2026-05-27T10:16:19.199Z",
+      "elapsed_seconds": 137,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 2137,
+        "output_tokens": 5560,
+        "cache_read_tokens": 735837,
+        "cache_write_tokens": 29778,
+        "total_tokens": 7697,
+        "cost_usd": 0.7037159999999997,
+        "num_turns": 30,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 137
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_semantic-merge-deliver_20260527101633_iter3",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.7005166666666667,
+      "code_quality_score": 1,
+      "final_score": 0.91,
+      "tokens_used": 6615,
+      "cost_usd": 0.6387429999999998,
+      "time_seconds": 140,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 3,
+      "started_at": "2026-05-27T10:16:33.940Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_semantic-merge-deliver_20260527101633_iter3",
+      "completed_at": "2026-05-27T10:18:53.819Z",
+      "elapsed_seconds": 140,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 843,
+        "output_tokens": 5772,
+        "cache_read_tokens": 632681,
+        "cache_write_tokens": 27822,
+        "total_tokens": 6615,
+        "cost_usd": 0.6387429999999998,
+        "num_turns": 26,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 140
       }
     }
   ]
