@@ -224,25 +224,16 @@ function runClaude(worktree, flags, prompt, debugFile) {
 
 function captureDiff(worktree) {
   try {
-    // Stage everything (including new files) so git diff --cached captures all changes
     execSync('git add -A', { cwd: worktree, stdio: 'pipe' })
-    // Capture diff from baseline (first commit after prepareWorktree) to current state
-    // This includes both agent commits and uncommitted changes
-    const baseline = execSync('git rev-list --max-parents=0 HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim()
-    return execSync(`git diff ${baseline} --cached`, { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
+    return execSync('git diff baseline --cached', { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
   } catch {
-    // Fallback to simple cached diff
-    try {
-      return execSync('git diff --cached', { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
-    } catch {
-      return ''
-    }
+    return ''
   }
 }
 
 function captureDiffStat(worktree) {
   try {
-    return execSync('git diff --cached --stat', { cwd: worktree, encoding: 'utf8' })
+    return execSync('git diff baseline --cached --stat', { cwd: worktree, encoding: 'utf8' })
   } catch {
     return ''
   }
@@ -250,8 +241,7 @@ function captureDiffStat(worktree) {
 
 function captureGitLog(worktree) {
   try {
-    const log = execSync('git log --format=%H%n%s%n%b%n--- baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
-    return log
+    return execSync('git log --format="%H%n%s%n%b%n---" baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
   } catch {
     return ''
   }
