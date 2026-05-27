@@ -250,7 +250,7 @@ function captureDiffStat(worktree) {
 
 function captureGitLog(worktree) {
   try {
-    const log = execSync('git log --format="%H%n%s%n%b%n---" baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+    const log = execSync('git log --format=%H%n%s%n%b%n--- baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
     return log
   } catch {
     return ''
@@ -260,21 +260,25 @@ function captureGitLog(worktree) {
 function captureDeliveryState(worktree) {
   const state = { branches: [], commits: [], current_branch: null, untracked_source: [] }
   try {
-    state.branches = execSync('git branch --format="%(refname:short)"', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+    state.branches = execSync('git branch --format=%(refname:short)', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
       .split('\n').filter(Boolean)
   } catch {}
   try {
     state.current_branch = execSync('git branch --show-current', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim() || null
   } catch {}
   try {
-    const log = execSync('git log --format={"hash":"%H","subject":"%s","body":"%b"} baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
-    state.commits = log.split('\n').filter(Boolean).map(line => {
-      try { return JSON.parse(line) } catch { return { subject: line, hash: '', body: '' } }
-    })
+    // Parse commits individually to avoid shell quoting issues
+    const hashes = execSync('git log --format=%H baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+      .split('\n').filter(Boolean)
+    for (const hash of hashes) {
+      const subject = execSync(`git log -1 --format=%s ${hash}`, { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim()
+      const body = execSync(`git log -1 --format=%b ${hash}`, { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim()
+      state.commits.push({ hash, subject, body })
+    }
   } catch {}
   try {
-    state.untracked_source = execSync('git ls-files --others --exclude-standard -- "packages/ai-artifacts/*.js" "packages/ai-artifacts/*.ts"', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
-      .split('\n').filter(Boolean)
+    state.untracked_source = execSync('git ls-files --others --exclude-standard -- packages/ai-artifacts/', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+      .split('\n').filter(f => /\.(js|ts|mjs)$/.test(f))
   } catch {}
   return state
 }
@@ -301,8 +305,8 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
 
     // Commit the clean state so we can diff only what the agent changes
     execSync('git add -A && git commit -m "baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
-    // Tag it so captureGitLog can reference it
-    execSync('git tag baseline', { cwd: worktree, stdio: 'pipe' })
+    // Tag it so captureGitLog can reference it (force to overwrite if stale)
+    execSync('git tag -f baseline', { cwd: worktree, stdio: 'pipe' })
 
     // Save metadata
     const metadata = {
