@@ -20,7 +20,7 @@ function scoreRun(runDir, { abDir, repoRoot }) {
 
   try {
     applyDiff(worktree, diffFile, { abDir, variant })
-    const criteriaResults = runCriteria(challenge.acceptance_criteria, worktree)
+    const criteriaResults = runCriteria(challenge.acceptance_criteria, worktree, { runDir })
     const score = computeScore(usage, criteriaResults, challenge.scoring)
 
     const result = {
@@ -105,12 +105,14 @@ function applyDiff(worktree, diffFile, { abDir, variant } = {}) {
   }
 }
 
-function runCriteria(criteria, cwd) {
+function runCriteria(criteria, cwd, { runDir } = {}) {
   const results = []
+  const env = { ...process.env }
+  if (runDir) env.RUN_DIR = runDir
   for (const criterion of criteria) {
     let pass = false
     try {
-      execSync(criterion.command, { cwd, stdio: 'pipe', timeout: 30000 })
+      execSync(criterion.command, { cwd, env, stdio: 'pipe', timeout: 30000 })
       pass = true
     } catch {
       pass = false
