@@ -13,10 +13,13 @@ function scoreRun(runDir, { abDir, repoRoot }) {
   const challenge = JSON.parse(fs.readFileSync(challengeFile, 'utf8'))
   const diffFile = path.join(runDir, 'changes.diff')
 
+  const variantFile = path.join(abDir, 'variants', metadata.variant, 'variant.json')
+  const variant = fs.existsSync(variantFile) ? JSON.parse(fs.readFileSync(variantFile, 'utf8')) : null
+
   const worktree = createScoringWorktree(repoRoot, runDir)
 
   try {
-    applyDiff(worktree, diffFile)
+    applyDiff(worktree, diffFile, { abDir, variant })
     const criteriaResults = runCriteria(challenge.acceptance_criteria, worktree)
     const score = computeScore(usage, criteriaResults, challenge.scoring)
 
@@ -59,9 +62,9 @@ function removeScoringWorktree(repoRoot, worktree) {
   }
 }
 
-function applyDiff(worktree, diffFile) {
+function applyDiff(worktree, diffFile, { abDir, variant } = {}) {
   if (!fs.existsSync(diffFile) || fs.statSync(diffFile).size === 0) return
-  // First, replicate the same cleanup prepareWorktree does so the diff applies cleanly
+  // Replicate the same cleanup prepareWorktree does so the diff applies cleanly
   const abTestDir = path.join(worktree, 'ab-test')
   if (fs.existsSync(abTestDir)) fs.rmSync(abTestDir, { recursive: true })
   const claudeDir = path.join(worktree, '.claude')
@@ -69,13 +72,36 @@ function applyDiff(worktree, diffFile) {
   const adrFile = path.join(worktree, 'docs', 'adr', '010-ab-test-framework.md')
   if (fs.existsSync(adrFile)) fs.unlinkSync(adrFile)
 
+  // Replicate CLAUDE.md handling from prepareWorktree
+  if (variant) {
+    const claudeMdPath = path.join(worktree, 'CLAUDE.md')
+    if (variant.claude_md === 'none') {
+      if (fs.existsSync(claudeMdPath)) fs.unlinkSync(claudeMdPath)
+      const skillsDir = path.join(worktree, '.github', 'skills')
+      if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
+      const agentsDir = path.join(worktree, '.github', 'agent')
+      if (fs.existsSync(agentsDir)) fs.rmSync(agentsDir, { recursive: true })
+    } else if (variant.claude_md === 'custom') {
+      fs.writeFileSync(claudeMdPath, variant.claude_md_content || '')
+      if (variant.disable_skills !== false) {
+        const skillsDir = path.join(worktree, '.github', 'skills')
+        if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
+      }
+    }
+  }
+
   // Stage removals so the worktree matches the baseline
   execSync('git add -A && git commit -m "score-baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
 
   try {
     execSync(`git apply "${diffFile}"`, { cwd: worktree, stdio: 'pipe' })
-  } catch (err) {
-    throw new Error(`diff could not be applied cleanly: ${err.message}`)
+  } catch {
+    // Fall back to 3-way merge if exact apply fails (handles context drift)
+    try {
+      execSync(`git apply --3way "${diffFile}"`, { cwd: worktree, stdio: 'pipe' })
+    } catch (err) {
+      throw new Error(`diff could not be applied cleanly: ${err.message}`)
+    }
   }
 }
 

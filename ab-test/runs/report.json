@@ -1,637 +1,76 @@
 {
-  "generated_at": "2026-05-26T07:43:29.208Z",
+  "generated_at": "2026-05-27T07:22:01.038Z",
   "summaries": [
     {
-      "variant": "a-full-pipeline",
-      "runs": 4,
-      "avg_score": 0.4655,
-      "median_score": 0.4565,
-      "avg_criteria": 0.5,
-      "avg_tokens": 7691,
-      "median_tokens": 6592,
-      "avg_time": 123,
-      "avg_cost": 0.44882112500000004,
+      "variant": "e-tdd-hooks",
+      "runs": 2,
+      "avg_score": 0.826,
+      "median_score": 0.826,
+      "avg_criteria": 0.8333333333333334,
+      "avg_tokens": 6535,
+      "median_tokens": 6535,
+      "avg_time": 142,
+      "avg_cost": 0.637880375,
       "full_pass_rate": 0
     },
     {
-      "variant": "b-bare-agent",
-      "runs": 6,
-      "avg_score": 0.7488333333333332,
-      "median_score": 0.7365,
-      "avg_criteria": 0.9500000000000001,
-      "avg_tokens": 11623,
-      "median_tokens": 10054,
-      "avg_time": 183,
-      "avg_cost": 0.5676662499999999,
-      "full_pass_rate": 0.5
-    },
-    {
-      "variant": "c-lightweight-guidance",
-      "runs": 5,
-      "avg_score": 0.6958,
-      "median_score": 0.6,
-      "avg_criteria": 0.9400000000000001,
-      "avg_tokens": 11683,
-      "median_tokens": 13135,
-      "avg_time": 238,
-      "avg_cost": 0.56090605,
-      "full_pass_rate": 0.4
-    },
-    {
-      "variant": "d-hook-enforced",
-      "runs": 5,
-      "avg_score": 0.6852000000000001,
-      "median_score": 0.687,
-      "avg_criteria": 0.8,
-      "avg_tokens": 6902,
-      "median_tokens": 6191,
-      "avg_time": 228,
-      "avg_cost": 0.31999705,
-      "full_pass_rate": 0.4
-    },
-    {
-      "variant": "e-tdd-hooks",
-      "runs": 3,
-      "avg_score": 0.903,
-      "median_score": 0.912,
+      "variant": "j-tdd-hooks-doc-aware",
+      "runs": 2,
+      "avg_score": 0.8975,
+      "median_score": 0.8975,
       "avg_criteria": 1,
-      "avg_tokens": 7805,
-      "median_tokens": 7098,
-      "avg_time": 147,
-      "avg_cost": 0.44000158333333333,
+      "avg_tokens": 8092,
+      "median_tokens": 8092,
+      "avg_time": 156,
+      "avg_cost": 0.7142005,
       "full_pass_rate": 1
     }
   ],
   "winner": {
-    "winner": "e-tdd-hooks",
-    "winner_score": 0.903,
-    "runner_up": "b-bare-agent",
-    "runner_up_score": 0.7488333333333332,
-    "delta": 0.15416666666666679,
+    "winner": "j-tdd-hooks-doc-aware",
+    "winner_score": 0.8975,
+    "runner_up": "e-tdd-hooks",
+    "runner_up_score": 0.826,
+    "delta": 0.07150000000000001,
     "confident": true
   },
   "runs": [
     {
-      "run_id": "a-full-pipeline_story-ac-with-skills_20260526003424_iter1",
-      "variant": "a-full-pipeline",
-      "criteria_passed": 1,
-      "criteria_total": 10,
-      "criteria_score": 0.1,
-      "efficiency_score": 0.80227,
-      "code_quality_score": 0,
-      "final_score": 0.291,
-      "tokens_used": 4773,
-      "cost_usd": 0.34707225,
-      "time_seconds": 90,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": false
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": false
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": false
-        },
-        {
-          "id": "literal_multikey",
-          "pass": false
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": false
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": false
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": false
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:34:24.722Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac-with-skills_20260526003424_iter1",
-      "completed_at": "2026-05-26T00:35:54.372Z",
-      "elapsed_seconds": 90,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 818,
-        "output_tokens": 3955,
-        "cache_read_tokens": 122627,
-        "cache_write_tokens": 29247,
-        "total_tokens": 4773,
-        "cost_usd": 0.34707225,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 90
-      }
-    },
-    {
-      "run_id": "a-full-pipeline_story-ac-with-skills_20260526004851_iter1",
-      "variant": "a-full-pipeline",
-      "criteria_passed": 1,
-      "criteria_total": 10,
-      "criteria_score": 0.1,
-      "efficiency_score": 0.8263566666666666,
-      "code_quality_score": 0,
-      "final_score": 0.298,
-      "tokens_used": 4031,
-      "cost_usd": 0.33927775,
-      "time_seconds": 80,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": false
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": false
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": false
-        },
-        {
-          "id": "literal_multikey",
-          "pass": false
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": false
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": false
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": false
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:48:51.498Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac-with-skills_20260526004851_iter1",
-      "completed_at": "2026-05-26T00:50:11.342Z",
-      "elapsed_seconds": 80,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 819,
-        "output_tokens": 3212,
-        "cache_read_tokens": 147253,
-        "cache_write_tokens": 29001,
-        "total_tokens": 4031,
-        "cost_usd": 0.33927775,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 80
-      }
-    },
-    {
-      "run_id": "a-full-pipeline_story-ac_20260525232740_iter1",
-      "variant": "a-full-pipeline",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.5495,
-      "code_quality_score": 0,
-      "final_score": 0.615,
-      "tokens_used": 13550,
-      "cost_usd": 0.55616075,
-      "time_seconds": 189,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-25T23:27:41.093Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac_20260525232740_iter1",
-      "completed_at": "2026-05-25T23:30:50.398Z",
-      "elapsed_seconds": 189,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 746,
-        "output_tokens": 12804,
-        "cache_read_tokens": 197099,
-        "cache_write_tokens": 21405,
-        "total_tokens": 13550,
-        "cost_usd": 0.55616075,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 189
-      }
-    },
-    {
-      "run_id": "a-full-pipeline_story-ac_20260526005735_iter1",
-      "variant": "a-full-pipeline",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.6942233333333333,
-      "code_quality_score": 0,
-      "final_score": 0.658,
-      "tokens_used": 8411,
-      "cost_usd": 0.5527737500000001,
-      "time_seconds": 133,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:57:35.517Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac_20260526005735_iter1",
-      "completed_at": "2026-05-26T00:59:48.509Z",
-      "elapsed_seconds": 133,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1123,
-        "output_tokens": 7288,
-        "cache_read_tokens": 334755,
-        "cache_write_tokens": 31613,
-        "total_tokens": 8411,
-        "cost_usd": 0.5527737500000001,
-        "num_turns": 15,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 133
-      }
-    },
-    {
-      "run_id": "b-bare-agent_story-ac-with-skills_20260526003424_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.7265533333333334,
-      "code_quality_score": 0,
-      "final_score": 0.668,
-      "tokens_used": 7178,
-      "cost_usd": 0.49632125000000005,
-      "time_seconds": 121,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:34:24.723Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac-with-skills_20260526003424_iter1",
-      "completed_at": "2026-05-26T00:36:26.178Z",
-      "elapsed_seconds": 121,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 821,
-        "output_tokens": 6357,
-        "cache_read_tokens": 264995,
-        "cache_write_tokens": 32127,
-        "total_tokens": 7178,
-        "cost_usd": 0.49632125000000005,
-        "num_turns": 15,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 121
-      }
-    },
-    {
-      "run_id": "b-bare-agent_story-ac_20260525232740_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.5630866666666666,
-      "code_quality_score": 0,
-      "final_score": 0.619,
-      "tokens_used": 12358,
-      "cost_usd": 0.6070905,
-      "time_seconds": 188,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-25T23:27:41.098Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260525232740_iter1",
-      "completed_at": "2026-05-25T23:30:49.545Z",
-      "elapsed_seconds": 188,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1124,
-        "output_tokens": 11234,
-        "cache_read_tokens": 363291,
-        "cache_write_tokens": 22236,
-        "total_tokens": 12358,
-        "cost_usd": 0.6070905,
-        "num_turns": 16,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 188
-      }
-    },
-    {
-      "run_id": "b-bare-agent_story-ac_20260526013954_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.76411,
-      "code_quality_score": 0,
-      "final_score": 0.679,
-      "tokens_used": 6589,
-      "cost_usd": 0.43598475000000003,
-      "time_seconds": 102,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:39:54.530Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526013954_iter1",
-      "completed_at": "2026-05-26T01:41:37.047Z",
-      "elapsed_seconds": 102,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1119,
-        "output_tokens": 5470,
-        "cache_read_tokens": 207717,
-        "cache_write_tokens": 30365,
-        "total_tokens": 6589,
-        "cost_usd": 0.43598475000000003,
-        "num_turns": 11,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 102
-      }
-    },
-    {
-      "run_id": "b-bare-agent_story-ac_20260526015030_iter1",
-      "variant": "b-bare-agent",
+      "run_id": "e-tdd-hooks_semantic-merge_20260527071141_iter1",
+      "variant": "e-tdd-hooks",
       "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.31390333333333337,
+      "criteria_total": 12,
+      "criteria_score": 0.8333333333333334,
+      "efficiency_score": 0.6733233333333333,
       "code_quality_score": 1,
-      "final_score": 0.794,
-      "tokens_used": 19443,
-      "cost_usd": 0.7342312499999999,
-      "time_seconds": 295,
+      "final_score": 0.819,
+      "tokens_used": 7001,
+      "cost_usd": 0.6785265000000001,
+      "time_seconds": 154,
       "model": "opus",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -649,64 +88,72 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "docs_mention_purpose",
+          "pass": false
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge",
       "iteration": 1,
-      "started_at": "2026-05-26T01:50:30.677Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526015030_iter1",
-      "completed_at": "2026-05-26T01:55:26.143Z",
-      "elapsed_seconds": 295,
+      "started_at": "2026-05-27T07:11:41.530Z",
+      "worktree": "/tmp/ab-test-e-tdd-hooks_semantic-merge_20260527071141_iter1",
+      "completed_at": "2026-05-27T07:14:15.749Z",
+      "elapsed_seconds": 154,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 749,
-        "output_tokens": 18694,
-        "cache_read_tokens": 273935,
-        "cache_write_tokens": 20187,
-        "total_tokens": 19443,
-        "cost_usd": 0.7342312499999999,
-        "num_turns": 13,
+        "input_tokens": 1204,
+        "output_tokens": 5797,
+        "cache_read_tokens": 727488,
+        "cache_write_tokens": 26214,
+        "total_tokens": 7001,
+        "cost_usd": 0.6785265000000001,
+        "num_turns": 28,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 295
+        "elapsed_seconds": 154
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac_20260526015549_iter2",
-      "variant": "b-bare-agent",
+      "run_id": "e-tdd-hooks_semantic-merge_20260527071415_iter2",
+      "variant": "e-tdd-hooks",
       "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.72251,
+      "criteria_total": 12,
+      "criteria_score": 0.8333333333333334,
+      "efficiency_score": 0.7226533333333334,
       "code_quality_score": 1,
-      "final_score": 0.917,
-      "tokens_used": 7749,
-      "cost_usd": 0.374637,
-      "time_seconds": 120,
+      "final_score": 0.833,
+      "tokens_used": 6068,
+      "cost_usd": 0.59723425,
+      "time_seconds": 130,
       "model": "opus",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -724,64 +171,72 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "docs_mention_purpose",
+          "pass": false
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge",
       "iteration": 2,
-      "started_at": "2026-05-26T01:55:49.952Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526015549_iter2",
-      "completed_at": "2026-05-26T01:57:50.156Z",
-      "elapsed_seconds": 120,
+      "started_at": "2026-05-27T07:14:15.958Z",
+      "worktree": "/tmp/ab-test-e-tdd-hooks_semantic-merge_20260527071415_iter2",
+      "completed_at": "2026-05-27T07:16:26.200Z",
+      "elapsed_seconds": 130,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 745,
-        "output_tokens": 7004,
-        "cache_read_tokens": 155749,
-        "cache_write_tokens": 18870,
-        "total_tokens": 7749,
-        "cost_usd": 0.374637,
-        "num_turns": 9,
+        "input_tokens": 747,
+        "output_tokens": 5321,
+        "cache_read_tokens": 594011,
+        "cache_write_tokens": 26155,
+        "total_tokens": 6068,
+        "cost_usd": 0.59723425,
+        "num_turns": 26,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 120
+        "elapsed_seconds": 130
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac_20260526071852_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 10,
-      "criteria_total": 10,
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge_20260527071626_iter1",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 12,
+      "criteria_total": 12,
       "criteria_score": 1,
-      "efficiency_score": 0.38577999999999996,
+      "efficiency_score": 0.627,
       "code_quality_score": 1,
-      "final_score": 0.816,
-      "tokens_used": 16422,
-      "cost_usd": 0.7577327499999998,
-      "time_seconds": 270,
+      "final_score": 0.888,
+      "tokens_used": 8800,
+      "cost_usd": 0.8203140000000001,
+      "time_seconds": 171,
       "model": "opus",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -799,69 +254,77 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "docs_mention_purpose",
+          "pass": true
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge",
       "iteration": 1,
-      "started_at": "2026-05-26T07:18:53.132Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526071852_iter1",
-      "completed_at": "2026-05-26T07:23:23.226Z",
-      "elapsed_seconds": 270,
+      "started_at": "2026-05-27T07:16:26.448Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge_20260527071626_iter1",
+      "completed_at": "2026-05-27T07:19:17.068Z",
+      "elapsed_seconds": 171,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 1123,
-        "output_tokens": 15299,
-        "cache_read_tokens": 325223,
-        "cache_write_tokens": 33125,
-        "total_tokens": 16422,
-        "cost_usd": 0.7577327499999998,
-        "num_turns": 15,
+        "input_tokens": 2316,
+        "output_tokens": 6484,
+        "cache_read_tokens": 868718,
+        "cache_write_tokens": 33964,
+        "total_tokens": 8800,
+        "cost_usd": 0.8203140000000001,
+        "num_turns": 31,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 270
+        "elapsed_seconds": 171
       }
     },
     {
-      "run_id": "c-lightweight-guidance_story-ac-with-skills_20260526003424_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.5,
-      "code_quality_score": 0,
-      "final_score": 0.6,
-      "tokens_used": 0,
-      "cost_usd": 0,
-      "time_seconds": 300,
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge_20260527071917_iter2",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 12,
+      "criteria_total": 12,
+      "criteria_score": 1,
+      "efficiency_score": 0.6911700000000001,
+      "code_quality_score": 1,
+      "final_score": 0.907,
+      "tokens_used": 7383,
+      "cost_usd": 0.608087,
+      "time_seconds": 141,
       "model": "opus",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
           "id": "existing_tests_pass",
-          "pass": false
+          "pass": true
         },
         {
           "id": "test_file_exists",
@@ -874,911 +337,34 @@
         {
           "id": "no_external_deps",
           "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:34:24.722Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac-with-skills_20260526003424_iter1",
-      "completed_at": "2026-05-26T00:39:24.899Z",
-      "elapsed_seconds": 300,
-      "exit_code": 143,
-      "usage": {
-        "total_tokens": 0,
-        "cost_usd": 0,
-        "elapsed_seconds": 300,
-        "exit_type": "parse_error",
-        "model": "unknown"
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac_20260525232740_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.46477,
-      "code_quality_score": 0,
-      "final_score": 0.589,
-      "tokens_used": 15523,
-      "cost_usd": 0.67817275,
-      "time_seconds": 228,
-      "model": "opus",
-      "criteria_results": [
+        },
         {
-          "id": "parses_literal_basic",
+          "id": "docs_updated",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
+          "id": "docs_mention_purpose",
           "pass": true
         }
       ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-25T23:27:41.095Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260525232740_iter1",
-      "completed_at": "2026-05-25T23:31:28.998Z",
-      "elapsed_seconds": 228,
+      "challenge": "semantic-merge",
+      "iteration": 2,
+      "started_at": "2026-05-27T07:19:17.324Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge_20260527071917_iter2",
+      "completed_at": "2026-05-27T07:21:38.515Z",
+      "elapsed_seconds": 141,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 751,
-        "output_tokens": 14772,
-        "cache_read_tokens": 334198,
-        "cache_write_tokens": 22083,
-        "total_tokens": 15523,
-        "cost_usd": 0.67817275,
-        "num_turns": 14,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 228
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac_20260526013954_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.35323000000000004,
-      "code_quality_score": 0,
-      "final_score": 0.556,
-      "tokens_used": 17677,
-      "cost_usd": 0.9710772499999998,
-      "time_seconds": 282,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:39:54.528Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260526013954_iter1",
-      "completed_at": "2026-05-26T01:44:36.898Z",
-      "elapsed_seconds": 282,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 760,
-        "output_tokens": 16917,
-        "cache_read_tokens": 622992,
-        "cache_write_tokens": 37257,
-        "total_tokens": 17677,
-        "cost_usd": 0.9710772499999998,
+        "input_tokens": 2653,
+        "output_tokens": 4730,
+        "cache_read_tokens": 579944,
+        "cache_write_tokens": 29856,
+        "total_tokens": 7383,
+        "cost_usd": 0.608087,
         "num_turns": 23,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 282
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac_20260526015549_iter2",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.5742,
-      "code_quality_score": 1,
-      "final_score": 0.872,
-      "tokens_used": 12080,
-      "cost_usd": 0.5710945,
-      "time_seconds": 183,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 2,
-      "started_at": "2026-05-26T01:55:49.979Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260526015549_iter2",
-      "completed_at": "2026-05-26T01:58:52.951Z",
-      "elapsed_seconds": 183,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 750,
-        "output_tokens": 11330,
-        "cache_read_tokens": 299639,
-        "cache_write_tokens": 21484,
-        "total_tokens": 12080,
-        "cost_usd": 0.5710945,
-        "num_turns": 13,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 183
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac_20260526071852_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.5403166666666668,
-      "code_quality_score": 1,
-      "final_score": 0.862,
-      "tokens_used": 13135,
-      "cost_usd": 0.5841857500000001,
-      "time_seconds": 197,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:18:53.137Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260526071852_iter1",
-      "completed_at": "2026-05-26T07:22:10.074Z",
-      "elapsed_seconds": 197,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1199,
-        "output_tokens": 11936,
-        "cache_read_tokens": 180619,
-        "cache_write_tokens": 30317,
-        "total_tokens": 13135,
-        "cost_usd": 0.5841857500000001,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 197
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526013954_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.7897566666666667,
-      "code_quality_score": 0,
-      "final_score": 0.687,
-      "tokens_used": 6191,
-      "cost_usd": 0.41250925000000005,
-      "time_seconds": 89,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:39:54.524Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526013954_iter1",
-      "completed_at": "2026-05-26T01:41:23.876Z",
-      "elapsed_seconds": 89,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1118,
-        "output_tokens": 5073,
-        "cache_read_tokens": 180401,
-        "cache_write_tokens": 30383,
-        "total_tokens": 6191,
-        "cost_usd": 0.41250925000000005,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 89
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526014524_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.49285333333333337,
-      "code_quality_score": 0,
-      "final_score": 0.598,
-      "tokens_used": 13548,
-      "cost_usd": 0.6342029999999999,
-      "time_seconds": 223,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:45:25.218Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526014524_iter1",
-      "completed_at": "2026-05-26T01:49:08.659Z",
-      "elapsed_seconds": 223,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 753,
-        "output_tokens": 12795,
-        "cache_read_tokens": 342751,
-        "cache_write_tokens": 22270,
-        "total_tokens": 13548,
-        "cost_usd": 0.6342029999999999,
-        "num_turns": 14,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 223
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526015030_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.4706033333333333,
-      "code_quality_score": 1,
-      "final_score": 0.841,
-      "tokens_used": 14773,
-      "cost_usd": 0.5532730000000001,
-      "time_seconds": 229,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:50:30.677Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526015030_iter1",
-      "completed_at": "2026-05-26T01:54:20.052Z",
-      "elapsed_seconds": 229,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1117,
-        "output_tokens": 13656,
-        "cache_read_tokens": 161151,
-        "cache_write_tokens": 20114,
-        "total_tokens": 14773,
-        "cost_usd": 0.5532730000000001,
-        "num_turns": 9,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 229
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526015549_iter2",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 2,
-      "criteria_total": 10,
-      "criteria_score": 0.2,
-      "efficiency_score": 0.5,
-      "code_quality_score": 1,
-      "final_score": 0.45,
-      "tokens_used": 0,
-      "cost_usd": 0,
-      "time_seconds": 300,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": false
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": false
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": false
-        },
-        {
-          "id": "literal_multikey",
-          "pass": false
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": false
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": false
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": false
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 2,
-      "started_at": "2026-05-26T01:55:49.989Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526015549_iter2",
-      "completed_at": "2026-05-26T02:00:50.107Z",
-      "elapsed_seconds": 300,
-      "exit_code": 143,
-      "usage": {
-        "total_tokens": 0,
-        "cost_usd": 0,
-        "elapsed_seconds": 300,
-        "exit_type": "parse_error",
-        "model": "unknown"
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526071852_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.5,
-      "code_quality_score": 1,
-      "final_score": 0.85,
-      "tokens_used": 0,
-      "cost_usd": 0,
-      "time_seconds": 300,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:18:53.131Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526071852_iter1",
-      "completed_at": "2026-05-26T07:23:53.296Z",
-      "elapsed_seconds": 300,
-      "exit_code": 143,
-      "usage": {
-        "total_tokens": 0,
-        "cost_usd": 0,
-        "elapsed_seconds": 300,
-        "exit_type": "parse_error",
-        "model": "unknown"
-      }
-    },
-    {
-      "run_id": "e-tdd-hooks_story-ac_20260526073549_iter1",
-      "variant": "e-tdd-hooks",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.7309366666666666,
-      "code_quality_score": 1,
-      "final_score": 0.919,
-      "tokens_used": 6073,
-      "cost_usd": 0.46008200000000005,
-      "time_seconds": 125,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:35:49.440Z",
-      "worktree": "/tmp/ab-test-e-tdd-hooks_story-ac_20260526073549_iter1",
-      "completed_at": "2026-05-26T07:37:54.973Z",
-      "elapsed_seconds": 125,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 749,
-        "output_tokens": 5324,
-        "cache_read_tokens": 264749,
-        "cache_write_tokens": 30538,
-        "total_tokens": 6073,
-        "cost_usd": 0.46008200000000005,
-        "num_turns": 12,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 125
-      }
-    },
-    {
-      "run_id": "e-tdd-hooks_story-ac_20260526073755_iter2",
-      "variant": "e-tdd-hooks",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.5942266666666667,
-      "code_quality_score": 1,
-      "final_score": 0.878,
-      "tokens_used": 10244,
-      "cost_usd": 0.46405625,
-      "time_seconds": 182,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 2,
-      "started_at": "2026-05-26T07:37:55.224Z",
-      "worktree": "/tmp/ab-test-e-tdd-hooks_story-ac_20260526073755_iter2",
-      "completed_at": "2026-05-26T07:40:57.134Z",
-      "elapsed_seconds": 182,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1119,
-        "output_tokens": 9125,
-        "cache_read_tokens": 215760,
-        "cache_write_tokens": 19593,
-        "total_tokens": 10244,
-        "cost_usd": 0.46405625,
-        "num_turns": 11,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 182
-      }
-    },
-    {
-      "run_id": "e-tdd-hooks_story-ac_20260526074057_iter3",
-      "variant": "e-tdd-hooks",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.7056866666666667,
-      "code_quality_score": 1,
-      "final_score": 0.912,
-      "tokens_used": 7098,
-      "cost_usd": 0.3958665,
-      "time_seconds": 134,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 3,
-      "started_at": "2026-05-26T07:40:57.369Z",
-      "worktree": "/tmp/ab-test-e-tdd-hooks_story-ac_20260526074057_iter3",
-      "completed_at": "2026-05-26T07:43:11.547Z",
-      "elapsed_seconds": 134,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1119,
-        "output_tokens": 5979,
-        "cache_read_tokens": 217693,
-        "cache_write_tokens": 21112,
-        "total_tokens": 7098,
-        "cost_usd": 0.3958665,
-        "num_turns": 11,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 134
+        "elapsed_seconds": 141
       }
     }
   ]
