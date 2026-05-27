@@ -34,6 +34,14 @@ Use these when they add value — they are not mandatory:
 
 For non-trivial changes, use `/multi-feature` to create a dedicated worktree and branch. Do not work directly on main.
 
+### Documentation Maintenance
+
+When adding or changing public API, CLI behavior, config schema, or validation rules, update the closest existing documentation in the same commit.
+
+Prefer updating existing docs over creating new files. Keep documentation concise and factual.
+
+Documentation is not needed for: internal refactors, test-only changes, or cleanup with no observable behavior change.
+
 ### Agent/Prompt Changes
 
 When modifying skills, agents, overlays or `.ai-artifacts/` config:
