@@ -224,9 +224,8 @@ function runClaude(worktree, flags, prompt, debugFile) {
 
 function captureDiff(worktree) {
   try {
-    // Stage everything (including new files) so git diff --cached captures all changes
     execSync('git add -A', { cwd: worktree, stdio: 'pipe' })
-    return execSync('git diff --cached', { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
+    return execSync('git diff baseline --cached', { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
   } catch {
     return ''
   }
@@ -234,10 +233,44 @@ function captureDiff(worktree) {
 
 function captureDiffStat(worktree) {
   try {
-    return execSync('git diff --cached --stat', { cwd: worktree, encoding: 'utf8' })
+    return execSync('git diff baseline --cached --stat', { cwd: worktree, encoding: 'utf8' })
   } catch {
     return ''
   }
+}
+
+function captureGitLog(worktree) {
+  try {
+    return execSync('git log --format="%H%n%s%n%b%n---" baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+  } catch {
+    return ''
+  }
+}
+
+function captureDeliveryState(worktree) {
+  const state = { branches: [], commits: [], current_branch: null, untracked_source: [] }
+  try {
+    state.branches = execSync('git branch --format=%(refname:short)', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+      .split('\n').filter(Boolean)
+  } catch {}
+  try {
+    state.current_branch = execSync('git branch --show-current', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim() || null
+  } catch {}
+  try {
+    // Parse commits individually to avoid shell quoting issues
+    const hashes = execSync('git log --format=%H baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+      .split('\n').filter(Boolean)
+    for (const hash of hashes) {
+      const subject = execSync(`git log -1 --format=%s ${hash}`, { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim()
+      const body = execSync(`git log -1 --format=%b ${hash}`, { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim()
+      state.commits.push({ hash, subject, body })
+    }
+  } catch {}
+  try {
+    state.untracked_source = execSync('git ls-files --others --exclude-standard -- packages/ai-artifacts/', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+      .split('\n').filter(f => /\.(js|ts|mjs)$/.test(f))
+  } catch {}
+  return state
 }
 
 function removeWorktree(repoRoot, worktree) {
@@ -262,6 +295,8 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
 
     // Commit the clean state so we can diff only what the agent changes
     execSync('git add -A && git commit -m "baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
+    // Tag it so captureGitLog can reference it (force to overwrite if stale)
+    execSync('git tag -f baseline', { cwd: worktree, stdio: 'pipe' })
 
     // Save metadata
     const metadata = {
@@ -298,7 +333,9 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
       : { total_tokens: 0, cost_usd: 0, elapsed_seconds: elapsed, exit_type: 'parse_error', model: 'unknown' }
     fs.writeFileSync(path.join(runDir, 'usage.json'), JSON.stringify(usageResult, null, 2))
 
-    // Capture diff
+    // Capture diff, git log, and delivery state
+    fs.writeFileSync(path.join(runDir, 'git_log.txt'), captureGitLog(worktree))
+    fs.writeFileSync(path.join(runDir, 'delivery.json'), JSON.stringify(captureDeliveryState(worktree), null, 2))
     fs.writeFileSync(path.join(runDir, 'changes.diff'), captureDiff(worktree))
     fs.writeFileSync(path.join(runDir, 'changes_stat.txt'), captureDiffStat(worktree))
 
