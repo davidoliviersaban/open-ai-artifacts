@@ -5,7 +5,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --test packages/ai-artifacts/app.test.js packages/ai-artifacts/composer.test.js packages/ai-artifacts/install.test.js packages/ai-artifacts/opencode/skill-audit.test.js"
+        "command": "node --test 'packages/ai-artifacts/**/*.test.js'"
       }
     },
     "validate": {

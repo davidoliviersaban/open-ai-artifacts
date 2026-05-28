@@ -48,6 +48,38 @@ artifacts:
         target: .github/skills
         to: .claude/commands
         generatedHash: sha256:e1863d3087a3b0a106ce13a5d1adb5e548f5c9e3ed500913c8b1cc104f938927
+  claude-hooks:
+    kind: hooks
+    targetDir: .claude
+    outputs:
+      - path: .claude/hooks/validate-on-edit.js
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+      - path: .claude/hooks/validate-on-stop.js
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+      - path: .claude/settings.json
+        type: fileCopy
+        regenerate: npm run ai-artifacts:sync
+    steps:
+      - index: 0
+        type: copy
+        from: root:.github/hooks/claude/validate-on-edit.js
+        to: hooks/validate-on-edit.js
+        sourceHash: sha256:3d976a2310be9c4c7daf69c3ac0f432cb8429fc7d008012e88e596c5a443df48
+        generatedHash: sha256:3d976a2310be9c4c7daf69c3ac0f432cb8429fc7d008012e88e596c5a443df48
+      - index: 1
+        type: copy
+        from: root:.github/hooks/claude/validate-on-stop.js
+        to: hooks/validate-on-stop.js
+        sourceHash: sha256:a2fd32ad324f86118df2b78974d27d5087e7b4ec83d289a4888349941adf3d07
+        generatedHash: sha256:a2fd32ad324f86118df2b78974d27d5087e7b4ec83d289a4888349941adf3d07
+      - index: 2
+        type: copy
+        from: root:.github/hooks/claude/settings.json
+        to: settings.json
+        sourceHash: sha256:f34eb169642289f98e14bc1edb665a0a327924d2389df8ad64537b750da97f14
+        generatedHash: sha256:f34eb169642289f98e14bc1edb665a0a327924d2389df8ad64537b750da97f14
   opencode-skills:
     kind: config
     target: .opencode/skills

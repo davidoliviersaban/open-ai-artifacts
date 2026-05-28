@@ -40,6 +40,20 @@ artifacts:
           target: .github/skills
           to: .claude/commands
 
+  - id: claude-hooks
+    kind: hooks
+    targetDir: .claude
+    steps:
+      - copy:
+          from: root:.github/hooks/claude/validate-on-edit.js
+          to: hooks/validate-on-edit.js
+      - copy:
+          from: root:.github/hooks/claude/validate-on-stop.js
+          to: hooks/validate-on-stop.js
+      - copy:
+          from: root:.github/hooks/claude/settings.json
+          to: settings.json
+
   # --- OpenCode (symlinks to .github/ source of truth) ---
 
   - id: opencode-skills
