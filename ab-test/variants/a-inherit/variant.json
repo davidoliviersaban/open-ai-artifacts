@@ -1,0 +1,12 @@
+{
+  "id": "a-inherit",
+  "name": "Current CLAUDE.md (inherit, stripped for headless)",
+  "description": "Uses the production CLAUDE.md with worktree/skill/pipeline rules stripped for headless execution. Represents the current repo configuration untouched.",
+  "claude_md": "inherit",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

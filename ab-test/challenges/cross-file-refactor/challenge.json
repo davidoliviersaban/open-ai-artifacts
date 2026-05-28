@@ -1,0 +1,82 @@
+{
+  "id": "cross-file-refactor",
+  "title": "Cross-file refactor: DRY audit entries + doctor integration",
+  "description": "Refactor duplicated audit logic across multiple files, add new functionality, and integrate with the doctor check system. Tests multi-file coordination and refactoring judgment.",
+  "difficulty": "hard",
+  "prompt": "## Task\n\nRefactor `packages/ai-artifacts/claude/audit-bash.js` and integrate audit validation into the doctor.\n\n## Problem\n\n`writeScriptAuditEntry` and `writeCommandAuditEntry` share nearly identical logic (timestamp, invocation context, session_id, user, repo, writing to two files). This duplication makes adding new audit types error-prone.\n\n## Requirements\n\n1. **Extract shared logic**: Create a `writeAuditEntry(input, fields)` function that handles the common parts (timestamp, invocation context, session/user/repo, writing to both audit files). Both `writeScriptAuditEntry` and `writeCommandAuditEntry` should call it.\n\n2. **Add skill audit support**: Add a new `writeSkillAuditEntry(input, skillName)` function that records when a skill is invoked. It should include `{ type: 'skill', skill: skillName }` in addition to the common fields.\n\n3. **Doctor integration**: Add a check in `packages/ai-artifacts/doctor.js` that warns (not fails) if the audit file `.ai-artifacts/tools.audit.jsonl` does not exist. Use the existing `checkOptionalFile` pattern. The check message should be `'audit trail exists'`.\n\n4. **Update tests**: Add tests for the new `writeSkillAuditEntry` function and the refactored `writeAuditEntry` in `packages/ai-artifacts/claude/audit-bash.test.js`. At least 3 new test cases.\n\n5. **Preserve behavior**: All existing tests must pass unchanged. The refactoring must not change the output format of existing audit entries.\n\n## Constraints\n\n- No external dependencies.\n- Preserve the existing exported API (don't remove exports, but you may add new ones).\n- Existing tests must pass: `npm run test:ai-artifacts`.\n\n## Delivery\n\n1. Create a feature branch.\n2. Commit with a conventional commit message.\n3. Do not leave untracked source files.",
+  "base_branch": "main",
+  "acceptance_criteria": [
+    {
+      "id": "writeAuditEntry_exported",
+      "description": "writeAuditEntry is exported from audit-bash.js",
+      "command": "node -e \"const m = require('./packages/ai-artifacts/claude/audit-bash.js'); if (typeof m.writeAuditEntry !== 'function') process.exit(1)\""
+    },
+    {
+      "id": "writeSkillAuditEntry_exported",
+      "description": "writeSkillAuditEntry is exported from audit-bash.js",
+      "command": "node -e \"const m = require('./packages/ai-artifacts/claude/audit-bash.js'); if (typeof m.writeSkillAuditEntry !== 'function') process.exit(1)\""
+    },
+    {
+      "id": "existing_exports_preserved",
+      "description": "Original exports still exist",
+      "command": "node -e \"const m = require('./packages/ai-artifacts/claude/audit-bash.js'); const needed = ['detectInvocationContext','extractScript','processInput','writeScriptAuditEntry','writeCommandAuditEntry']; for (const n of needed) { if (typeof m[n] !== 'function') { console.error('missing: '+n); process.exit(1) } }\""
+    },
+    {
+      "id": "skill_audit_entry_format",
+      "description": "writeSkillAuditEntry produces correct format with type and skill fields",
+      "command": "node -e \"const fs=require('fs'),path=require('path'),os=require('os'); const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'audit-')); fs.mkdirSync(path.join(tmp,'.ai-artifacts'),{recursive:true}); const orig=process.cwd(); process.chdir(tmp); const m=require(path.join(orig,'packages/ai-artifacts/claude/audit-bash.js')); m.writeSkillAuditEntry({cwd:tmp,session_id:'s1'},'doc-check'); const lines=fs.readFileSync(path.join(tmp,'.ai-artifacts/tools.audit.jsonl'),'utf8').trim().split('\\n'); const entry=JSON.parse(lines[0]); if(entry.type!=='skill'||entry.skill!=='doc-check') process.exit(1)\""
+    },
+    {
+      "id": "refactored_no_duplication",
+      "description": "writeScriptAuditEntry and writeCommandAuditEntry call writeAuditEntry (DRY)",
+      "command": "node -e \"const src=require('fs').readFileSync('./packages/ai-artifacts/claude/audit-bash.js','utf8'); const scriptFn=src.match(/function writeScriptAuditEntry[\\s\\S]*?^}/m); const cmdFn=src.match(/function writeCommandAuditEntry[\\s\\S]*?^}/m); if(!scriptFn[0].includes('writeAuditEntry')||!cmdFn[0].includes('writeAuditEntry')) process.exit(1)\""
+    },
+    {
+      "id": "backward_compat_script_entry",
+      "description": "writeScriptAuditEntry still produces entries with script_path field",
+      "command": "node -e \"const fs=require('fs'),path=require('path'),os=require('os'); const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'audit-')); fs.mkdirSync(path.join(tmp,'.ai-artifacts'),{recursive:true}); const orig=process.cwd(); process.chdir(tmp); const m=require(path.join(orig,'packages/ai-artifacts/claude/audit-bash.js')); m.writeScriptAuditEntry({cwd:tmp,session_id:'s1',tool_input:{command:'node .github/skills/ship/scripts/stats.js'}},'.github/skills/ship/scripts/stats.js','node .github/skills/ship/scripts/stats.js'); const lines=fs.readFileSync(path.join(tmp,'.ai-artifacts/tools.audit.jsonl'),'utf8').trim().split('\\n'); const entry=JSON.parse(lines[0]); if(!entry.script_path||!entry.timestamp) process.exit(1)\""
+    },
+    {
+      "id": "doctor_audit_check",
+      "description": "doctorAIArtifacts includes audit trail check",
+      "command": "node -e \"const fs=require('fs'),path=require('path'),os=require('os'); const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'doc-')); fs.mkdirSync(path.join(tmp,'.ai-artifacts'),{recursive:true}); fs.writeFileSync(path.join(tmp,'package.json'),'{}'); fs.writeFileSync(path.join(tmp,'.ai-artifacts/artifacts.yml'),'version: 1\\npackages: {}\\nartifacts: []'); fs.writeFileSync(path.join(tmp,'.ai-artifacts/lock.yml'),'packages: {}\\nartifacts: {}'); fs.writeFileSync(path.join(tmp,'AGENTS.md'),''); const {doctorAIArtifacts}=require('./packages/ai-artifacts/doctor.js'); const result=doctorAIArtifacts(tmp,{packageRoot:path.resolve('packages/ai-artifacts')}); const msgs=result.checks.map(c=>c.message); if(!msgs.some(m=>m.includes('audit trail'))) process.exit(1)\""
+    },
+    {
+      "id": "doctor_audit_warn_not_fail",
+      "description": "Missing audit file produces warn, not fail (doctor still passes overall)",
+      "command": "node -e \"const fs=require('fs'),path=require('path'),os=require('os'); const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'doc-')); fs.mkdirSync(path.join(tmp,'.ai-artifacts'),{recursive:true}); fs.writeFileSync(path.join(tmp,'package.json'),'{}'); fs.writeFileSync(path.join(tmp,'.ai-artifacts/artifacts.yml'),'version: 1\\npackages: {}\\nartifacts: []'); fs.writeFileSync(path.join(tmp,'.ai-artifacts/lock.yml'),'packages: {}\\nartifacts: {}'); fs.writeFileSync(path.join(tmp,'AGENTS.md'),''); const {doctorAIArtifacts}=require('./packages/ai-artifacts/doctor.js'); const result=doctorAIArtifacts(tmp,{packageRoot:path.resolve('packages/ai-artifacts')}); if(!result.ok) process.exit(1); const auditCheck=result.checks.find(c=>c.message.includes('audit trail')); if(auditCheck.status!=='warn') process.exit(1)\""
+    },
+    {
+      "id": "existing_tests_pass",
+      "description": "No regressions in existing test suite",
+      "command": "npm run test:ai-artifacts"
+    },
+    {
+      "id": "new_tests_exist",
+      "description": "New test cases added for writeSkillAuditEntry and writeAuditEntry",
+      "command": "node -e \"const src=require('fs').readFileSync('./packages/ai-artifacts/claude/audit-bash.test.js','utf8'); const matches=src.match(/test\\(/g)||[]; if(matches.length<6) process.exit(1)\""
+    },
+    {
+      "id": "committed_on_branch",
+      "description": "Agent committed on a feature branch",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.current_branch||d.current_branch==='main'||d.commits.length===0) process.exit(1)\""
+    },
+    {
+      "id": "commit_message_conventional",
+      "description": "Commit message follows conventional format",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.commits[0]||!/^(feat|fix|refactor|chore|docs|test)\\\\(.+\\\\): .+/.test(d.commits[0].subject)) process.exit(1)\""
+    },
+    {
+      "id": "no_untracked_source_files",
+      "description": "No untracked source files left behind",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(d.untracked_source.length>0) process.exit(1)\""
+    }
+  ],
+  "scoring": {
+    "criteria_weight": 0.5,
+    "efficiency_weight": 0.3,
+    "code_quality_weight": 0.2,
+    "max_tokens_budget": 60000,
+    "max_time_seconds": 300
+  }
+}

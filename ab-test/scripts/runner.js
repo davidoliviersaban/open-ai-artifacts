@@ -75,8 +75,8 @@ function prepareWorktree(worktree, variant, repoRoot) {
       if (fs.existsSync(skillsDir)) fs.rmSync(skillsDir, { recursive: true })
     }
   }
-  // 'inherit' = keep CLAUDE.md + skills, but strip rules that block headless execution
-  if (variant.claude_md === 'inherit') {
+  // 'inherit' or 'inherit-trimmed' = keep CLAUDE.md + skills, strip rules that block headless execution
+  if (variant.claude_md === 'inherit' || variant.claude_md === 'inherit-trimmed') {
     if (fs.existsSync(claudeMdPath)) {
       let content = fs.readFileSync(claudeMdPath, 'utf8')
       // Remove Worktree Requirement (prevents coding directly in the worktree)
@@ -87,6 +87,13 @@ function prepareWorktree(worktree, variant, repoRoot) {
       content = content.replace(/### Skill Invocation[\s\S]*?(?=###|## )/m, '')
       // Remove pipeline table (references mandatory skills that block implementation)
       content = content.replace(/### Pipeline \(every change\)[\s\S]*?(?=## )/m, '')
+
+      if (variant.claude_md === 'inherit-trimmed') {
+        content = content.replace(/## Whitepaper Editorial Rules[\s\S]*?(?=## )/m, '')
+        content = content.replace(/## Core Content Decisions[\s\S]*?(?=## )/m, '')
+        content = content.replace(/## Package Direction[\s\S]*?(?=## )/m, '')
+      }
+
       // Add autonomous execution directive
       content += '\n\n## Autonomous Execution\n\n'
       content += '- You are running in autonomous mode. Implement directly without asking for confirmation.\n'
