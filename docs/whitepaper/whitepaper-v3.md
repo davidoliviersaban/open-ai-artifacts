@@ -105,7 +105,7 @@ Cette partie pose le changement conceptuel : on ne parle plus d'un assistant de 
 Cette partie décrit les fondations techniques et informationnelles nécessaires pour que les agents fonctionnent.
 
 4. L'architecture de l'information.
-5. Les instructions IA sont du code de production.
+5. Configuration des agents : premiers findings.
 6. Skills, agents et tools comme infrastructure réutilisable.
 
 7. Setup et onboarding de l'agent.
@@ -357,43 +357,39 @@ Le context engineering n'est donc pas une mode. C'est une extension naturelle de
 
 ---
 
-## 5. Les instructions IA sont du code de production
+## 5. Configuration des agents : premiers findings
 
-Un prompt non versionné est de la dette technique.
+La configuration utile d'un agent est souvent beaucoup plus courte que ce que l'on imagine.
+
+Ce chapitre concentre les findings observés pendant les premiers essais, notamment sur ce repository et sur des projets simples. Il ne prétend pas encore être une théorie générale. Il documente plutôt une série de corrections de trajectoire : certains éléments que je pensais structurants se sont révélés moins décisifs pour le modèle, tandis que des mécanismes plus bas niveau, comme les hooks et le feedback immédiat, ont eu davantage d'effet sur le comportement réel.
+
+**Finding 1 : l'agent minimum bat souvent l'agent complexe**
 
 Beaucoup d'équipes commencent avec un fichier unique : `AGENTS.md`, parfois 600 lignes ou plus. Et encore, c'est le meilleur des cas. La majorité n'a même pas ce fichier. Tout est dans les habitudes, les conversations, les prompts personnels, les essais de chacun. Le résultat est prévisible : agents inconsistants, instructions ignorées, tests oubliés, worktrees non créés, commits trop tôt, PRs à moitié implémentées, frustration générale.
+
+Mais l'expérience inverse est tout aussi importante : sur un projet simple, comme celui-ci, ajouter beaucoup de documentation agentique n'améliore pas forcément le résultat. Le modèle comprend déjà une grande partie des conventions générales de développement. Si le projet est petit, lisible, bien structuré et testable, il peut s'en sortir avec très peu d'instructions. Dans ce contexte, un agent minimum fonctionne souvent mieux qu'un agent complexe, parce qu'il réduit le bruit et laisse ressortir les règles vraiment importantes.
+
+Le minimum utile tient parfois en quelques mots de méthodologie : rechercher avant d'implémenter, travailler dans un worktree, valider avant de livrer, ne pas committer sans instruction explicite. Ce n'est pas un manuel. C'est un garde-fou.
 
 Un exemple concret illustre ce risque mieux que n'importe quelle theorie. GMS Runner est un projet open-source interne chez Amadeus, ouvert à toutes les contributions, qui suit les bonnes pratiques de code habituelles de l'organisation. Quand j'ai voulu utiliser un agent pour corriger un bug sur ce projet, il n'existait aucune configuration agentique : pas d'AGENTS.md, pas de règles de workflow, pas de guardrails.
 
 L'agent a travaillé de manière "naturelle" : il a analysé le code, estimé avoir identifié la cause du bug, produit une correction, puis committé et poussé le changement sans que je lui demande, et sans vérifier que le fix fonctionnait réellement. J'ai eu beau lui répéter les consignes — ne pas committer sans confirmation explicite, vérifier d'abord que le bug est reproduit et corrigé — l'agent continuait d'oublier ces règles à chaque itération, tout en s'excusant poliment. La même instruction, répétée dans la conversation, n'avait aucun effet durable.
 
-Le problème n'était pas le modèle. C'était l'absence d'instructions versionnées.
+Le problème n'était pas le modèle. C'était l'absence d'un minimum d'instructions persistantes.
 
 Le jour où j'ai créé un AGENTS.md décrivant la méthodologie de travail — Test-Driven Development (TDD) et Acceptance Test-Driven Development (ATDD), pas de commit sans confirmation explicite de ma part, vérification du fix avant toute autre action — le comportement a radicalement changé. L'agent a commencé par créer un test pour reproduire le bug. Il a ensuite corrigé le code, vérifié que le test passait, puis s'est rendu compte que le fix était incomplet. Il a itéré, rajouté des tests unitaires et des tests E2E dans un projet qui en manquait, et n'a commité aucune ligne avant que je valide explicitement.
 
-La même tâche. Le même agent. Le même modèle. La seule différence : un fichier d'instructions versionné qui décrivait le workflow attendu.
+La même tâche. Le même agent. Le même modèle. La seule différence : quelques règles persistantes qui décrivaient le workflow attendu.
 
-Le problème n'est pas que les agents sont incapables de suivre des instructions. Le problème est que les instructions sont souvent mal conçues, non composées, non testees et non gouvernées.
+**Finding 2 : la documentation projet affecte moins le résultat quand le projet est simple**
 
-Traiter les instructions IA comme du code de production signifie les versionner, les factoriser, les composer, les relire, les auditer et supprimer ce qui est obsolète. Cela oblige aussi à distinguer les règles universelles du contexte projet, puis à séparer ce qui relève d'un agent, d'un skill ou d'un tool.
+L'hypothèse de départ était que plus la documentation est riche, meilleur sera l'agent. Cette hypothèse reste vraie pour des systèmes complexes, des domaines métier subtils, des architectures distribuées, des règles de sécurité, des workflows internes ou des décisions historiques que le modèle ne peut pas deviner. Mais elle est moins vraie sur un projet simple.
 
-L'idée d'un `ai-artifact` va dans ce sens : formaliser la structure IA d'un projet et référencer des documents ou méthodes réutilisables. Personne ne maintiendra seul les meilleurs prompts du monde. Les fournisseurs, les chercheurs, les grandes communautés open-source et les meilleurs praticiens produiront des configurations de référence. La bonne architecture doit permettre de les utiliser sans lock-in, puis d'ajouter une couche spécifique au projet.
+Dans un repository court, cohérent et peu ambigu, l'agent apprend beaucoup en lisant le code. Une documentation longue peut alors avoir un rendement marginal faible, voire négatif si elle noie les quelques règles critiques. La règle d'or devient donc plus stricte : documenter ce que l'agent ne peut pas savoir seul, et retirer le reste.
 
-Je propose ce framework `ai-artifacts` pour gérer cette partie : mettre à disposition des bases de connaissances, des exemples d'agents, des skills, des workflows et des références versionnées dans lesquelles les équipes peuvent piocher. Il ne s'agit pas d'imposer un kit complet à toutes les équipes, mais de leur donner une bibliothèque d'inspiration fiable, auditable et composable.
-
-La structure cible est simple : une base upstream solide, des add-ons pour les besoins vraiment spécifiques, des overlays pour adapter un skill ou un agent existant, et un fichier de règles projet qui ne contient que ce qui doit absolument être respecté.
-
-Un point est non négociable : cette structure ne doit pas devenir un standard interne imposé par le management. La gouvernance doit guider, pas contraindre. Les standards utiles s'imposent de facto parce qu'ils sont adoptés massivement, parce qu'ils ont prouvé qu'ils étaient meilleurs, plus simples, plus fiables ou plus faciles à maintenir. Ils ne deviennent pas bons parce qu'une organisation centrale les a déclarés obligatoires.
-
-`AGENTS.md` ne doit pas devenir une encyclopedie. Il ne sert à rien d'expliquer à un agent moderne toutes les bonnes pratiques de code. Il les connait souvent mieux que nous. On peut lui rappelér des principes : respecter l'ACIDite, appliquer SOLID, suivre Tidy First, penser à Kent Beck, Martin Fowler, Robert Martin. Mais il faut éviter de re-documenter ce que le modèle sait déjà.
-
-La règle d'or est simple : documenter ce que l'agent ne peut pas savoir seul, c'est-à-dire le contexte local, les contraintes spécifiques, les décisions d'architecture, les workflows internes, les commandes exactes et les interdits non négociables.
-
-**De 600 à 70 lignes : ce que ce chiffre révèle**
+`AGENTS.md` ne doit pas devenir une encyclopedie. Il ne sert à rien d'expliquer à un agent moderne toutes les bonnes pratiques de code. Il les connait souvent mieux que nous. On peut lui rappeler des principes : respecter l'ACIDite, appliquer SOLID, suivre Tidy First, penser à Kent Beck, Martin Fowler, Robert Martin. Mais il faut éviter de re-documenter ce que le modèle sait déjà.
 
 Un AGENTS.md de 600 lignes échoue pour une raison précise : l'information importante est noyée dans du contenu que le modèle connaît déjà. Plus le fichier est long, plus l'agent perd le signal critique dans le bruit. Il lit, il traite, puis il oublie — pas par incompétence, mais parce que la densité d'information utile est trop faible pour que les règles vraiment importantes émergent durablement à chaque interaction.
-
-Six cents lignes représentent facilement environ trente pages d'instructions. La métaphore humaine est utile ici, même si elle reste une simplification : on ne s'attendrait pas à ce qu'un nouvel arrivant respecte à la lettre trente pages d'instructions détaillées tout en réalisant correctement une tâche complexe. Il ne faut pas attendre cela d'un agent non plus. Plus on empile les règles, plus on transforme l'instruction en bruit.
 
 J'ai réduit mon propre AGENTS.md de 600 à 70 lignes. Le résultat n'est pas un agent appauvri. C'est un agent qui fait moins d'erreurs. Il n'a plus besoin de s'excuser d'avoir oublié de créer un worktree avant d'implémenter une feature, d'appliquer le TDD, ou de valider les changements avant de committer et pusher. Ces règles sont respectées parce qu'elles sont maintenant les seules règles présentes — claires, sans bruit, sans compétition avec cinquante autres paragraphes de moindre importance.
 
@@ -403,23 +399,51 @@ Que contenaient les 530 lignes supprimées ? Essentiellement trois catégories :
 - **Les explications pédagogiques** sur le pourquoi de chaque règle. L'agent n'a pas besoin de comprendre le raisonnement pour respecter le guardrail.
 - **Les scénarios hypothétiques** jamais rencontrés, ajoutés par précaution mais jamais activés.
 
-Ce qui reste dans les 70 lignes : le workflow obligatoire (TDD, worktree, validation avant commit), les interdits non négociables, les commandes exactes spécifiques au projet, et des pointeurs vers les skills et tools qui gèrent le reste.
+Ce qui reste dans les 70 lignes : le workflow obligatoire, les interdits non négociables, les commandes exactes spécifiques au projet, et des pointeurs vers les mécanismes qui gèrent le reste.
 
-C'est précisément la décomposition en agents, skills et tools qui rend cette réduction possible. Les règles de comportement restent dans l'agent. La méthodologie de travail devient un skill réutilisable. Les actions répétables deviennent des tools déterministes. L'AGENTS.md n'a plus besoin de tout contenir — il délègue.
+**Finding 3 : les skills servent souvent plus aux humains qu'aux modèles**
 
-Le bénéfice est immédiat et mesurable : moins d'erreurs, moins d'excuses, moins de temps perdu à corriger des oublis, plus de confiance dans le résultat. C'est un cercle vertueux, et il commence par supprimer du texte.
+Les skills restent utiles, mais leur utilité observée n'est pas toujours celle que j'imaginais. Les modèles les utilisent peu, ou pas systématiquement, surtout lorsque la tâche est simple et que le contexte direct suffit. En revanche, les skills sont très utiles pour les humains : ils rendent les interactions plus simples, donnent un vocabulaire partagé, découpent les modes de travail et évitent de recopier les mêmes consignes dans chaque conversation.
 
-Cette industrialisation rencontre une résistance. Certains pensent que chaque agent sera tellement spécifique à une industrie, un client ou un projet qu'aucun framework n'est possible. C'est partiellement vrai. Mais si l'on peut écrire des livres sur la programmation, l'Agile où l'architecture, c'est qu'il existe des principes généraux. Ces principes doivent être publiés, références, réutilisables. Le contexte vient ensuite.
+Un skill peut donc avoir de la valeur même s'il n'est pas invoqué parfaitement par le modèle. Il documente une pratique. Il aide l'humain à cadrer sa demande. Il peut servir de checklist. Il rend le processus visible et améliorable. Sa valeur est moins dans la magie de l'invocation automatique que dans la standardisation légère de l'interaction humain-modèle.
 
-L'objectif n'est pas de créer une usine à gaz propriétaire, ni une doctrine interne unique. L'objectif est de proposer des références fiables, des exemples solides, des composants réutilisables et une structure simple, extensible, supprimable le jour ou une meilleure solution arrive. La valeur n'est pas dans le verrouillage. Elle est dans l'aide apportée aux équipes.
+Cela change la manière de concevoir les skills. Il ne faut pas les écrire comme des encyclopédies supposées piloter le modèle à chaque étape. Il faut les écrire comme des supports compacts d'interaction : quand les utiliser, quel problème ils résolvent, quels inputs ils attendent, quels outputs ils produisent, et quels garde-fous restent non négociables.
+
+**Finding 4 : les hooks donnent plus de feedback que les prompts**
+
+Les prompts expliquent. Les hooks réagissent.
+
+Dans les essais, les mécanismes de feedback immédiat se sont révélés plus importants que des instructions longues. Un prompt peut dire "n'oublie pas de valider". Un hook peut détecter qu'aucune validation n'a été lancée, bloquer une action, signaler l'erreur ou forcer une boucle de correction. Pour un agent, ce feedback est souvent plus efficace qu'un paragraphe supplémentaire dans `AGENTS.md`.
+
+Cela ne veut pas dire que les prompts sont inutiles. Ils définissent l'intention, le rôle et les interdits. Mais quand une règle doit être respectée systématiquement, elle devrait être transformée autant que possible en feedback exécutable : hook, validation, test, check de PR, script, tool déterministe ou commentaire automatique. Le prompt est le contrat. Le hook est le signal de réalité.
+
+Ce point déplace le centre de gravité de la configuration agentique. La question n'est plus seulement : "quelles instructions écrire ?" Elle devient : "quel feedback l'agent reçoit-il quand il se trompe ?" Un système sans feedback robuste dépend de la mémoire et de la bonne volonté du modèle. Un système avec hooks transforme les erreurs fréquentes en apprentissage opérationnel.
+
+**Finding 5 : l'agent autonome n'a pas les mêmes besoins qu'un agent interactif**
+
+Un agent qui travaille avec un humain peut poser des questions, vérifier une hypothèse, demander confirmation avant une action risquée, ou expliciter un doute. Un agent autonome, déclenché par un événement ou une pipeline, n'a pas la même boucle. Il doit décider plus souvent seul, produire un rapport plus structuré, et savoir s'arrêter proprement quand le contexte manque.
+
+On peut donc configurer différemment ces deux types d'agents. L'agent interactif peut être optimisé pour la collaboration : questions courtes, clarification, prise en compte du feedback humain. L'agent autonome doit être optimisé pour la prudence : critères de stop, seuils de confiance, preuves, logs, screenshots, validation explicite de ce qui a été fait et de ce qui ne l'a pas été.
+
+Mais je ne sais pas encore si cette séparation est toujours souhaitable. Elle casse une partie de la boucle de trust. Quand l'humain interagit avec l'agent, il voit les hésitations, les reformulations, les erreurs et les corrections. Quand l'agent agit seul, la confiance dépend davantage du rapport final, des hooks, des preuves et de la reproductibilité. C'est plus scalable, mais moins lisible psychologiquement.
+
+La prudence consiste donc à ne pas traiter l'autonomie comme un niveau supérieur par défaut. L'autonomie est un mode de fonctionnement différent, qui exige plus de preuves, plus de feedback exécutable et une politique claire de stop. Un agent autonome ne devrait pas seulement être un agent interactif auquel on retire l'humain.
+
+Traiter les instructions IA comme du code de production reste utile, mais avec une nuance importante : le but n'est pas d'écrire plus d'instructions. Le but est de versionner le minimum utile, de supprimer le bruit, de transformer les règles critiques en feedback exécutable, et d'accepter que certains artefacts, comme les skills, soient d'abord des supports de collaboration humaine.
+
+L'idée d'un `ai-artifact` va dans ce sens : formaliser la structure IA d'un projet et référencer des documents ou méthodes réutilisables. La bonne architecture doit permettre d'utiliser des références communes sans lock-in, puis d'ajouter une couche spécifique au projet. Elle doit aussi rester supprimable : si une instruction, un skill ou un hook ne produit pas de meilleur comportement, il doit pouvoir disparaître.
+
+Un point est non négociable : cette structure ne doit pas devenir un standard interne imposé par le management. La gouvernance doit guider, pas contraindre. Les standards utiles s'imposent de facto parce qu'ils sont adoptés massivement, parce qu'ils ont prouvé qu'ils étaient meilleurs, plus simples, plus fiables ou plus faciles à maintenir. Ils ne deviennent pas bons parce qu'une organisation centrale les a déclarés obligatoires.
 
 **Anti-patterns**
 
 | Anti-pattern | Symptôme | Correction |
 |---|---|---|
 | Prompt spaghetti | Instructions longues, contradictoires, non maintenues. | Factoriser en agents, skills, tools. |
-| Règles non testees | L'agent affirme avoir respecté le process mais ne l'a pas fait. | Ajouter des tools de validation et des checkpoints. |
-| Documentation inutile | Le prompt expliqué des bonnes pratiques generales que le modèle connait déjà. | Garder uniquement le contexte local et les interdits. |
+| Agent sur-configuré | L'agent reçoit trop de règles et oublie les seules qui comptent. | Réduire à la méthodologie minimale et aux interdits non négociables. |
+| Skills fantômes | Les skills existent mais le modèle les invoque peu ou mal. | Les concevoir aussi comme supports humains et checklists d'interaction. |
+| Règles non testees | L'agent affirme avoir respecté le process mais ne l'a pas fait. | Ajouter des hooks, tools de validation et checkpoints. |
+| Documentation inutile | Le prompt explique des bonnes pratiques generales que le modèle connait déjà. | Garder uniquement le contexte local et les interdits. |
 | Framework interne verrouillant | Tout le monde dépend d'une solution propriétaire impossible à remplacer. | Préférer une structure simple, composable, supprimable. |
 | Gouvernance prescriptive | Une équipe centrale imposé un framework et une méthode unique. | Guider, documenter, supporter ; laisser les meilleurs standards s'imposer par adoption. |
 
@@ -427,9 +451,10 @@ L'objectif n'est pas de créer une usine à gaz propriétaire, ni une doctrine i
 
 | Avant | Après |
 |---|---|
-| Les prompts vivent dans les conversations. | Les instructions sont versionnées et auditees. |
+| L'agent est configuré par accumulation de prompts. | L'agent est configuré par un minimum d'instructions et du feedback exécutable. |
 | `AGENTS.md` devient un fourre-tout. | `AGENTS.md` contient les règles critiques et référence le reste. |
-| Chaque équipe reinvente ses prompts. | Les équipes composent une base partagee avec des overlays locaux. |
+| Les skills sont supposés piloter automatiquement le modèle. | Les skills servent aussi à structurer l'interaction humaine. |
+| L'autonomie est vue comme une progression naturelle. | L'autonomie est traitée comme un mode différent, avec preuves et critères de stop. |
 
 **Mesurer l'impact du contenu : benchmark A/B sur les instructions**
 
@@ -453,29 +478,31 @@ Un deuxième finding concerne la documentation. Un agent avec une guidance expli
 
 **Actions concrètes**
 
-1. Extraire les instructions critiques des conversations et les versionner.
+1. Réduire la configuration agentique au minimum observable : méthodologie, interdits, commandes locales et critères de stop.
 2. Supprimer des instructions tout ce que le modèle sait déjà, sauf rappel court et intentionnel.
-3. Mettre en place un audit régulier des agents, skills, prompts et tools.
-4. Benchmarker le fichier d'instructions : mesurer l'impact de chaque section avant de l'ajouter ou la supprimer.
-5. Ajouter une instruction courte et explicite pour chaque comportement attendu de l'agent (ex. documentation), plutôt que de compter sur le contexte implicite.
+3. Transformer les règles critiques en hooks, validations, tools ou checks automatiques quand c'est possible.
+4. Traiter les skills comme des supports d'interaction autant que comme des capacités invoquées par le modèle.
+5. Mettre en place un audit régulier des agents, skills, prompts et tools.
+6. Benchmarker le fichier d'instructions : mesurer l'impact de chaque section avant de l'ajouter ou la supprimer.
+7. Ajouter une instruction courte et explicite pour chaque comportement attendu de l'agent (ex. documentation), plutôt que de compter sur le contexte implicite.
 
 ---
 
 ## 6. Skills, agents et tools comme infrastructure réutilisable
 
-Un agent sans skills ni tools est un junior brillant sans environnement de travail.
+Un système agentique sans feedback ni tools reste fragile, même avec de bons prompts.
 
 Pour industrialiser l'usage des agents, il faut une taxonomie claire. Sinon tout devient prompt. Et quand tout devient prompt, plus rien n'est vraiment maintenable.
 
 Un agent est un rôle avec des règles. Un agent développeur suit un workflow de code, respecte des guardrails, sait comment tester, quand demander de l'aide, comment ouvrir une PR. Un agent PM parle de manière fonctionnelle, évite les termes techniques inutiles, clarifié le problème client, les critères d'acceptation et les impacts produit. Un agent Product Designer se concentre sur le problème utilisateur, l'intention design, les principes d'interaction et les critères vérifiables par un designer.
 
-Un skill est une connaissance réutilisable. Comment maintenir la documentation interne. Comment auditer le code. Quels sont les grands KPIs d'une application web. Comment écrire une story. Comment conduire une revue de sécurité. Le skill n'est pas une personne. C'est une capacité que plusieurs agents peuvent mobiliser.
+Un skill est une connaissance réutilisable. Comment maintenir la documentation interne. Comment auditer le code. Quels sont les grands KPIs d'une application web. Comment écrire une story. Comment conduire une revue de sécurité. Le skill n'est pas une personne. C'est une capacité que plusieurs agents peuvent mobiliser, mais aussi un support que les humains peuvent utiliser pour cadrer leur interaction avec le modèle.
 
 Un tool est une action déterministe. Créer un worktree. Lancer l'application en local. Démarrer Docker et les services nécessaires. Exécuter la validation. Générer un rapport. La valeur du tool est de limiter la variabilité. Quand une action doit être répétée toujours de la même manière, elle ne doit pas être décrite dans un prompt. Elle doit être automatisée.
 
-Cette séparation évite un piège frequent : mettre trop de choses dans les instructions. Si un agent doit créer un worktree, il ne doit pas interpreter quinze lignes de procedure. Il doit appelér un outil. Si une équipe repete les mêmes instructions de review, elle doit créer un skill. Si un comportement est non négociable, il appartient aux règles de l'agent.
+Cette séparation évite un piège frequent : mettre trop de choses dans les instructions. Si un agent doit créer un worktree, il ne doit pas interpreter quinze lignes de procedure. Il doit appelér un outil. Si une équipe repete les mêmes instructions de review, elle peut créer un skill pour rendre l'interaction plus simple et plus stable. Si un comportement est non négociable, il appartient aux règles minimales de l'agent ou, mieux, à un hook quand la règle peut être vérifiée automatiquement.
 
-Le skill le plus precieux n'est pas toujours celui qui produit le plus de code. C'est souvent le skill d'audit. Il vérifie que les skills restent compacts, composables et non redondants. Il detecte les actions déterministes qui devraient être des tools. Il signale les instructions obsolètes. Il joue pour l'infrastructure IA le rôle que les tests et linters jouent pour le code.
+Le skill le plus precieux n'est pas toujours celui qui produit le plus de code. C'est souvent le skill d'audit, parce qu'il aide l'humain à garder la configuration petite. Il vérifie que les skills restent compacts, composables et non redondants. Il detecte les actions déterministes qui devraient être des tools ou des hooks. Il signale les instructions obsolètes. Il joue pour l'infrastructure IA le rôle que les tests et linters jouent pour le code.
 
 Sans audit, une bibliothèque de skills se dégrade silencieusement. Les doublons apparaissent. Les règles se contredisent. Les agents suivent des chemins divergents. Les prompts grossissent. Les équipes perdent confiance.
 
@@ -514,13 +541,13 @@ Ce modèle illustre un principe clé : l'agent QA ne remplace pas la QA. Il dép
 |---|---|
 | Tout est prompt. | Les rôles, connaissances et actions sont séparés. |
 | L'agent improvise les procédures. | Les tools exécutent les procédures déterministes. |
-| Les skills s'empilent sans gouvernance. | Les skills sont audités comme du code. |
+| Les skills s'empilent sans gouvernance. | Les skills sont audités, utilisés ou supprimés selon leur valeur réelle. |
 
 **Actions concrètes**
 
-1. Classer chaque instruction existante : règle d'agent, skill réutilisable ou tool déterministe.
+1. Classer chaque instruction existante : règle d'agent, skill réutilisable, hook de feedback ou tool déterministe.
 2. Automatiser les procédures répétables au lieu de les décrire en langage naturel.
-3. Créer un audit trail minimal : skill appelé, agent utilisateur, résultat, date, dérive éventuelle.
+3. Créer un audit trail minimal : skill appelé ou consulté, agent ou humain utilisateur, résultat, date, dérive éventuelle.
 
 ---
 

@@ -11,7 +11,7 @@
 | Document | Titre | Usage |
 |---|---|---|
 | Version management | **Repenser l'agilité à l'âge des agents** | Version condensée pour management, Heads of Engineering et Product Leaders. |
-| Version longue | **La mort du code manuel : repenser le SDLC à l'âge des agents** | Version détaillée pour Engineering Managers et Tech Leads. |
+| Version longue | **La mort du code manuel : repenser le SDLC[^sdlc] à l'âge des agents** | Version détaillée pour Engineering Managers et Tech Leads. |
 
 ---
 
@@ -19,11 +19,11 @@
 
 L'IA ne transforme pas seulement l'écriture du code. Elle transforme le système de delivery.
 
-Ce document est la version management condensée. La version longue, **La mort du code manuel : repenser le SDLC à l'âge des agents**, contient les détails techniques et les exemples complets.
+Ce document est la version management condensée. La version longue, **La mort du code manuel : repenser le SDLC[^sdlc] à l'âge des agents**, contient les détails techniques et les exemples complets.
 
 Le message pour le management est direct : acheter des licences ne suffit pas. Il faut construire un setup agentique[^agent] : documentation versionnée, instructions courtes, tools[^tool] déterministes, CI/CD[^cicd] dimensionnée, environnements de PR[^pr], code owners, guardrails et règles de validation.
 
-La valeur apparaît quand toute l'équipe utilise le même flux : PM, CSM, QA, designers, développeurs et agents[^skill]. Le porteur du besoin valide le fonctionnel ; le code owner valide le technique.
+La valeur apparaît quand toute l'équipe utilise le même flux : PM[^pm], CSM[^csm], QA[^qa], designers, développeurs et agents[^skill]. Le porteur du besoin valide le fonctionnel ; le code owner valide le technique.
 
 ---
 
@@ -97,7 +97,7 @@ Un setup agentique robuste contient au minimum :
 | Code owners | Maintiennent l'accountability technique. |
 | Standup de régulation | Rend visible qui prend quoi et avec quel mode de delivery. |
 | Outillage commun | Donne à toute l'équipe accès au code, à GitHub, aux agents et aux mêmes références. |
-| Formation non-dev | Permet aux PM, PO, QA, CSM et designers de tester, lire une PR et valider sur environnement de PR. |
+| Formation non-dev | Permet aux PM, PO[^po], QA, CSM et designers de tester, lire une PR et valider sur environnement de PR. |
 
 Deux exemples montrent pourquoi ce setup n'est pas cosmétique.
 
@@ -132,11 +132,11 @@ Sur mon projet test, la composition d'équipe a évolué ainsi :
 
 | Rôle | Avant | Après |
 |---|---|---|
-| Développeurs | 3 FE + 3 BE | 2.5 (full-stack) |
+| Développeurs | 3 FE[^fe] + 3 BE[^be] | 2.5 (full-stack) |
 | QA | 1 (100%) | 0.2 (1j/semaine, expert transverse) |
-| DevOps | 1 (embarqué) | 0.3 (support externe) |
+| DevOps[^devops] | 1 (embarqué) | 0.3 (support externe) |
 | PM + PO | 2 personnes distinctes | 1 (rôles fusionnés) |
-| UX Designer (UXD) | 1 | 0.5 |
+| UX Designer (UXD[^uxd]) | 1 | 0.5 |
 | CSM | — (n'existait pas) | 1 (rôle ajouté) |
 | **Total ETP (Équivalent Temps Plein)** | **~12** | **~4.5** |
 
@@ -210,7 +210,7 @@ Décision : ne pas démarrer par "livrer plus vite". Le premier objectif est d'a
 ### Phase 1 : Préparer Le Terrain, Pas Tout L'Agentique
 
 **Durée recommandée** : 2 à 4 semaines selon maturité existante.  
-**Investissement humain** : ~4 ETP (1 tech lead/architect, 1 DevOps, 1 PM/PDA pour audit et préparation repo, 1 expert agentic pour accompagner l'adoption).  
+**Investissement humain** : ~4 ETP (1 tech lead/architect, 1 DevOps, 1 PM/PDA[^pda] pour audit et préparation repo, 1 expert agentic pour accompagner l'adoption).
 **Coût licences IA** : variable selon outil (Copilot, Kiro, Claude Code, etc.) — compter environ 20-50€/utilisateur/mois selon l'outil choisi.
 
 Il ne faut pas non plus tomber dans l'excès inverse : construire tout l'agentique avant d'expérimenter. On ne sait pas encore quels agents, skills ou tools seront réellement utiles. En revanche, on sait déjà que certains prérequis non-IA sont indispensables. Un agent échoue sur un environnement local cassé pour les mêmes raisons qu'un newcomer. Une CI/CD lente ou instable bloque les agents comme elle bloque les humains. Une documentation dispersée rend le contexte fragile.
@@ -425,8 +425,18 @@ Le sujet est de construire un système de delivery où humains et agents peuvent
 [^agent]: **Agent** — Configuration spécialisée combinant un rôle, des règles de comportement, des interdits et une capacité à utiliser des outils. Un agent développeur ne se comporte pas comme un agent QA ou PM.
 [^skill]: **Skill** — Connaissance réutilisable mobilisable par plusieurs agents : écrire une user story, auditer une PR, conduire une revue de sécurité, maintenir la documentation.
 [^tool]: **Tool** — Action déterministe automatisée : créer un worktree, lancer l'application locale, exécuter la validation. Ce qui doit toujours s'exécuter de la même façon ne doit pas dépendre d'un prompt.
+[^sdlc]: **SDLC (Software Development Life Cycle)** — Cycle de vie complet du développement logiciel : idée, besoin, user story, conception, implémentation, validation, release et production.
 [^cicd]: **CI/CD** — Intégration Continue / Déploiement Continu. Pipeline automatisée qui compile, teste et déploie les changements.
 [^pr]: **Pull Request (PR)** — Proposition de changement soumise à validation dans un repository Git. Chaque changement, qu'il vienne d'un humain ou d'un agent, passe par une PR avant d'être intégré.
 [^ce]: **Context engineering** — Conception et maintenance de l'information nécessaire pour qu'un humain ou un agent travaille correctement : documentation, spécifications, décisions, contraintes, workflows.
 [^scrumban]: **Scrumban** — Mode hybride : structure Scrum (standup, retro, vision produit) combinée à un flux Kanban continu pour les petits changements.
 [^aiartifact]: **ai-artifact** — Framework open-source qui versionne, compose et audite agents, skills, tools et overlays d'un projet. Permet de réutiliser des bases upstream sans lock-in.
+[^pm]: **PM (Product Manager)** — Responsable produit qui porte le problème, la priorisation, l'impact attendu et l'alignement avec les objectifs business.
+[^po]: **PO (Product Owner)** — Responsable de la clarification du backlog, des user stories et des critères d'acceptation dans le flux de delivery.
+[^qa]: **QA (Quality Assurance)** — Fonction qualité qui vérifie le comportement produit, les régressions, les critères d'acceptation et les risques avant release.
+[^csm]: **CSM (Customer Success Manager)** — Rôle proche du client qui remonte les irritants terrain, qualifie les besoins utilisateurs et aide à valider la valeur fonctionnelle.
+[^pda]: **PDA (Product Design Authority)** — Rôle de cadrage produit/design qui aide à aligner besoin, expérience utilisateur, cohérence fonctionnelle et arbitrages de delivery.
+[^uxd]: **UXD (User Experience Designer)** — Designer responsable de l'expérience utilisateur, des parcours, des interfaces et de la cohérence d'usage.
+[^fe]: **FE (Front-End)** — Développement de l'interface utilisateur et de la partie applicative exécutée côté client.
+[^be]: **BE (Back-End)** — Développement des services, API, données et traitements exécutés côté serveur.
+[^devops]: **DevOps** — Fonction qui rapproche développement et opérations : CI/CD, infrastructure, environnements, observabilité, automatisation et fiabilité du delivery.
