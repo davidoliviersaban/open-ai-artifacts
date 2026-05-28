@@ -74,12 +74,8 @@ function runInChildProcess({ abDir, variant, challenge, iteration, model, budget
 
     child.on('exit', (code) => {
       if (code === 0) {
-        const runsDir = path.join(abDir, 'runs')
-        const entries = fs.readdirSync(runsDir)
-          .filter(e => e.startsWith(`${variant}_${challenge}_`))
-          .sort()
-          .reverse()
-        const runDir = entries.length > 0 ? path.join(runsDir, entries[0]) : null
+        const match = stdout.match(/^Output:\s+(.+)$/m)
+        const runDir = match ? match[1].trim() : null
         resolve({ runDir, stdout })
       } else {
         reject(new Error(`runner.js exited with code ${code}: ${stderr}`))

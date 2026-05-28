@@ -74,4 +74,16 @@ describe('BatchProgress', () => {
     // 4 remaining, 2 active (parallelism=2), avg=100s → 2 batches × 100s = 200s
     assert.equal(p.getETA(), 200)
   })
+
+  it('excludes failed runs from average time calculation', () => {
+    const p = new BatchProgress(5, { maxTimePerRun: 300 })
+    p.markStarted('a', 'run A')
+    p.completedTimes.push(150)
+    p.completedRuns = 1
+    p.markStarted('b', 'run B')
+    // Simulate a fast failure — should not affect avg
+    const before = p.getAvgRunTime()
+    p.markCompleted('b', false)
+    assert.equal(p.getAvgRunTime(), before)
+  })
 })

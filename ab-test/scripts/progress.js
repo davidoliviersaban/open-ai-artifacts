@@ -58,7 +58,7 @@ class BatchProgress {
     const run = this.activeRuns.get(id)
     if (run) {
       const elapsed = (Date.now() - run.startedAt) / 1000
-      this.completedTimes.push(elapsed)
+      if (success) this.completedTimes.push(elapsed)
       this.activeRuns.delete(id)
       this.finishedRuns.push({ label: run.label, success, elapsed, finishedAt: Date.now() })
     }
@@ -94,7 +94,10 @@ class BatchProgress {
   getTotalEstimate() {
     const avgTime = this.getAvgRunTime()
     const parallelism = Math.max(this.activeRuns.size, 1)
-    return Math.ceil(this.totalRuns / parallelism) * avgTime
+    const elapsed = (Date.now() - this.startTime) / 1000
+    const remaining = this.totalRuns - this.completedRuns
+    const batchesLeft = Math.ceil(remaining / parallelism)
+    return elapsed + batchesLeft * avgTime
   }
 
   render() {
@@ -139,7 +142,7 @@ class BatchProgress {
 
     const output = lines.join('\n')
     process.stdout.write(output + '\n')
-    this.lastLineCount = lines.length + 1
+    this.lastLineCount = lines.length
   }
 }
 
