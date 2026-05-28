@@ -21,6 +21,8 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
 
 4. **Generate pipeline stats**: Run `node .github/skills/ship/scripts/stats.js --format markdown` from the worktree root. Use `--session <session-id>` or `--since <ISO timestamp>` when needed to narrow the feature scope. Also run `node .github/skills/ship/scripts/stats.js --format commit` and keep its `Skills:`, `Tools:`, and `Commands:` lines for the commit message.
 
+4b. **Check for benchmark results**: If `ab-test/runs/report.json` is in the staged changes, run `node .github/skills/ship/scripts/benchmark-summary.js --terminal` to display results in the terminal, and `node .github/skills/ship/scripts/benchmark-summary.js` to capture the markdown for the PR body.
+
 5. **Generate commit message**: Analyze the staged diff and produce a conventional commit message:
    - First line: `type(scope): short description` (max 70 chars)
    - Blank line
@@ -41,6 +43,10 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
      ## Summary
      - <1-3 bullet points from commit body>
 
+     ## Benchmark Results (only if report.json was staged)
+
+     <paste the markdown output of `node .github/skills/ship/scripts/benchmark-summary.js`>
+
      ## Pipeline
 
      <paste the exact markdown tables produced by `node .github/skills/ship/scripts/stats.js --format markdown`>
@@ -53,7 +59,7 @@ Run all pre-commit validations, commit, push, and create a pull request — all 
    - Create the PR: `gh pr create --title "<title>" --body "<body>"`
    - If already on `main`, skip PR creation.
 
-8. **Report**: Confirm what was shipped (commit hash, branch, remote, PR URL if created).
+8. **Report**: Confirm what was shipped (commit hash, branch, remote, PR URL if created). If benchmark results were detected, display the terminal summary (from step 4b) as the final output so the user sees the conclusions.
 
 ## Rules
 
