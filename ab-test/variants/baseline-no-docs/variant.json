@@ -7,7 +7,7 @@
   "bare": false,
   "model": null,
   "disable_skills": false,
-  "hooks": false,
+  "hooks": true,
   "hide_documentation": "all-markdown",
   "extra_flags": ["--dangerously-skip-permissions"]
 }

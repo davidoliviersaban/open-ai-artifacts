@@ -7,6 +7,6 @@
   "bare": false,
   "model": null,
   "disable_skills": false,
-  "hooks": false,
+  "hooks": true,
   "extra_flags": ["--dangerously-skip-permissions"]
 }
