@@ -95,6 +95,10 @@ npm run ai-artifacts:sync
 npm run validate:ai-artifacts
 ```
 
+## Package Direction
+
+The `ai-artifacts` package is incubating internally and targeting future open-source release. Keep package code generic — no hard-coded assumptions about any single consuming repository.
+
 ## Documentation Maintenance
 
 When adding or changing public API, CLI behavior, config schema, or validation rules, update the closest existing documentation in the same commit.
