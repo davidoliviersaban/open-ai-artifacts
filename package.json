@@ -7,6 +7,7 @@
     "nx": "nx",
     "build:whitepaper": "nx build whitepaper",
     "test:ai-artifacts": "nx test ai-artifacts",
+    "test:ai-artifacts-bench": "nx test ai-artifacts-bench",
     "validate:ai-artifacts": "nx validate ai-artifacts",
     "ai-artifacts:fetch": "node packages/ai-artifacts/cli.js fetch",
     "ai-artifacts:sync": "node packages/ai-artifacts/cli.js sync",
@@ -21,6 +22,7 @@
     "nx": "22.5.4"
   },
   "workspaces": [
-    "packages/ai-artifacts"
+    "packages/ai-artifacts",
+    "packages/ai-artifacts-bench"
   ]
 }

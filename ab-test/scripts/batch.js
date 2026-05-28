@@ -4,9 +4,11 @@
 const { fork } = require('node:child_process')
 const path = require('node:path')
 const fs = require('node:fs')
-const { executeRun } = require('./runner.js')
+const pkg = require('../../packages/ai-artifacts-bench/batch.js')
 const { scoreRun } = require('./score.js')
 const { generateReport, loadRuns } = require('./report.js')
+const { makeConfig } = require('./runner.js')
+const adapter = require('../../packages/ai-artifacts-bench/adapters/claude-code.js')
 
 function parseArgs(argv) {
   const args = { challenges: null, iterations: 1, variants: null, model: null, budget: 2.0, parallel: 0 }
@@ -28,65 +30,21 @@ function parseArgs(argv) {
   return args
 }
 
-async function runWithConcurrency(items, limit, worker) {
-  let index = 0
-  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (index < items.length) {
-      const item = items[index++]
-      await worker(item)
-    }
-  })
-  await Promise.all(workers)
+function discoverVariants(abDir) {
+  return pkg.discoverVariants(
+    path.join(abDir, 'variants'),
+    path.join(abDir, 'baseline.json')
+  )
 }
 
-function discoverVariants(abDir) {
-  const baseline = loadBaseline(abDir)
-  if (Array.isArray(baseline.variants) && baseline.variants.length > 0) return baseline.variants
-
-  const variantsDir = path.join(abDir, 'variants')
-  if (!fs.existsSync(variantsDir)) return []
-  return fs.readdirSync(variantsDir).filter(entry => {
-    return fs.existsSync(path.join(variantsDir, entry, 'variant.json'))
-  })
+function discoverChallenges(abDir) {
+  return pkg.discoverChallenges(path.join(abDir, 'challenges'))
 }
 
 function loadBaseline(abDir) {
   const file = path.join(abDir, 'baseline.json')
   if (!fs.existsSync(file)) return {}
   return JSON.parse(fs.readFileSync(file, 'utf8'))
-}
-
-function discoverChallenges(abDir) {
-  const challengesDir = path.join(abDir, 'challenges')
-  if (!fs.existsSync(challengesDir)) return []
-  return fs.readdirSync(challengesDir).filter(entry => {
-    const full = path.join(challengesDir, entry)
-    return fs.statSync(full).isDirectory() && fs.existsSync(path.join(full, 'challenge.json'))
-  })
-}
-
-function buildRunMatrix(challenges, variants, iterations) {
-  const matrix = []
-  for (const challenge of challenges) {
-    for (const variant of variants) {
-      for (let i = 1; i <= iterations; i++) {
-        matrix.push({ challenge, variant, iteration: i })
-      }
-    }
-  }
-  return matrix
-}
-
-function runSingle({ abDir, repoRoot, variant, challenge, iteration, model, budget }) {
-  return executeRun({
-    abDir,
-    repoRoot,
-    variantId: variant,
-    challengeId: challenge,
-    iteration,
-    modelOverride: model,
-    budget,
-  })
 }
 
 function runInChildProcess({ abDir, variant, challenge, iteration, model, budget }) {
@@ -108,7 +66,6 @@ function runInChildProcess({ abDir, variant, challenge, iteration, model, budget
 
     child.on('exit', (code) => {
       if (code === 0) {
-        // Find the run directory by listing the most recent one matching this variant+challenge
         const runsDir = path.join(abDir, 'runs')
         const entries = fs.readdirSync(runsDir)
           .filter(e => e.startsWith(`${variant}_${challenge}_`))
@@ -132,7 +89,7 @@ async function main() {
 
   const variants = args.variants || discoverVariants(abDir)
   const challenges = args.challenges || discoverChallenges(abDir)
-  const matrix = buildRunMatrix(challenges, variants, args.iterations)
+  const matrix = pkg.buildRunMatrix(challenges, variants, args.iterations)
 
   console.log('╔══════════════════════════════════════════╗')
   console.log('║       A/B Test Batch Runner              ║')
@@ -148,21 +105,48 @@ async function main() {
   console.log('')
 
   const runDirs = []
+  const config = makeConfig(abDir, repoRoot)
+  const batchStart = Date.now()
+  let completedRuns = 0
+  const runElapsedTimes = []
+
+  function formatDuration(seconds) {
+    if (seconds < 60) return `${seconds}s`
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return s > 0 ? `${m}m${s}s` : `${m}m`
+  }
+
+  function progressLine(runCount, total) {
+    const elapsed = Math.round((Date.now() - batchStart) / 1000)
+    let eta = ''
+    if (runElapsedTimes.length > 0) {
+      const avgPerRun = runElapsedTimes.reduce((a, b) => a + b, 0) / runElapsedTimes.length
+      const remaining = (total - runCount) * avgPerRun
+      eta = ` | ETA ${formatDuration(Math.round(remaining))}`
+    }
+    return `[${runCount}/${total}] elapsed ${formatDuration(elapsed)}${eta}`
+  }
 
   if (args.parallel) {
     const concurrency = args.parallel === Infinity ? matrix.length : args.parallel
     console.log(`Launching ${matrix.length} runs with concurrency ${concurrency}...`)
     console.log('')
 
-    await runWithConcurrency(matrix, concurrency, ({ challenge, variant, iteration }) => {
+    await pkg.runWithConcurrency(matrix, concurrency, ({ challenge, variant, iteration }) => {
+      const runStart = Date.now()
       console.log(`  Starting: ${variant} × ${challenge} (iter ${iteration})`)
       return runInChildProcess({
         abDir, variant, challenge, iteration,
         model: args.model, budget: args.budget,
       }).then(({ runDir }) => {
         if (runDir) runDirs.push(runDir)
-        console.log(`  ✓ ${variant} × ${challenge} (iter ${iteration}) done`)
+        const runElapsed = Math.round((Date.now() - runStart) / 1000)
+        runElapsedTimes.push(runElapsed)
+        completedRuns++
+        console.log(`  ✓ ${variant} × ${challenge} (iter ${iteration}) done (${formatDuration(runElapsed)}) | ${progressLine(completedRuns, matrix.length)}`)
       }).catch(err => {
+        completedRuns++
         console.error(`  ✗ ${variant} × ${challenge} (iter ${iteration}): ${err.message}`)
       })
     })
@@ -170,20 +154,26 @@ async function main() {
     let runCount = 0
     for (const { challenge, variant, iteration } of matrix) {
       runCount++
-      console.log(`━━━ [${runCount}/${matrix.length}] ${variant} × ${challenge} (iter ${iteration}) ━━━`)
+      console.log(`━━━ ${progressLine(runCount - 1, matrix.length)} ━━━`)
+      console.log(`  Running: ${variant} × ${challenge} (iter ${iteration})`)
 
       try {
-        const { runDir, elapsed, usage } = runSingle({
-          abDir, repoRoot, variant, challenge, iteration,
-          model: args.model, budget: args.budget,
+        const result = require('../../packages/ai-artifacts-bench/runner.js').executeRun({
+          config, variantId: variant, challengeId: challenge, iteration,
+          modelOverride: args.model, budget: args.budget, adapter,
         })
-        console.log(`  Done (${elapsed}s, ${usage.total_tokens} tokens, $${(usage.cost_usd || 0).toFixed(2)})`)
-        runDirs.push(runDir)
+        runElapsedTimes.push(result.elapsed)
+        console.log(`  Done (${formatDuration(result.elapsed)}, ${result.usage.total_tokens} tokens, $${(result.usage.cost_usd || 0).toFixed(2)})`)
+        runDirs.push(result.runDir)
       } catch (err) {
         console.error(`  ERROR: ${err.message}`)
       }
     }
   }
+
+  const totalElapsed = Math.round((Date.now() - batchStart) / 1000)
+  console.log('')
+  console.log(`━━━ Batch complete: ${runDirs.length}/${matrix.length} runs in ${formatDuration(totalElapsed)} ━━━`)
 
   console.log('')
   console.log('━━━ Scoring all runs ━━━')
@@ -214,4 +204,4 @@ if (require.main === module) {
   })
 }
 
-module.exports = { buildRunMatrix, discoverChallenges, discoverVariants, loadBaseline, parseArgs, runWithConcurrency }
+module.exports = { buildRunMatrix: pkg.buildRunMatrix, discoverChallenges, discoverVariants, loadBaseline, parseArgs, runWithConcurrency: pkg.runWithConcurrency }

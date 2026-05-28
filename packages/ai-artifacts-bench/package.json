@@ -1,0 +1,14 @@
+{
+  "name": "@amadeus-nexwave/ai-artifacts-bench",
+  "version": "0.1.0",
+  "description": "Benchmark framework for A/B testing AI agent configurations.",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "lib.js",
+  "scripts": {
+    "test": "node --test '**/*.test.js'"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -2,32 +2,52 @@
 
 Compare different agent configurations (CLAUDE.md, skills, system prompts) on identical coding tasks.
 
-## Structure
+## Architecture
+
+The generic benchmark engine lives in `packages/ai-artifacts-bench/` (runner, scorer, reporter, adapters). This directory is the **dogfooding consumer** — it provides project-specific configuration:
+
+- **Scenarios**: challenge definitions and variant configs
+- **Preparation**: worktree isolation logic (what to strip, what hooks to inject)
+- **CLI wrappers**: maintain backwards-compatible CLI interface
 
 ```
 ab-test/
 ├── challenges/       # Task definitions (the "what to build")
 ├── variants/         # Agent configurations (the "how to build it")
 ├── runs/             # Output from each run (auto-generated, gitignored)
+├── baseline.json     # Active benchmark baseline (variant list, metadata)
 ├── scripts/
-│   ├── lib.js        # Pure logic (scoring, aggregation, parsing)
-│   ├── lib.test.js   # Tests for lib.js
-│   ├── runner.js     # Launches a single Claude Code run
-│   ├── runner.test.js# Tests for runner logic
-│   ├── score.js      # Scores a completed run against acceptance criteria
+│   ├── prepare.js    # Project-specific worktree prep (isolation, hooks, CLAUDE.md)
+│   ├── lib.js        # Re-export of packages/ai-artifacts-bench/lib.js
+│   ├── lib.test.js   # Tests for scoring math
+│   ├── runner.js     # Thin wrapper: config + adapter → package runner
+│   ├── runner.test.js# Tests for runner + prepare logic
+│   ├── score.js      # Thin wrapper: config → package scorer
 │   ├── score.test.js # Tests for scoring logic
-│   ├── batch.js      # Runs all variants × N iterations
+│   ├── batch.js      # CLI orchestrator using package batch primitives
+│   ├── batch.test.js # Tests for batch discovery + concurrency
+│   ├── report.js     # Console formatting + package report engine
+│   ├── report.test.js# Tests for baseline grouping
 │   ├── quick-run.js  # One variant, score immediately
-│   ├── report.js     # Aggregates scores into comparison table
 │   └── cleanup.js    # Remove worktrees and optionally run data
 └── README.md
+
+packages/ai-artifacts-bench/
+├── lib.js            # Pure scoring math (avg, median, computeScore, etc.)
+├── runner.js         # Generic runner with pluggable prepare + adapter
+├── batch.js          # Matrix builder + concurrent execution
+├── score.js          # Generic scorer with pluggable prepareScoringWorktree
+├── report.js         # Report engine (data only, no console formatting)
+├── adapters/
+│   └── claude-code.js # Claude Code adapter (buildFlags, run, parseUsage)
+└── *.test.js         # 53 tests proving the pluggable architecture
 ```
 
 ## Quick Start
 
 ```bash
 # Run tests
-node --test ab-test/scripts/lib.test.js ab-test/scripts/runner.test.js ab-test/scripts/score.test.js
+node --test 'ab-test/scripts/*.test.js'
 
 # Quick run one variant
 node ab-test/scripts/quick-run.js baseline-guidance --model opus
