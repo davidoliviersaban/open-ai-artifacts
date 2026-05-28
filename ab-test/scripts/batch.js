@@ -9,6 +9,7 @@ const { scoreRun } = require('./score.js')
 const { generateReport, loadRuns } = require('./report.js')
 const { makeConfig } = require('./runner.js')
 const adapter = require('../../packages/ai-artifacts-bench/adapters/claude-code.js')
+const { BatchProgress } = require('./progress.js')
 
 function parseArgs(argv) {
   const args = { challenges: null, iterations: 1, variants: null, model: null, budget: 2.0, parallel: 0 }
@@ -47,7 +48,14 @@ function loadBaseline(abDir) {
   return JSON.parse(fs.readFileSync(file, 'utf8'))
 }
 
-function runInChildProcess({ abDir, variant, challenge, iteration, model, budget }) {
+function loadChallengeMaxTime(abDir, challengeId) {
+  const file = path.join(abDir, 'challenges', challengeId, 'challenge.json')
+  if (!fs.existsSync(file)) return 300
+  const challenge = JSON.parse(fs.readFileSync(file, 'utf8'))
+  return (challenge.scoring && challenge.scoring.max_time_seconds) || 300
+}
+
+function runInChildProcess({ abDir, variant, challenge, iteration, model, budget, quiet = false }) {
   return new Promise((resolve, reject) => {
     const runnerPath = path.join(__dirname, 'runner.js')
     const args = ['--variant', variant, '--challenge', challenge, '--iteration', String(iteration), '--budget', String(budget)]
@@ -61,7 +69,7 @@ function runInChildProcess({ abDir, variant, challenge, iteration, model, budget
 
     let stdout = ''
     let stderr = ''
-    child.stdout.on('data', d => { stdout += d; process.stdout.write(`  [${variant}] ${d}`) })
+    child.stdout.on('data', d => { stdout += d; if (!quiet) process.stdout.write(`  [${variant}] ${d}`) })
     child.stderr.on('data', d => { stderr += d })
 
     child.on('exit', (code) => {
@@ -106,74 +114,54 @@ async function main() {
 
   const runDirs = []
   const config = makeConfig(abDir, repoRoot)
-  const batchStart = Date.now()
-  let completedRuns = 0
-  const runElapsedTimes = []
-
-  function formatDuration(seconds) {
-    if (seconds < 60) return `${seconds}s`
-    const m = Math.floor(seconds / 60)
-    const s = seconds % 60
-    return s > 0 ? `${m}m${s}s` : `${m}m`
-  }
-
-  function progressLine(runCount, total) {
-    const elapsed = Math.round((Date.now() - batchStart) / 1000)
-    let eta = ''
-    if (runElapsedTimes.length > 0) {
-      const avgPerRun = runElapsedTimes.reduce((a, b) => a + b, 0) / runElapsedTimes.length
-      const remaining = (total - runCount) * avgPerRun
-      eta = ` | ETA ${formatDuration(Math.round(remaining))}`
-    }
-    return `[${runCount}/${total}] elapsed ${formatDuration(elapsed)}${eta}`
-  }
+  const maxTime = matrix.length > 0 ? loadChallengeMaxTime(abDir, matrix[0].challenge) : 300
+  const progress = new BatchProgress(matrix.length, { maxTimePerRun: maxTime })
 
   if (args.parallel) {
     const concurrency = args.parallel === Infinity ? matrix.length : args.parallel
     console.log(`Launching ${matrix.length} runs with concurrency ${concurrency}...`)
     console.log('')
 
+    progress.start()
     await pkg.runWithConcurrency(matrix, concurrency, ({ challenge, variant, iteration }) => {
-      const runStart = Date.now()
-      console.log(`  Starting: ${variant} × ${challenge} (iter ${iteration})`)
+      const runLabel = `${variant} × ${challenge} (iter ${iteration})`
+      const runId = `${variant}_${challenge}_${iteration}`
+      progress.markStarted(runId, runLabel)
       return runInChildProcess({
         abDir, variant, challenge, iteration,
         model: args.model, budget: args.budget,
+        quiet: process.stdout.isTTY,
       }).then(({ runDir }) => {
         if (runDir) runDirs.push(runDir)
-        const runElapsed = Math.round((Date.now() - runStart) / 1000)
-        runElapsedTimes.push(runElapsed)
-        completedRuns++
-        console.log(`  ✓ ${variant} × ${challenge} (iter ${iteration}) done (${formatDuration(runElapsed)}) | ${progressLine(completedRuns, matrix.length)}`)
+        progress.markCompleted(runId, true)
       }).catch(err => {
-        completedRuns++
-        console.error(`  ✗ ${variant} × ${challenge} (iter ${iteration}): ${err.message}`)
+        progress.markCompleted(runId, false)
+        if (!process.stdout.isTTY) {
+          console.error(`    ${err.message}`)
+        }
       })
     })
+    progress.stop()
   } else {
-    let runCount = 0
+    progress.start()
     for (const { challenge, variant, iteration } of matrix) {
-      runCount++
-      console.log(`━━━ ${progressLine(runCount - 1, matrix.length)} ━━━`)
-      console.log(`  Running: ${variant} × ${challenge} (iter ${iteration})`)
+      const runLabel = `${variant} × ${challenge} (iter ${iteration})`
+      const runId = `${variant}_${challenge}_${iteration}`
+      progress.markStarted(runId, runLabel)
 
       try {
         const result = require('../../packages/ai-artifacts-bench/runner.js').executeRun({
           config, variantId: variant, challengeId: challenge, iteration,
           modelOverride: args.model, budget: args.budget, adapter,
         })
-        runElapsedTimes.push(result.elapsed)
-        console.log(`  Done (${formatDuration(result.elapsed)}, ${result.usage.total_tokens} tokens, $${(result.usage.cost_usd || 0).toFixed(2)})`)
+        progress.markCompleted(runId, true)
         runDirs.push(result.runDir)
       } catch (err) {
-        console.error(`  ERROR: ${err.message}`)
+        progress.markCompleted(runId, false)
       }
     }
+    progress.stop()
   }
-
-  const totalElapsed = Math.round((Date.now() - batchStart) / 1000)
-  console.log('')
-  console.log(`━━━ Batch complete: ${runDirs.length}/${matrix.length} runs in ${formatDuration(totalElapsed)} ━━━`)
 
   console.log('')
   console.log('━━━ Scoring all runs ━━━')
