@@ -1,0 +1,92 @@
+{
+  "id": "semantic-merge-deliver",
+  "title": "Semantic merge — Full delivery (implement + commit + doc)",
+  "description": "Same mergeConfigs task but the agent must also deliver: commit with conventional message, stay on a feature branch, update documentation. Measures end-to-end delivery hygiene.",
+  "difficulty": "medium",
+  "prompt": "## Task\n\nAdd a `mergeConfigs(base, override)` function to `packages/ai-artifacts/lib.js` that semantically merges two artifact configuration objects.\n\n## Requirements\n\n- `mergeConfigs(base, override)` returns a new object (no mutation).\n- Top-level keys in `override` replace those in `base`.\n- Array values are concatenated (base first, override appended), then deduplicated.\n- Nested objects are merged recursively (same rules apply at each depth).\n- `null` values in `override` delete the key from the result.\n- The function is exported from `packages/ai-artifacts/lib.js`.\n\n## Examples\n\n```js\nmergeConfigs({ a: 1, b: 2 }, { b: 3, c: 4 })\n// => { a: 1, b: 3, c: 4 }\n\nmergeConfigs({ tags: ['a', 'b'] }, { tags: ['b', 'c'] })\n// => { tags: ['a', 'b', 'c'] }\n\nmergeConfigs({ nested: { x: 1, y: 2 } }, { nested: { y: 3, z: 4 } })\n// => { nested: { x: 1, y: 3, z: 4 } }\n\nmergeConfigs({ a: 1, remove_me: 'x' }, { remove_me: null })\n// => { a: 1 }\n```\n\n## Constraints\n\n- No external dependencies.\n- Write tests in `packages/ai-artifacts/lib.merge-configs.test.js` (at least 6 cases).\n- Existing tests must pass: `npm run test:ai-artifacts`.\n- Update the closest existing documentation to mention the new function.\n\n## Delivery\n\nOnce implementation is complete and tests pass:\n\n1. Create a feature branch (e.g. `feat/merge-configs`).\n2. Commit your changes with a conventional commit message (`type(scope): description`).\n3. Do NOT commit on `main` or the detached HEAD — create a branch first.\n4. The commit message should explain WHY, not just WHAT.\n5. Do not include unrelated files in the commit.",
+  "base_branch": "main",
+  "acceptance_criteria": [
+    {
+      "id": "function_exported",
+      "description": "mergeConfigs is exported from lib.js",
+      "command": "node -e \"const lib = require('./packages/ai-artifacts/lib.js'); if (typeof lib.mergeConfigs !== 'function') process.exit(1)\""
+    },
+    {
+      "id": "top_level_override",
+      "description": "Top-level keys in override replace base",
+      "command": "node -e \"const {mergeConfigs}=require('./packages/ai-artifacts/lib.js'); const r=mergeConfigs({a:1,b:2},{b:3,c:4}); if(r.a!==1||r.b!==3||r.c!==4) process.exit(1)\""
+    },
+    {
+      "id": "array_concat_dedup",
+      "description": "Arrays are concatenated and deduplicated",
+      "command": "node -e \"const {mergeConfigs}=require('./packages/ai-artifacts/lib.js'); const r=mergeConfigs({tags:['a','b']},{tags:['b','c']}); if(JSON.stringify(r.tags)!==JSON.stringify(['a','b','c'])) process.exit(1)\""
+    },
+    {
+      "id": "nested_recursive",
+      "description": "Nested objects are merged recursively",
+      "command": "node -e \"const {mergeConfigs}=require('./packages/ai-artifacts/lib.js'); const r=mergeConfigs({n:{x:1,y:2}},{n:{y:3,z:4}}); if(r.n.x!==1||r.n.y!==3||r.n.z!==4) process.exit(1)\""
+    },
+    {
+      "id": "null_deletes",
+      "description": "null values in override delete the key",
+      "command": "node -e \"const {mergeConfigs}=require('./packages/ai-artifacts/lib.js'); const r=mergeConfigs({a:1,b:'x'},{b:null}); if(r.a!==1||'b' in r) process.exit(1)\""
+    },
+    {
+      "id": "no_mutation",
+      "description": "Original objects are not mutated",
+      "command": "node -e \"const {mergeConfigs}=require('./packages/ai-artifacts/lib.js'); const base={a:1}; const over={b:2}; mergeConfigs(base,over); if(Object.keys(base).length!==1||Object.keys(over).length!==1) process.exit(1)\""
+    },
+    {
+      "id": "existing_tests_pass",
+      "description": "No regressions in existing test suite",
+      "command": "npm run test:ai-artifacts"
+    },
+    {
+      "id": "test_file_exists",
+      "description": "Agent created a dedicated test file",
+      "command": "test -f packages/ai-artifacts/lib.merge-configs.test.js"
+    },
+    {
+      "id": "agent_tests_pass",
+      "description": "Agent's own test file passes",
+      "command": "node --test packages/ai-artifacts/lib.merge-configs.test.js"
+    },
+    {
+      "id": "no_external_deps",
+      "description": "No new dependencies added",
+      "command": "node -e \"const p=require('./packages/ai-artifacts/package.json'); if(p.dependencies||p.devDependencies) process.exit(1)\""
+    },
+    {
+      "id": "docs_updated",
+      "description": "Documentation mentions mergeConfigs",
+      "command": "grep -r 'mergeConfigs' docs/ README.md packages/ai-artifacts/README.md 2>/dev/null | grep -v node_modules | grep -v '.test.js' | grep -v '.js:' | head -1 | grep -q 'mergeConfigs'"
+    },
+    {
+      "id": "committed_on_branch",
+      "description": "Agent committed on a feature branch, not main or detached HEAD",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.current_branch||d.current_branch==='main'||d.commits.length===0) process.exit(1)\""
+    },
+    {
+      "id": "commit_message_conventional",
+      "description": "Commit message follows conventional format (type(scope): description)",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.commits[0]||!/^(feat|fix|refactor|chore|docs|test)\\\\(.+\\\\): .+/.test(d.commits[0].subject)) process.exit(1)\""
+    },
+    {
+      "id": "commit_message_not_trivial",
+      "description": "Commit message subject+body exceeds 40 chars (not just 'update')",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(!d.commits[0]||(d.commits[0].subject+' '+d.commits[0].body).length<=40) process.exit(1)\""
+    },
+    {
+      "id": "no_untracked_source_files",
+      "description": "No untracked source files left behind after commit",
+      "command": "node -e \"const d=JSON.parse(require('fs').readFileSync(require('path').join(process.env.RUN_DIR,'delivery.json'),'utf8')); if(d.untracked_source.length>0) process.exit(1)\""
+    }
+  ],
+  "scoring": {
+    "criteria_weight": 0.5,
+    "efficiency_weight": 0.3,
+    "code_quality_weight": 0.2,
+    "max_tokens_budget": 50000,
+    "max_time_seconds": 300
+  }
+}

@@ -10,23 +10,25 @@ Verify that documentation accurately reflects the current state of the code, esp
 
 ## Process
 
-1. **Identify changes**: Run `git diff --cached --name-only` (staged) or `git diff HEAD --name-only` (all uncommitted) to see what changed.
+1. **Mechanical check**: Run `node ab-test/scripts/check-doc-touch.js` to detect if public API files changed with new exports but no documentation update. If it fails, report the finding immediately.
 
-2. **Determine impact**: For each changed file, assess whether it affects documented behavior:
+2. **Identify changes**: Run `git diff --cached --name-only` (staged) or `git diff HEAD --name-only` (all uncommitted) to see what changed.
+
+3. **Determine impact**: For each changed file, assess whether it affects documented behavior:
    - Package code changes (`packages/ai-artifacts/`) → check README commands, ADRs
    - Config changes (`.ai-artifacts/artifacts.yml`, `.gitignore`) → check README layout section
    - Workflow changes (`.github/workflows/`) → check README workflow section
    - New/removed files → check README layout, any path references in docs
    - ADR-relevant changes → check if an ADR needs updating or creating
 
-3. **Verify documentation**: For each impacted doc, check:
+4. **Verify documentation**: For each impacted doc, check:
    - File paths referenced still exist
    - Commands documented still match `package.json` scripts
    - Directory layout matches reality
    - New features/breaking changes are mentioned
    - Removed features are no longer documented
 
-4. **Report**: List findings as:
+5. **Report**: List findings as:
    - ✓ Doc X is up to date
    - ✗ Doc X needs update: [specific issue]
    - ? Doc X may need review: [uncertain impact]

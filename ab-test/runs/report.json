@@ -1,417 +1,453 @@
 {
-  "generated_at": "2026-05-26T07:43:29.208Z",
+  "generated_at": "2026-05-28T06:45:28.028Z",
   "summaries": [
     {
-      "variant": "a-full-pipeline",
-      "runs": 4,
-      "avg_score": 0.4655,
-      "median_score": 0.4565,
-      "avg_criteria": 0.5,
-      "avg_tokens": 7691,
-      "median_tokens": 6592,
+      "variant": "a-inherit",
+      "runs": 10,
+      "avg_score": 0.8634000000000001,
+      "median_score": 0.8694999999999999,
+      "avg_criteria": 0.9492307692307692,
+      "avg_tokens": 8702,
+      "median_tokens": 7510,
+      "avg_time": 177,
+      "avg_cost": 0.7892263250000001,
+      "full_pass_rate": 0.6
+    },
+    {
+      "variant": "b-bare-agent",
+      "runs": 1,
+      "avg_score": 0.92,
+      "median_score": 0.92,
+      "avg_criteria": 1,
+      "avg_tokens": 6141,
+      "median_tokens": 6141,
       "avg_time": 123,
-      "avg_cost": 0.44882112500000004,
+      "avg_cost": 0.6351775,
+      "full_pass_rate": 1
+    },
+    {
+      "variant": "e-tdd-hooks",
+      "runs": 1,
+      "avg_score": 0.873,
+      "median_score": 0.873,
+      "avg_criteria": 0.9333333333333333,
+      "avg_tokens": 7936,
+      "median_tokens": 7936,
+      "avg_time": 139,
+      "avg_cost": 0.6988765,
       "full_pass_rate": 0
     },
     {
-      "variant": "b-bare-agent",
-      "runs": 6,
-      "avg_score": 0.7488333333333332,
-      "median_score": 0.7365,
-      "avg_criteria": 0.9500000000000001,
-      "avg_tokens": 11623,
-      "median_tokens": 10054,
-      "avg_time": 183,
-      "avg_cost": 0.5676662499999999,
-      "full_pass_rate": 0.5
+      "variant": "j-doc-aware-no-hooks",
+      "runs": 1,
+      "avg_score": 0.777,
+      "median_score": 0.777,
+      "avg_criteria": 0.9,
+      "avg_tokens": 14444,
+      "median_tokens": 14444,
+      "avg_time": 273,
+      "avg_cost": 1.3296492499999997,
+      "full_pass_rate": 0
     },
     {
-      "variant": "c-lightweight-guidance",
+      "variant": "j-tdd-hooks-doc-aware",
+      "runs": 4,
+      "avg_score": 0.8985000000000001,
+      "median_score": 0.914,
+      "avg_criteria": 0.9615384615384616,
+      "avg_tokens": 7235,
+      "median_tokens": 7160,
+      "avg_time": 123,
+      "avg_cost": 0.5734345000000001,
+      "full_pass_rate": 0.75
+    },
+    {
+      "variant": "k-inherit-trimmed",
       "runs": 5,
-      "avg_score": 0.6958,
-      "median_score": 0.6,
-      "avg_criteria": 0.9400000000000001,
-      "avg_tokens": 11683,
-      "median_tokens": 13135,
-      "avg_time": 238,
-      "avg_cost": 0.56090605,
-      "full_pass_rate": 0.4
-    },
-    {
-      "variant": "d-hook-enforced",
-      "runs": 5,
-      "avg_score": 0.6852000000000001,
-      "median_score": 0.687,
-      "avg_criteria": 0.8,
-      "avg_tokens": 6902,
-      "median_tokens": 6191,
-      "avg_time": 228,
-      "avg_cost": 0.31999705,
-      "full_pass_rate": 0.4
-    },
-    {
-      "variant": "e-tdd-hooks",
-      "runs": 3,
-      "avg_score": 0.903,
-      "median_score": 0.912,
-      "avg_criteria": 1,
-      "avg_tokens": 7805,
-      "median_tokens": 7098,
-      "avg_time": 147,
-      "avg_cost": 0.44000158333333333,
-      "full_pass_rate": 1
+      "avg_score": 0.8863999999999999,
+      "median_score": 0.904,
+      "avg_criteria": 0.9692307692307693,
+      "avg_tokens": 8921,
+      "median_tokens": 7697,
+      "avg_time": 148,
+      "avg_cost": 0.7729076999999999,
+      "full_pass_rate": 0.8
     }
   ],
   "winner": {
-    "winner": "e-tdd-hooks",
-    "winner_score": 0.903,
-    "runner_up": "b-bare-agent",
-    "runner_up_score": 0.7488333333333332,
-    "delta": 0.15416666666666679,
-    "confident": true
+    "winner": "b-bare-agent",
+    "winner_score": 0.92,
+    "runner_up": "j-tdd-hooks-doc-aware",
+    "runner_up_score": 0.8985000000000001,
+    "delta": 0.021499999999999964,
+    "confident": false
   },
   "runs": [
     {
-      "run_id": "a-full-pipeline_story-ac-with-skills_20260526003424_iter1",
-      "variant": "a-full-pipeline",
-      "criteria_passed": 1,
-      "criteria_total": 10,
-      "criteria_score": 0.1,
-      "efficiency_score": 0.80227,
-      "code_quality_score": 0,
-      "final_score": 0.291,
-      "tokens_used": 4773,
-      "cost_usd": 0.34707225,
-      "time_seconds": 90,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": false
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": false
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": false
-        },
-        {
-          "id": "literal_multikey",
-          "pass": false
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": false
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": false
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": false
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:34:24.722Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac-with-skills_20260526003424_iter1",
-      "completed_at": "2026-05-26T00:35:54.372Z",
-      "elapsed_seconds": 90,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 818,
-        "output_tokens": 3955,
-        "cache_read_tokens": 122627,
-        "cache_write_tokens": 29247,
-        "total_tokens": 4773,
-        "cost_usd": 0.34707225,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 90
-      }
-    },
-    {
-      "run_id": "a-full-pipeline_story-ac-with-skills_20260526004851_iter1",
-      "variant": "a-full-pipeline",
-      "criteria_passed": 1,
-      "criteria_total": 10,
-      "criteria_score": 0.1,
-      "efficiency_score": 0.8263566666666666,
-      "code_quality_score": 0,
-      "final_score": 0.298,
-      "tokens_used": 4031,
-      "cost_usd": 0.33927775,
-      "time_seconds": 80,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": false
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": false
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": false
-        },
-        {
-          "id": "literal_multikey",
-          "pass": false
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": false
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": false
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": false
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:48:51.498Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac-with-skills_20260526004851_iter1",
-      "completed_at": "2026-05-26T00:50:11.342Z",
-      "elapsed_seconds": 80,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 819,
-        "output_tokens": 3212,
-        "cache_read_tokens": 147253,
-        "cache_write_tokens": 29001,
-        "total_tokens": 4031,
-        "cost_usd": 0.33927775,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 80
-      }
-    },
-    {
-      "run_id": "a-full-pipeline_story-ac_20260525232740_iter1",
-      "variant": "a-full-pipeline",
+      "run_id": "a-inherit_ambiguous-improvement_20260527103034_iter1",
+      "variant": "a-inherit",
       "criteria_passed": 9,
       "criteria_total": 10,
       "criteria_score": 0.9,
-      "efficiency_score": 0.5495,
-      "code_quality_score": 0,
-      "final_score": 0.615,
-      "tokens_used": 13550,
-      "cost_usd": 0.55616075,
-      "time_seconds": 189,
-      "model": "opus",
+      "efficiency_score": 0.5654166666666667,
+      "code_quality_score": 1,
+      "final_score": 0.82,
+      "tokens_used": 11750,
+      "cost_usd": 1.0146252500000001,
+      "time_seconds": 202,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
           "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
           "pass": false
         },
         {
-          "id": "test_file_exists",
+          "id": "has_new_tests",
           "pass": true
         },
         {
-          "id": "agent_tests_pass",
+          "id": "multiple_files_changed",
           "pass": true
         },
         {
-          "id": "no_external_deps",
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
           "pass": true
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "ambiguous-improvement",
       "iteration": 1,
-      "started_at": "2026-05-25T23:27:41.093Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac_20260525232740_iter1",
-      "completed_at": "2026-05-25T23:30:50.398Z",
-      "elapsed_seconds": 189,
+      "started_at": "2026-05-27T10:30:34.247Z",
+      "worktree": "/tmp/ab-test-a-inherit_ambiguous-improvement_20260527103034_iter1",
+      "completed_at": "2026-05-27T10:33:56.567Z",
+      "elapsed_seconds": 202,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 746,
-        "output_tokens": 12804,
-        "cache_read_tokens": 197099,
-        "cache_write_tokens": 21405,
-        "total_tokens": 13550,
-        "cost_usd": 0.55616075,
-        "num_turns": 10,
+        "input_tokens": 1428,
+        "output_tokens": 10322,
+        "cache_read_tokens": 1001433,
+        "cache_write_tokens": 39795,
+        "total_tokens": 11750,
+        "cost_usd": 1.0146252500000001,
+        "num_turns": 34,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 189
+        "elapsed_seconds": 202
       }
     },
     {
-      "run_id": "a-full-pipeline_story-ac_20260526005735_iter1",
-      "variant": "a-full-pipeline",
+      "run_id": "a-inherit_ambiguous-improvement_20260527160023_iter1",
+      "variant": "a-inherit",
       "criteria_passed": 9,
       "criteria_total": 10,
       "criteria_score": 0.9,
-      "efficiency_score": 0.6942233333333333,
-      "code_quality_score": 0,
-      "final_score": 0.658,
-      "tokens_used": 8411,
-      "cost_usd": 0.5527737500000001,
-      "time_seconds": 133,
-      "model": "opus",
+      "efficiency_score": 0.39146666666666663,
+      "code_quality_score": 1,
+      "final_score": 0.767,
+      "tokens_used": 17624,
+      "cost_usd": 1.40500975,
+      "time_seconds": 277,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
           "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
           "pass": false
         },
         {
-          "id": "test_file_exists",
+          "id": "has_new_tests",
           "pass": true
         },
         {
-          "id": "agent_tests_pass",
+          "id": "multiple_files_changed",
           "pass": true
         },
         {
-          "id": "no_external_deps",
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
           "pass": true
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "ambiguous-improvement",
       "iteration": 1,
-      "started_at": "2026-05-26T00:57:35.517Z",
-      "worktree": "/tmp/ab-test-a-full-pipeline_story-ac_20260526005735_iter1",
-      "completed_at": "2026-05-26T00:59:48.509Z",
-      "elapsed_seconds": 133,
+      "started_at": "2026-05-27T16:00:23.299Z",
+      "worktree": "/tmp/ab-test-a-inherit_ambiguous-improvement_20260527160023_iter1",
+      "completed_at": "2026-05-27T16:05:01.044Z",
+      "elapsed_seconds": 277,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 1123,
-        "output_tokens": 7288,
-        "cache_read_tokens": 334755,
-        "cache_write_tokens": 31613,
-        "total_tokens": 8411,
-        "cost_usd": 0.5527737500000001,
+        "input_tokens": 4622,
+        "output_tokens": 13002,
+        "cache_read_tokens": 1567087,
+        "cache_write_tokens": 43729,
+        "total_tokens": 17624,
+        "cost_usd": 1.40500975,
+        "num_turns": 49,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 277
+      }
+    },
+    {
+      "run_id": "a-inherit_cross-file-refactor_20260527102347_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.7619583333333333,
+      "code_quality_score": 1,
+      "final_score": 0.852,
+      "tokens_used": 5965,
+      "cost_usd": 0.5273365,
+      "time_seconds": 113,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:23:47.649Z",
+      "worktree": "/tmp/ab-test-a-inherit_cross-file-refactor_20260527102347_iter1",
+      "completed_at": "2026-05-27T10:25:40.642Z",
+      "elapsed_seconds": 113,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 780,
+        "output_tokens": 5185,
+        "cache_read_tokens": 471448,
+        "cache_write_tokens": 25294,
+        "total_tokens": 5965,
+        "cost_usd": 0.5273365,
+        "num_turns": 18,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 113
+      }
+    },
+    {
+      "run_id": "a-inherit_cross-file-refactor_20260527155829_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.7735333333333334,
+      "code_quality_score": 1,
+      "final_score": 0.855,
+      "tokens_used": 7776,
+      "cost_usd": 0.46271199999999996,
+      "time_seconds": 97,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T15:58:29.986Z",
+      "worktree": "/tmp/ab-test-a-inherit_cross-file-refactor_20260527155829_iter1",
+      "completed_at": "2026-05-27T16:00:07.178Z",
+      "elapsed_seconds": 97,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 3142,
+        "output_tokens": 4634,
+        "cache_read_tokens": 358429,
+        "cache_write_tokens": 24310,
+        "total_tokens": 7776,
+        "cost_usd": 0.46271199999999996,
         "num_turns": 15,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 133
+        "elapsed_seconds": 97
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac-with-skills_20260526003424_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.7265533333333334,
-      "code_quality_score": 0,
-      "final_score": 0.668,
-      "tokens_used": 7178,
-      "cost_usd": 0.49632125000000005,
-      "time_seconds": 121,
-      "model": "opus",
+      "run_id": "a-inherit_semantic-merge-deliver_20260527083155_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6856666666666666,
+      "code_quality_score": 1,
+      "final_score": 0.906,
+      "tokens_used": 7100,
+      "cost_usd": 0.740322,
+      "time_seconds": 146,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
           "id": "existing_tests_pass",
-          "pass": false
+          "pass": true
         },
         {
           "id": "test_file_exists",
@@ -424,69 +460,89 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
         }
       ],
-      "challenge": "story-ac-with-skills",
+      "challenge": "semantic-merge-deliver",
       "iteration": 1,
-      "started_at": "2026-05-26T00:34:24.723Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac-with-skills_20260526003424_iter1",
-      "completed_at": "2026-05-26T00:36:26.178Z",
-      "elapsed_seconds": 121,
+      "started_at": "2026-05-27T08:31:55.654Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527083155_iter1",
+      "completed_at": "2026-05-27T08:34:22.104Z",
+      "elapsed_seconds": 146,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 821,
-        "output_tokens": 6357,
-        "cache_read_tokens": 264995,
-        "cache_write_tokens": 32127,
-        "total_tokens": 7178,
-        "cost_usd": 0.49632125000000005,
-        "num_turns": 15,
+        "input_tokens": 1331,
+        "output_tokens": 5769,
+        "cache_read_tokens": 792434,
+        "cache_write_tokens": 30916,
+        "total_tokens": 7100,
+        "cost_usd": 0.740322,
+        "num_turns": 31,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 121
+        "elapsed_seconds": 146
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac_20260525232740_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.5630866666666666,
-      "code_quality_score": 0,
-      "final_score": 0.619,
-      "tokens_used": 12358,
-      "cost_usd": 0.6070905,
-      "time_seconds": 188,
-      "model": "opus",
+      "run_id": "a-inherit_semantic-merge-deliver_20260527094032_iter2",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6129366666666667,
+      "code_quality_score": 1,
+      "final_score": 0.884,
+      "tokens_used": 8873,
+      "cost_usd": 0.9332395,
+      "time_seconds": 179,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
           "id": "existing_tests_pass",
-          "pass": false
+          "pass": true
         },
         {
           "id": "test_file_exists",
@@ -499,69 +555,821 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
         }
       ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-25T23:27:41.098Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260525232740_iter1",
-      "completed_at": "2026-05-25T23:30:49.545Z",
-      "elapsed_seconds": 188,
+      "challenge": "semantic-merge-deliver",
+      "iteration": 2,
+      "started_at": "2026-05-27T09:40:32.649Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527094032_iter2",
+      "completed_at": "2026-05-27T09:43:31.489Z",
+      "elapsed_seconds": 179,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 1124,
-        "output_tokens": 11234,
-        "cache_read_tokens": 363291,
-        "cache_write_tokens": 22236,
-        "total_tokens": 12358,
-        "cost_usd": 0.6070905,
+        "input_tokens": 1337,
+        "output_tokens": 7536,
+        "cache_read_tokens": 1059934,
+        "cache_write_tokens": 33310,
+        "total_tokens": 8873,
+        "cost_usd": 0.9332395,
+        "num_turns": 41,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 179
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527094623_iter3",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6808933333333334,
+      "code_quality_score": 1,
+      "final_score": 0.904,
+      "tokens_used": 7244,
+      "cost_usd": 0.7039777500000001,
+      "time_seconds": 148,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 3,
+      "started_at": "2026-05-27T09:46:23.593Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527094623_iter3",
+      "completed_at": "2026-05-27T09:48:51.791Z",
+      "elapsed_seconds": 148,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1446,
+        "output_tokens": 5798,
+        "cache_read_tokens": 744858,
+        "cache_write_tokens": 28699,
+        "total_tokens": 7244,
+        "cost_usd": 0.7039777500000001,
+        "num_turns": 30,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 148
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527155555_iter1",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.7096033333333334,
+      "code_quality_score": 1,
+      "final_score": 0.913,
+      "tokens_used": 6373,
+      "cost_usd": 0.6560762499999999,
+      "time_seconds": 136,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "started_at": "2026-05-27T15:55:56.222Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527155555_iter1",
+      "completed_at": "2026-05-27T15:58:12.280Z",
+      "elapsed_seconds": 136,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 844,
+        "output_tokens": 5529,
+        "cache_read_tokens": 670150,
+        "cache_write_tokens": 28569,
+        "total_tokens": 6373,
+        "cost_usd": 0.6560762499999999,
+        "num_turns": 30,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 136
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527160520_iter2",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6892333333333334,
+      "code_quality_score": 1,
+      "final_score": 0.907,
+      "tokens_used": 6410,
+      "cost_usd": 0.696049,
+      "time_seconds": 148,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 2,
+      "started_at": "2026-05-27T16:05:20.693Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527160520_iter2",
+      "completed_at": "2026-05-27T16:07:49.199Z",
+      "elapsed_seconds": 148,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 845,
+        "output_tokens": 5565,
+        "cache_read_tokens": 720323,
+        "cache_write_tokens": 30806,
+        "total_tokens": 6410,
+        "cost_usd": 0.696049,
+        "num_turns": 30,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 148
+      }
+    },
+    {
+      "run_id": "a-inherit_semantic-merge-deliver_20260527160804_iter3",
+      "variant": "a-inherit",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.42096,
+      "code_quality_score": 1,
+      "final_score": 0.826,
+      "tokens_used": 7904,
+      "cost_usd": 0.7529152500000001,
+      "time_seconds": 321,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 3,
+      "started_at": "2026-05-27T16:08:05.155Z",
+      "worktree": "/tmp/ab-test-a-inherit_semantic-merge-deliver_20260527160804_iter3",
+      "completed_at": "2026-05-27T16:13:26.507Z",
+      "elapsed_seconds": 321,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1420,
+        "output_tokens": 6484,
+        "cache_read_tokens": 790268,
+        "cache_write_tokens": 30173,
+        "total_tokens": 7904,
+        "cost_usd": 0.7529152500000001,
+        "num_turns": 33,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 321
+      }
+    },
+    {
+      "run_id": "b-bare-agent_semantic-merge-deliver_20260527082106_iter1",
+      "variant": "b-bare-agent",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.73359,
+      "code_quality_score": 1,
+      "final_score": 0.92,
+      "tokens_used": 6141,
+      "cost_usd": 0.6351775,
+      "time_seconds": 123,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "started_at": "2026-05-27T08:21:06.605Z",
+      "worktree": "/tmp/ab-test-b-bare-agent_semantic-merge-deliver_20260527082106_iter1",
+      "completed_at": "2026-05-27T08:23:10.203Z",
+      "elapsed_seconds": 123,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1210,
+        "output_tokens": 4931,
+        "cache_read_tokens": 585055,
+        "cache_write_tokens": 34132,
+        "total_tokens": 6141,
+        "cost_usd": 0.6351775,
+        "num_turns": 28,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 123
+      }
+    },
+    {
+      "run_id": "e-tdd-hooks_semantic-merge-deliver_20260527082329_iter1",
+      "variant": "e-tdd-hooks",
+      "criteria_passed": 14,
+      "criteria_total": 15,
+      "criteria_score": 0.9333333333333333,
+      "efficiency_score": 0.6889733333333333,
+      "code_quality_score": 1,
+      "final_score": 0.873,
+      "tokens_used": 7936,
+      "cost_usd": 0.6988765,
+      "time_seconds": 139,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "started_at": "2026-05-27T08:23:29.305Z",
+      "worktree": "/tmp/ab-test-e-tdd-hooks_semantic-merge-deliver_20260527082329_iter1",
+      "completed_at": "2026-05-27T08:25:48.857Z",
+      "elapsed_seconds": 139,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 2531,
+        "output_tokens": 5405,
+        "cache_read_tokens": 750043,
+        "cache_write_tokens": 28172,
+        "total_tokens": 7936,
+        "cost_usd": 0.6988765,
+        "num_turns": 31,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 139
+      }
+    },
+    {
+      "run_id": "j-doc-aware-no-hooks_ambiguous-improvement_20260527135237_iter1",
+      "variant": "j-doc-aware-no-hooks",
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "criteria_score": 0.9,
+      "efficiency_score": 0.4246333333333333,
+      "code_quality_score": 1,
+      "final_score": 0.777,
+      "tokens_used": 14444,
+      "cost_usd": 1.3296492499999997,
+      "time_seconds": 273,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": false
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "started_at": "2026-05-27T13:52:38.059Z",
+      "worktree": "/tmp/ab-test-j-doc-aware-no-hooks_ambiguous-improvement_20260527135237_iter1",
+      "completed_at": "2026-05-27T13:57:11.352Z",
+      "elapsed_seconds": 273,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 2040,
+        "output_tokens": 12404,
+        "cache_read_tokens": 1484686,
+        "cache_write_tokens": 42721,
+        "total_tokens": 14444,
+        "cost_usd": 1.3296492499999997,
+        "num_turns": 48,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 273
+      }
+    },
+    {
+      "run_id": "j-tdd-hooks-doc-aware_cross-file-refactor_20260527102556_iter1",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.734525,
+      "code_quality_score": 1,
+      "final_score": 0.843,
+      "tokens_used": 8857,
+      "cost_usd": 0.491167,
+      "time_seconds": 115,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:25:56.724Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_cross-file-refactor_20260527102556_iter1",
+      "completed_at": "2026-05-27T10:27:51.471Z",
+      "elapsed_seconds": 115,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 3844,
+        "output_tokens": 5013,
+        "cache_read_tokens": 388819,
+        "cache_write_tokens": 24354,
+        "total_tokens": 8857,
+        "cost_usd": 0.491167,
         "num_turns": 16,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 188
+        "elapsed_seconds": 115
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac_20260526013954_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.76411,
-      "code_quality_score": 0,
-      "final_score": 0.679,
-      "tokens_used": 6589,
-      "cost_usd": 0.43598475000000003,
-      "time_seconds": 102,
-      "model": "opus",
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527082602_iter1",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.7436,
+      "code_quality_score": 1,
+      "final_score": 0.923,
+      "tokens_used": 7140,
+      "cost_usd": 0.567003,
+      "time_seconds": 111,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
           "id": "existing_tests_pass",
-          "pass": false
+          "pass": true
         },
         {
           "id": "test_file_exists",
@@ -574,64 +1382,84 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge-deliver",
       "iteration": 1,
-      "started_at": "2026-05-26T01:39:54.530Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526013954_iter1",
-      "completed_at": "2026-05-26T01:41:37.047Z",
-      "elapsed_seconds": 102,
+      "started_at": "2026-05-27T08:26:03.010Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527082602_iter1",
+      "completed_at": "2026-05-27T08:27:54.499Z",
+      "elapsed_seconds": 111,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 1119,
-        "output_tokens": 5470,
-        "cache_read_tokens": 207717,
-        "cache_write_tokens": 30365,
-        "total_tokens": 6589,
-        "cost_usd": 0.43598475000000003,
-        "num_turns": 11,
+        "input_tokens": 2497,
+        "output_tokens": 4643,
+        "cache_read_tokens": 530536,
+        "cache_write_tokens": 27708,
+        "total_tokens": 7140,
+        "cost_usd": 0.567003,
+        "num_turns": 22,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 102
+        "elapsed_seconds": 111
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac_20260526015030_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 10,
-      "criteria_total": 10,
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094345_iter2",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 15,
+      "criteria_total": 15,
       "criteria_score": 1,
-      "efficiency_score": 0.31390333333333337,
+      "efficiency_score": 0.6882,
       "code_quality_score": 1,
-      "final_score": 0.794,
-      "tokens_used": 19443,
-      "cost_usd": 0.7342312499999999,
-      "time_seconds": 295,
-      "model": "opus",
+      "final_score": 0.906,
+      "tokens_used": 7180,
+      "cost_usd": 0.6569157499999999,
+      "time_seconds": 144,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -649,139 +1477,84 @@
         {
           "id": "no_external_deps",
           "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:50:30.677Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526015030_iter1",
-      "completed_at": "2026-05-26T01:55:26.143Z",
-      "elapsed_seconds": 295,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 749,
-        "output_tokens": 18694,
-        "cache_read_tokens": 273935,
-        "cache_write_tokens": 20187,
-        "total_tokens": 19443,
-        "cost_usd": 0.7342312499999999,
-        "num_turns": 13,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 295
-      }
-    },
-    {
-      "run_id": "b-bare-agent_story-ac_20260526015549_iter2",
-      "variant": "b-bare-agent",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.72251,
-      "code_quality_score": 1,
-      "final_score": 0.917,
-      "tokens_used": 7749,
-      "cost_usd": 0.374637,
-      "time_seconds": 120,
-      "model": "opus",
-      "criteria_results": [
+        },
         {
-          "id": "parses_literal_basic",
+          "id": "docs_updated",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "committed_on_branch",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "commit_message_conventional",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "commit_message_not_trivial",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
+          "id": "no_untracked_source_files",
           "pass": true
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge-deliver",
       "iteration": 2,
-      "started_at": "2026-05-26T01:55:49.952Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526015549_iter2",
-      "completed_at": "2026-05-26T01:57:50.156Z",
-      "elapsed_seconds": 120,
+      "started_at": "2026-05-27T09:43:45.484Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094345_iter2",
+      "completed_at": "2026-05-27T09:46:10.015Z",
+      "elapsed_seconds": 144,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 745,
-        "output_tokens": 7004,
-        "cache_read_tokens": 155749,
-        "cache_write_tokens": 18870,
-        "total_tokens": 7749,
-        "cost_usd": 0.374637,
-        "num_turns": 9,
+        "input_tokens": 1743,
+        "output_tokens": 5437,
+        "cache_read_tokens": 659389,
+        "cache_write_tokens": 29213,
+        "total_tokens": 7180,
+        "cost_usd": 0.6569157499999999,
+        "num_turns": 27,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 120
+        "elapsed_seconds": 144
       }
     },
     {
-      "run_id": "b-bare-agent_story-ac_20260526071852_iter1",
-      "variant": "b-bare-agent",
-      "criteria_passed": 10,
-      "criteria_total": 10,
+      "run_id": "j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094905_iter3",
+      "variant": "j-tdd-hooks-doc-aware",
+      "criteria_passed": 15,
+      "criteria_total": 15,
       "criteria_score": 1,
-      "efficiency_score": 0.38577999999999996,
+      "efficiency_score": 0.7390366666666666,
       "code_quality_score": 1,
-      "final_score": 0.816,
-      "tokens_used": 16422,
-      "cost_usd": 0.7577327499999998,
-      "time_seconds": 270,
-      "model": "opus",
+      "final_score": 0.922,
+      "tokens_used": 5763,
+      "cost_usd": 0.5786522500000002,
+      "time_seconds": 122,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -799,284 +1572,246 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
         }
       ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:18:53.132Z",
-      "worktree": "/tmp/ab-test-b-bare-agent_story-ac_20260526071852_iter1",
-      "completed_at": "2026-05-26T07:23:23.226Z",
-      "elapsed_seconds": 270,
+      "challenge": "semantic-merge-deliver",
+      "iteration": 3,
+      "started_at": "2026-05-27T09:49:05.947Z",
+      "worktree": "/tmp/ab-test-j-tdd-hooks-doc-aware_semantic-merge-deliver_20260527094905_iter3",
+      "completed_at": "2026-05-27T09:51:08.287Z",
+      "elapsed_seconds": 122,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 1123,
-        "output_tokens": 15299,
-        "cache_read_tokens": 325223,
-        "cache_write_tokens": 33125,
-        "total_tokens": 16422,
-        "cost_usd": 0.7577327499999998,
-        "num_turns": 15,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 270
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac-with-skills_20260526003424_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.5,
-      "code_quality_score": 0,
-      "final_score": 0.6,
-      "tokens_used": 0,
-      "cost_usd": 0,
-      "time_seconds": 300,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac-with-skills",
-      "iteration": 1,
-      "started_at": "2026-05-26T00:34:24.722Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac-with-skills_20260526003424_iter1",
-      "completed_at": "2026-05-26T00:39:24.899Z",
-      "elapsed_seconds": 300,
-      "exit_code": 143,
-      "usage": {
-        "total_tokens": 0,
-        "cost_usd": 0,
-        "elapsed_seconds": 300,
-        "exit_type": "parse_error",
-        "model": "unknown"
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac_20260525232740_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.46477,
-      "code_quality_score": 0,
-      "final_score": 0.589,
-      "tokens_used": 15523,
-      "cost_usd": 0.67817275,
-      "time_seconds": 228,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-25T23:27:41.095Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260525232740_iter1",
-      "completed_at": "2026-05-25T23:31:28.998Z",
-      "elapsed_seconds": 228,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 751,
-        "output_tokens": 14772,
-        "cache_read_tokens": 334198,
-        "cache_write_tokens": 22083,
-        "total_tokens": 15523,
-        "cost_usd": 0.67817275,
-        "num_turns": 14,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 228
-      }
-    },
-    {
-      "run_id": "c-lightweight-guidance_story-ac_20260526013954_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.35323000000000004,
-      "code_quality_score": 0,
-      "final_score": 0.556,
-      "tokens_used": 17677,
-      "cost_usd": 0.9710772499999998,
-      "time_seconds": 282,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:39:54.528Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260526013954_iter1",
-      "completed_at": "2026-05-26T01:44:36.898Z",
-      "elapsed_seconds": 282,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 760,
-        "output_tokens": 16917,
-        "cache_read_tokens": 622992,
-        "cache_write_tokens": 37257,
-        "total_tokens": 17677,
-        "cost_usd": 0.9710772499999998,
+        "input_tokens": 915,
+        "output_tokens": 4848,
+        "cache_read_tokens": 550367,
+        "cache_write_tokens": 28431,
+        "total_tokens": 5763,
+        "cost_usd": 0.5786522500000002,
         "num_turns": 23,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 282
+        "elapsed_seconds": 122
       }
     },
     {
-      "run_id": "c-lightweight-guidance_story-ac_20260526015549_iter2",
-      "variant": "c-lightweight-guidance",
+      "run_id": "k-inherit-trimmed_ambiguous-improvement_20260527135729_iter1",
+      "variant": "k-inherit-trimmed",
       "criteria_passed": 10,
       "criteria_total": 10,
       "criteria_score": 1,
-      "efficiency_score": 0.5742,
+      "efficiency_score": 0.613775,
       "code_quality_score": 1,
-      "final_score": 0.872,
-      "tokens_used": 12080,
-      "cost_usd": 0.5710945,
-      "time_seconds": 183,
-      "model": "opus",
+      "final_score": 0.884,
+      "tokens_used": 10347,
+      "cost_usd": 0.9946864999999998,
+      "time_seconds": 180,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "existing_tests_pass",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "doctor_still_works",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "printDoctor_still_exported",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "doctor_modified",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "output_improved",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "actionable_output",
+          "pass": true
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "started_at": "2026-05-27T13:57:29.242Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_ambiguous-improvement_20260527135729_iter1",
+      "completed_at": "2026-05-27T14:00:29.443Z",
+      "elapsed_seconds": 180,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 851,
+        "output_tokens": 9496,
+        "cache_read_tokens": 1045938,
+        "cache_write_tokens": 36810,
+        "total_tokens": 10347,
+        "cost_usd": 0.9946864999999998,
+        "num_turns": 33,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 180
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_cross-file-refactor_20260527102806_iter1",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 11,
+      "criteria_total": 13,
+      "criteria_score": 0.8461538461538461,
+      "efficiency_score": 0.674925,
+      "code_quality_score": 1,
+      "final_score": 0.826,
+      "tokens_used": 12809,
+      "cost_usd": 0.7028552499999999,
+      "time_seconds": 131,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": true
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": true
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": true
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:28:06.257Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_cross-file-refactor_20260527102806_iter1",
+      "completed_at": "2026-05-27T10:30:17.843Z",
+      "elapsed_seconds": 131,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 6651,
+        "output_tokens": 6158,
+        "cache_read_tokens": 645388,
+        "cache_write_tokens": 30873,
+        "total_tokens": 12809,
+        "cost_usd": 0.7028552499999999,
+        "num_turns": 24,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 131
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_semantic-merge-deliver_20260527101117_iter1",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6786300000000001,
+      "code_quality_score": 1,
+      "final_score": 0.904,
+      "tokens_used": 7137,
+      "cost_usd": 0.8245377500000001,
+      "time_seconds": 150,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -1094,64 +1829,179 @@
         {
           "id": "no_external_deps",
           "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
         }
       ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "started_at": "2026-05-27T10:11:18.026Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_semantic-merge-deliver_20260527101117_iter1",
+      "completed_at": "2026-05-27T10:13:48.061Z",
+      "elapsed_seconds": 150,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 970,
+        "output_tokens": 6167,
+        "cache_read_tokens": 948213,
+        "cache_write_tokens": 30625,
+        "total_tokens": 7137,
+        "cost_usd": 0.8245377500000001,
+        "num_turns": 35,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 150
+      }
+    },
+    {
+      "run_id": "k-inherit-trimmed_semantic-merge-deliver_20260527101402_iter2",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6946966666666667,
+      "code_quality_score": 1,
+      "final_score": 0.908,
+      "tokens_used": 7697,
+      "cost_usd": 0.7037159999999997,
+      "time_seconds": 137,
+      "model": "default",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
       "iteration": 2,
-      "started_at": "2026-05-26T01:55:49.979Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260526015549_iter2",
-      "completed_at": "2026-05-26T01:58:52.951Z",
-      "elapsed_seconds": 183,
+      "started_at": "2026-05-27T10:14:02.240Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_semantic-merge-deliver_20260527101402_iter2",
+      "completed_at": "2026-05-27T10:16:19.199Z",
+      "elapsed_seconds": 137,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 750,
-        "output_tokens": 11330,
-        "cache_read_tokens": 299639,
-        "cache_write_tokens": 21484,
-        "total_tokens": 12080,
-        "cost_usd": 0.5710945,
-        "num_turns": 13,
+        "input_tokens": 2137,
+        "output_tokens": 5560,
+        "cache_read_tokens": 735837,
+        "cache_write_tokens": 29778,
+        "total_tokens": 7697,
+        "cost_usd": 0.7037159999999997,
+        "num_turns": 30,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 183
+        "elapsed_seconds": 137
       }
     },
     {
-      "run_id": "c-lightweight-guidance_story-ac_20260526071852_iter1",
-      "variant": "c-lightweight-guidance",
-      "criteria_passed": 10,
-      "criteria_total": 10,
+      "run_id": "k-inherit-trimmed_semantic-merge-deliver_20260527101633_iter3",
+      "variant": "k-inherit-trimmed",
+      "criteria_passed": 15,
+      "criteria_total": 15,
       "criteria_score": 1,
-      "efficiency_score": 0.5403166666666668,
+      "efficiency_score": 0.7005166666666667,
       "code_quality_score": 1,
-      "final_score": 0.862,
-      "tokens_used": 13135,
-      "cost_usd": 0.5841857500000001,
-      "time_seconds": 197,
-      "model": "opus",
+      "final_score": 0.91,
+      "tokens_used": 6615,
+      "cost_usd": 0.6387429999999998,
+      "time_seconds": 140,
+      "model": "default",
       "criteria_results": [
         {
-          "id": "parses_literal_basic",
+          "id": "function_exported",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "top_level_override",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "array_concat_dedup",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "nested_recursive",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
+          "id": "null_deletes",
           "pass": true
         },
         {
-          "id": "preserves_extra_indent",
+          "id": "no_mutation",
           "pass": true
         },
         {
@@ -1169,616 +2019,46 @@
         {
           "id": "no_external_deps",
           "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:18:53.137Z",
-      "worktree": "/tmp/ab-test-c-lightweight-guidance_story-ac_20260526071852_iter1",
-      "completed_at": "2026-05-26T07:22:10.074Z",
-      "elapsed_seconds": 197,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1199,
-        "output_tokens": 11936,
-        "cache_read_tokens": 180619,
-        "cache_write_tokens": 30317,
-        "total_tokens": 13135,
-        "cost_usd": 0.5841857500000001,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 197
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526013954_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.7897566666666667,
-      "code_quality_score": 0,
-      "final_score": 0.687,
-      "tokens_used": 6191,
-      "cost_usd": 0.41250925000000005,
-      "time_seconds": 89,
-      "model": "opus",
-      "criteria_results": [
+        },
         {
-          "id": "parses_literal_basic",
+          "id": "docs_updated",
           "pass": true
         },
         {
-          "id": "parses_folded_basic",
+          "id": "committed_on_branch",
           "pass": true
         },
         {
-          "id": "folded_preserves_paragraphs",
+          "id": "commit_message_conventional",
           "pass": true
         },
         {
-          "id": "literal_multikey",
+          "id": "commit_message_not_trivial",
           "pass": true
         },
         {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
+          "id": "no_untracked_source_files",
           "pass": true
         }
       ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:39:54.524Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526013954_iter1",
-      "completed_at": "2026-05-26T01:41:23.876Z",
-      "elapsed_seconds": 89,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1118,
-        "output_tokens": 5073,
-        "cache_read_tokens": 180401,
-        "cache_write_tokens": 30383,
-        "total_tokens": 6191,
-        "cost_usd": 0.41250925000000005,
-        "num_turns": 10,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 89
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526014524_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 9,
-      "criteria_total": 10,
-      "criteria_score": 0.9,
-      "efficiency_score": 0.49285333333333337,
-      "code_quality_score": 0,
-      "final_score": 0.598,
-      "tokens_used": 13548,
-      "cost_usd": 0.6342029999999999,
-      "time_seconds": 223,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:45:25.218Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526014524_iter1",
-      "completed_at": "2026-05-26T01:49:08.659Z",
-      "elapsed_seconds": 223,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 753,
-        "output_tokens": 12795,
-        "cache_read_tokens": 342751,
-        "cache_write_tokens": 22270,
-        "total_tokens": 13548,
-        "cost_usd": 0.6342029999999999,
-        "num_turns": 14,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 223
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526015030_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.4706033333333333,
-      "code_quality_score": 1,
-      "final_score": 0.841,
-      "tokens_used": 14773,
-      "cost_usd": 0.5532730000000001,
-      "time_seconds": 229,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T01:50:30.677Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526015030_iter1",
-      "completed_at": "2026-05-26T01:54:20.052Z",
-      "elapsed_seconds": 229,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1117,
-        "output_tokens": 13656,
-        "cache_read_tokens": 161151,
-        "cache_write_tokens": 20114,
-        "total_tokens": 14773,
-        "cost_usd": 0.5532730000000001,
-        "num_turns": 9,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 229
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526015549_iter2",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 2,
-      "criteria_total": 10,
-      "criteria_score": 0.2,
-      "efficiency_score": 0.5,
-      "code_quality_score": 1,
-      "final_score": 0.45,
-      "tokens_used": 0,
-      "cost_usd": 0,
-      "time_seconds": 300,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": false
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": false
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": false
-        },
-        {
-          "id": "literal_multikey",
-          "pass": false
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": false
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": false
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": false
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": false
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 2,
-      "started_at": "2026-05-26T01:55:49.989Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526015549_iter2",
-      "completed_at": "2026-05-26T02:00:50.107Z",
-      "elapsed_seconds": 300,
-      "exit_code": 143,
-      "usage": {
-        "total_tokens": 0,
-        "cost_usd": 0,
-        "elapsed_seconds": 300,
-        "exit_type": "parse_error",
-        "model": "unknown"
-      }
-    },
-    {
-      "run_id": "d-hook-enforced_story-ac_20260526071852_iter1",
-      "variant": "d-hook-enforced",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.5,
-      "code_quality_score": 1,
-      "final_score": 0.85,
-      "tokens_used": 0,
-      "cost_usd": 0,
-      "time_seconds": 300,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:18:53.131Z",
-      "worktree": "/tmp/ab-test-d-hook-enforced_story-ac_20260526071852_iter1",
-      "completed_at": "2026-05-26T07:23:53.296Z",
-      "elapsed_seconds": 300,
-      "exit_code": 143,
-      "usage": {
-        "total_tokens": 0,
-        "cost_usd": 0,
-        "elapsed_seconds": 300,
-        "exit_type": "parse_error",
-        "model": "unknown"
-      }
-    },
-    {
-      "run_id": "e-tdd-hooks_story-ac_20260526073549_iter1",
-      "variant": "e-tdd-hooks",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.7309366666666666,
-      "code_quality_score": 1,
-      "final_score": 0.919,
-      "tokens_used": 6073,
-      "cost_usd": 0.46008200000000005,
-      "time_seconds": 125,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 1,
-      "started_at": "2026-05-26T07:35:49.440Z",
-      "worktree": "/tmp/ab-test-e-tdd-hooks_story-ac_20260526073549_iter1",
-      "completed_at": "2026-05-26T07:37:54.973Z",
-      "elapsed_seconds": 125,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 749,
-        "output_tokens": 5324,
-        "cache_read_tokens": 264749,
-        "cache_write_tokens": 30538,
-        "total_tokens": 6073,
-        "cost_usd": 0.46008200000000005,
-        "num_turns": 12,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 125
-      }
-    },
-    {
-      "run_id": "e-tdd-hooks_story-ac_20260526073755_iter2",
-      "variant": "e-tdd-hooks",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.5942266666666667,
-      "code_quality_score": 1,
-      "final_score": 0.878,
-      "tokens_used": 10244,
-      "cost_usd": 0.46405625,
-      "time_seconds": 182,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
-      "iteration": 2,
-      "started_at": "2026-05-26T07:37:55.224Z",
-      "worktree": "/tmp/ab-test-e-tdd-hooks_story-ac_20260526073755_iter2",
-      "completed_at": "2026-05-26T07:40:57.134Z",
-      "elapsed_seconds": 182,
-      "exit_code": 0,
-      "usage": {
-        "input_tokens": 1119,
-        "output_tokens": 9125,
-        "cache_read_tokens": 215760,
-        "cache_write_tokens": 19593,
-        "total_tokens": 10244,
-        "cost_usd": 0.46405625,
-        "num_turns": 11,
-        "exit_type": "success",
-        "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 182
-      }
-    },
-    {
-      "run_id": "e-tdd-hooks_story-ac_20260526074057_iter3",
-      "variant": "e-tdd-hooks",
-      "criteria_passed": 10,
-      "criteria_total": 10,
-      "criteria_score": 1,
-      "efficiency_score": 0.7056866666666667,
-      "code_quality_score": 1,
-      "final_score": 0.912,
-      "tokens_used": 7098,
-      "cost_usd": 0.3958665,
-      "time_seconds": 134,
-      "model": "opus",
-      "criteria_results": [
-        {
-          "id": "parses_literal_basic",
-          "pass": true
-        },
-        {
-          "id": "parses_folded_basic",
-          "pass": true
-        },
-        {
-          "id": "folded_preserves_paragraphs",
-          "pass": true
-        },
-        {
-          "id": "literal_multikey",
-          "pass": true
-        },
-        {
-          "id": "literal_in_sequence",
-          "pass": true
-        },
-        {
-          "id": "preserves_extra_indent",
-          "pass": true
-        },
-        {
-          "id": "existing_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "test_file_exists",
-          "pass": true
-        },
-        {
-          "id": "agent_tests_pass",
-          "pass": true
-        },
-        {
-          "id": "no_external_deps",
-          "pass": true
-        }
-      ],
-      "challenge": "story-ac",
+      "challenge": "semantic-merge-deliver",
       "iteration": 3,
-      "started_at": "2026-05-26T07:40:57.369Z",
-      "worktree": "/tmp/ab-test-e-tdd-hooks_story-ac_20260526074057_iter3",
-      "completed_at": "2026-05-26T07:43:11.547Z",
-      "elapsed_seconds": 134,
+      "started_at": "2026-05-27T10:16:33.940Z",
+      "worktree": "/tmp/ab-test-k-inherit-trimmed_semantic-merge-deliver_20260527101633_iter3",
+      "completed_at": "2026-05-27T10:18:53.819Z",
+      "elapsed_seconds": 140,
       "exit_code": 0,
       "usage": {
-        "input_tokens": 1119,
-        "output_tokens": 5979,
-        "cache_read_tokens": 217693,
-        "cache_write_tokens": 21112,
-        "total_tokens": 7098,
-        "cost_usd": 0.3958665,
-        "num_turns": 11,
+        "input_tokens": 843,
+        "output_tokens": 5772,
+        "cache_read_tokens": 632681,
+        "cache_write_tokens": 27822,
+        "total_tokens": 6615,
+        "cost_usd": 0.6387429999999998,
+        "num_turns": 26,
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
-        "elapsed_seconds": 134
+        "elapsed_seconds": 140
       }
     }
   ]

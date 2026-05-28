@@ -1,0 +1,12 @@
+{
+  "id": "k-inherit-trimmed",
+  "name": "Current CLAUDE.md minus non-operational content",
+  "description": "Uses the production CLAUDE.md with headless blockers stripped AND non-operational sections removed (whitepaper rules, core content decisions, package direction). Skills list and working style remain.",
+  "claude_md": "inherit-trimmed",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

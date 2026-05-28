@@ -20,8 +20,8 @@ artifacts:
         from: hve-core:.github/copilot-instructions.md
         to: .github/copilot-instructions.md
         sourceHash: sha256:4de632cc2a360a46f72d3d6e3e4a66fc7ed3e6b7f0c10f3f938398860a483cac
-        overlayHash: sha256:9e33e9e87387c48aa81ce6413bd90da636c53904a28616423de93932bb31d0a8
-        generatedHash: sha256:8641f203303b7b36fadc698d0bf47cb999e69c401f7bfa237d5e036c76ca88d0
+        overlayHash: sha256:e19869dede315a0c7acffb4b6e14daeb2eff6bb1b980f2af1bce172677c54c68
+        generatedHash: sha256:ec7d9ef87499052e974ddcc7d38ac7a350e9ebc9d04caa81f29e7cc5ca4612c0
   claude-instructions:
     kind: agent
     target: CLAUDE.md
