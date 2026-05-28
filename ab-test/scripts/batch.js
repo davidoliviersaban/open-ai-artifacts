@@ -9,7 +9,7 @@ const { scoreRun } = require('./score.js')
 const { generateReport, loadRuns } = require('./report.js')
 
 function parseArgs(argv) {
-  const args = { challenges: null, iterations: 1, variants: null, model: null, budget: 2.0, parallel: false }
+  const args = { challenges: null, iterations: 1, variants: null, model: null, budget: 2.0, parallel: 0 }
   for (let i = 0; i < argv.length; i++) {
     switch (argv[i]) {
       case '--challenge': args.challenges = [argv[++i]]; break
@@ -18,18 +18,42 @@ function parseArgs(argv) {
       case '--variants': args.variants = argv[++i].split(','); break
       case '--model': args.model = argv[++i]; break
       case '--budget': args.budget = Number(argv[++i]); break
-      case '--parallel': args.parallel = true; break
+      case '--parallel': {
+        const next = argv[i + 1]
+        args.parallel = next && !next.startsWith('--') ? Number(argv[++i]) : Infinity
+        break
+      }
     }
   }
   return args
 }
 
+async function runWithConcurrency(items, limit, worker) {
+  let index = 0
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (index < items.length) {
+      const item = items[index++]
+      await worker(item)
+    }
+  })
+  await Promise.all(workers)
+}
+
 function discoverVariants(abDir) {
+  const baseline = loadBaseline(abDir)
+  if (Array.isArray(baseline.variants) && baseline.variants.length > 0) return baseline.variants
+
   const variantsDir = path.join(abDir, 'variants')
   if (!fs.existsSync(variantsDir)) return []
   return fs.readdirSync(variantsDir).filter(entry => {
     return fs.existsSync(path.join(variantsDir, entry, 'variant.json'))
   })
+}
+
+function loadBaseline(abDir) {
+  const file = path.join(abDir, 'baseline.json')
+  if (!fs.existsSync(file)) return {}
+  return JSON.parse(fs.readFileSync(file, 'utf8'))
 }
 
 function discoverChallenges(abDir) {
@@ -118,7 +142,7 @@ async function main() {
   console.log(`║ Iterations: ${args.iterations}`)
   console.log(`║ Total runs: ${matrix.length}`)
   console.log(`║ Model:      ${args.model || 'default'}`)
-  console.log(`║ Parallel:   ${args.parallel}`)
+  console.log(`║ Parallel:   ${args.parallel ? args.parallel : false}`)
   console.log(`║ Budget:     $${args.budget}/run (max total: $${(matrix.length * args.budget).toFixed(0)})`)
   console.log('╚══════════════════════════════════════════╝')
   console.log('')
@@ -126,10 +150,11 @@ async function main() {
   const runDirs = []
 
   if (args.parallel) {
-    console.log(`Launching ${matrix.length} runs in parallel...`)
+    const concurrency = args.parallel === Infinity ? matrix.length : args.parallel
+    console.log(`Launching ${matrix.length} runs with concurrency ${concurrency}...`)
     console.log('')
 
-    const promises = matrix.map(({ challenge, variant, iteration }) => {
+    await runWithConcurrency(matrix, concurrency, ({ challenge, variant, iteration }) => {
       console.log(`  Starting: ${variant} × ${challenge} (iter ${iteration})`)
       return runInChildProcess({
         abDir, variant, challenge, iteration,
@@ -141,8 +166,6 @@ async function main() {
         console.error(`  ✗ ${variant} × ${challenge} (iter ${iteration}): ${err.message}`)
       })
     })
-
-    await Promise.all(promises)
   } else {
     let runCount = 0
     for (const { challenge, variant, iteration } of matrix) {
@@ -184,7 +207,11 @@ async function main() {
   generateReport(runs, runsDir)
 }
 
-main().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+if (require.main === module) {
+  main().catch(err => {
+    console.error(err)
+    process.exit(1)
+  })
+}
+
+module.exports = { buildRunMatrix, discoverChallenges, discoverVariants, loadBaseline, parseArgs, runWithConcurrency }

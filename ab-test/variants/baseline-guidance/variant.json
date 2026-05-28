@@ -1,0 +1,12 @@
+{
+  "id": "baseline-guidance",
+  "name": "Baseline guidance",
+  "description": "Derived from the current repository guidance, stripped of human/process-only and non-operational sections for autonomous benchmark runs. Skills list and working style remain.",
+  "claude_md": "inherit-trimmed",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

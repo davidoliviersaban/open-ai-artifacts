@@ -1,0 +1,13 @@
+{
+  "id": "minimal-guidance",
+  "name": "Minimal guidance",
+  "description": "A compact agent guidance file with project context, validation commands and focused coding guardrails. Tests whether a smaller purpose-built instruction set beats the inherited baseline guidance.",
+  "claude_md": "custom",
+  "claude_md_content": "# ai-artifacts\n\n## Project Context\n\nThis repository contains `ai-artifacts`, a Node.js package for composing, syncing and validating AI instruction artifacts.\n\nKey paths:\n- `packages/ai-artifacts/`: package source and CLI\n- `packages/ai-artifacts/*.test.js`: package tests\n- `docs/`: documentation and ADRs\n\n## Validation\n\nRun relevant tests before finishing:\n\n```bash\nnpm run test:ai-artifacts\nnpm run validate:ai-artifacts\n```\n\n## Working Rules\n\n- Make the smallest correct change.\n- Follow existing patterns in the same directory.\n- Add or update tests when behavior changes.\n- Update nearby documentation when CLI behavior, public API, config schema or validation behavior changes.\n- Do not add dependencies unless clearly necessary.\n- Do not modify unrelated files.",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": true,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

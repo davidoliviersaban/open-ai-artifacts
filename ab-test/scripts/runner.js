@@ -11,6 +11,10 @@ function createRunId(variant, challenge, iteration) {
   return `${variant}_${challenge}_${ts}_iter${iteration}`
 }
 
+function createRunBranchName(name) {
+  return `feat/ab-test-${name.replace(/[^A-Za-z0-9._/-]/g, '-')}`
+}
+
 function loadChallenge(abDir, challengeId) {
   const file = path.join(abDir, 'challenges', challengeId, 'challenge.json')
   if (!fs.existsSync(file)) throw new Error(`Challenge not found: ${file}`)
@@ -23,18 +27,65 @@ function loadVariant(abDir, variantId) {
   return JSON.parse(fs.readFileSync(file, 'utf8'))
 }
 
-function createWorktree(repoRoot, name) {
-  const worktree = path.join('/tmp', `ab-test-${name}`)
-  execSync(`git worktree add "${worktree}" HEAD --detach`, { cwd: repoRoot, stdio: 'pipe' })
-  return worktree
+function loadBaseline(abDir) {
+  const file = path.join(abDir, 'baseline.json')
+  if (!fs.existsSync(file)) {
+    return { id: 'legacy-unversioned', description: 'No ab-test/baseline.json present for this run.' }
+  }
+  return JSON.parse(fs.readFileSync(file, 'utf8'))
 }
 
-function prepareWorktree(worktree, variant, repoRoot) {
+function createWorktree(repoRoot, name) {
+  const worktree = path.join('/tmp', `ab-test-${name}`)
+  const branch = createRunBranchName(name)
+  execSync(`git worktree add -b "${branch}" "${worktree}" HEAD`, { cwd: repoRoot, stdio: 'pipe' })
+  return { worktree, branch }
+}
+
+function isPreservedAgentMarkdown(relativePath) {
+  return relativePath === 'CLAUDE.md'
+    || relativePath === 'AGENTS.md'
+    || relativePath.startsWith('.github/skills/')
+    || relativePath.startsWith('.opencode/')
+}
+
+function removeMarkdownFiles(dir, root = dir) {
+  if (!fs.existsSync(dir)) return
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name)
+    const relativePath = path.relative(root, fullPath)
+    if (entry.isDirectory()) {
+      if (entry.name === '.git' || entry.name === 'node_modules') continue
+      removeMarkdownFiles(fullPath, root)
+      continue
+    }
+    if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !isPreservedAgentMarkdown(relativePath)) {
+      fs.unlinkSync(fullPath)
+    }
+  }
+}
+
+function applyChallengeIsolation(worktree, challenge = {}) {
+  switch (challenge.hide_documentation) {
+    case 'all-markdown':
+      removeMarkdownFiles(worktree)
+      break
+    case 'docs-only': {
+      const docsDir = path.join(worktree, 'docs')
+      if (fs.existsSync(docsDir)) fs.rmSync(docsDir, { recursive: true })
+      break
+    }
+  }
+}
+
+function prepareWorktree(worktree, variant, repoRoot, challenge = {}) {
   // Symlink node_modules so npm scripts (nx, tests) work in the worktree
-  const nodeModulesSrc = path.join(repoRoot, 'node_modules')
-  const nodeModulesDst = path.join(worktree, 'node_modules')
-  if (fs.existsSync(nodeModulesSrc) && !fs.existsSync(nodeModulesDst)) {
-    fs.symlinkSync(nodeModulesSrc, nodeModulesDst)
+  if (repoRoot) {
+    const nodeModulesSrc = path.join(repoRoot, 'node_modules')
+    const nodeModulesDst = path.join(worktree, 'node_modules')
+    if (fs.existsSync(nodeModulesSrc) && !fs.existsSync(nodeModulesDst)) {
+      fs.symlinkSync(nodeModulesSrc, nodeModulesDst)
+    }
   }
 
   // Remove ab-test dir so agent cannot see acceptance criteria or scoring logic
@@ -79,25 +130,26 @@ function prepareWorktree(worktree, variant, repoRoot) {
   if (variant.claude_md === 'inherit' || variant.claude_md === 'inherit-trimmed') {
     if (fs.existsSync(claudeMdPath)) {
       let content = fs.readFileSync(claudeMdPath, 'utf8')
-      // Remove Worktree Requirement (prevents coding directly in the worktree)
-      content = content.replace(/### Worktree Requirement[\s\S]*?(?=###|## )/m, '')
-      // Remove Git Safety (irrelevant in test — no push happens)
-      content = content.replace(/### Git Safety[\s\S]*?(?=###|## )/m, '')
-      // Remove Skill Invocation mandate (forces /multi-feature + /ship which can't work headless)
-      content = content.replace(/### Skill Invocation[\s\S]*?(?=###|## )/m, '')
-      // Remove pipeline table (references mandatory skills that block implementation)
-      content = content.replace(/### Pipeline \(every change\)[\s\S]*?(?=## )/m, '')
+      if (!variant.keep_full_guidance) {
+        // Remove Worktree Requirement (prevents coding directly in the worktree)
+        content = content.replace(/### Worktree Requirement[\s\S]*?(?=###|## )/m, '')
+        // Remove Git Safety (irrelevant in test — no push happens)
+        content = content.replace(/### Git Safety[\s\S]*?(?=###|## )/m, '')
+        // Remove Skill Invocation mandate (forces /multi-feature + /ship which can't work headless)
+        content = content.replace(/### Skill Invocation[\s\S]*?(?=###|## )/m, '')
+        // Remove pipeline table (references mandatory skills that block implementation)
+        content = content.replace(/### Pipeline \(every change\)[\s\S]*?(?=## )/m, '')
+      }
 
       if (variant.claude_md === 'inherit-trimmed') {
         content = content.replace(/## Whitepaper Editorial Rules[\s\S]*?(?=## )/m, '')
         content = content.replace(/## Core Content Decisions[\s\S]*?(?=## )/m, '')
         content = content.replace(/## Package Direction[\s\S]*?(?=## )/m, '')
       }
-
       // Add autonomous execution directive
       content += '\n\n## Autonomous Execution\n\n'
       content += '- You are running in autonomous mode. Implement directly without asking for confirmation.\n'
-      content += '- Work in the current directory. Do not create worktrees or branches.\n'
+      content += '- Work in the current directory on the current feature branch. Do not create additional worktrees or branches.\n'
       content += '- Before finishing, run the test suite and fix any failures.\n'
       fs.writeFileSync(claudeMdPath, content)
     }
@@ -186,6 +238,8 @@ main()
       if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true })
     }
   }
+
+  applyChallengeIsolation(worktree, { hide_documentation: variant.hide_documentation || challenge.hide_documentation })
 }
 
 function buildClaudeFlags(variant, modelOverride, budget) {
@@ -207,7 +261,7 @@ function buildClaudeFlags(variant, modelOverride, budget) {
   return flags
 }
 
-function runClaude(worktree, flags, prompt, debugFile) {
+function runClaude(worktree, flags, prompt, debugFile, timeoutSeconds = 300) {
   const allFlags = [...flags]
   if (debugFile) {
     allFlags.push('--debug-file', debugFile)
@@ -217,7 +271,7 @@ function runClaude(worktree, flags, prompt, debugFile) {
   const result = spawnSync('claude', [...allFlags, prompt], {
     cwd: worktree,
     encoding: 'utf8',
-    timeout: 300000,
+    timeout: timeoutSeconds * 1000,
     maxBuffer: 50 * 1024 * 1024,
   })
   const elapsed = Math.round((Date.now() - start) / 1000)
@@ -280,25 +334,33 @@ function captureDeliveryState(worktree) {
   return state
 }
 
-function removeWorktree(repoRoot, worktree) {
+function removeWorktree(repoRoot, worktree, branch) {
   try {
     execSync(`git worktree remove "${worktree}" --force`, { cwd: repoRoot, stdio: 'pipe' })
   } catch {
     // best effort
+  }
+  if (branch) {
+    try {
+      execSync(`git branch -D "${branch}"`, { cwd: repoRoot, stdio: 'pipe' })
+    } catch {
+      // best effort
+    }
   }
 }
 
 function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelOverride, budget }) {
   const challenge = loadChallenge(abDir, challengeId)
   const variant = loadVariant(abDir, variantId)
+  const baseline = loadBaseline(abDir)
   const runId = createRunId(variantId, challengeId, iteration)
   const runDir = path.join(abDir, 'runs', runId)
   fs.mkdirSync(runDir, { recursive: true })
 
-  const worktree = createWorktree(repoRoot, runId)
+  const { worktree, branch } = createWorktree(repoRoot, runId)
 
   try {
-    prepareWorktree(worktree, variant, repoRoot)
+    prepareWorktree(worktree, variant, repoRoot, challenge)
 
     // Commit the clean state so we can diff only what the agent changes
     execSync('git add -A && git commit -m "baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
@@ -312,8 +374,10 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
       challenge: challengeId,
       iteration,
       model: modelOverride || variant.model || 'default',
+      baseline,
       started_at: new Date().toISOString(),
       worktree,
+      branch,
     }
     fs.writeFileSync(path.join(runDir, 'metadata.json'), JSON.stringify(metadata, null, 2))
 
@@ -328,7 +392,8 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
     // Run claude
     const flags = buildClaudeFlags(variant, modelOverride, budget)
     const debugFile = path.join(runDir, 'debug.log')
-    const { stdout, stderr, rawJson, elapsed, exitCode } = runClaude(worktree, flags, challenge.prompt, debugFile)
+    const timeoutSeconds = challenge.scoring?.max_time_seconds || 300
+    const { stdout, stderr, rawJson, elapsed, exitCode } = runClaude(worktree, flags, challenge.prompt, debugFile, timeoutSeconds)
 
     fs.writeFileSync(path.join(runDir, 'stdout.json'), stdout)
     fs.writeFileSync(path.join(runDir, 'stderr.log'), stderr)
@@ -354,7 +419,7 @@ function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelO
 
     return { runId, runDir, elapsed, usage: usageResult }
   } finally {
-    removeWorktree(repoRoot, worktree)
+    removeWorktree(repoRoot, worktree, branch)
   }
 }
 
@@ -407,9 +472,12 @@ if (require.main === module) {
 
 module.exports = {
   buildClaudeFlags,
+  createRunBranchName,
   createRunId,
   executeRun,
+  applyChallengeIsolation,
   loadChallenge,
+  loadBaseline,
   loadVariant,
   parseArgs,
   prepareWorktree,

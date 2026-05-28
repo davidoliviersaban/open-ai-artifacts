@@ -149,16 +149,33 @@ describe('summarizeVariant', () => {
     assert.equal(s.avg_tokens, 15000)
     assert.equal(s.avg_time, 90)
     assert.equal(s.avg_cost, 0.75)
-    assert.equal(s.full_pass_rate, 0)
+    assert.equal(s.criteria_passed, 16)
+    assert.equal(s.criteria_total, 20)
+    assert.equal(s.perfect_runs, 0)
+    assert.equal(s.tests_passed, 0)
   })
 
-  it('computes full_pass_rate when some runs pass all criteria', () => {
+  it('computes all criteria pass counts across runs', () => {
     const runs = [
       { final_score: 1.0, criteria_score: 1.0, tokens_used: 5000, time_seconds: 30, cost_usd: 0.2, criteria_passed: 10, criteria_total: 10 },
       { final_score: 0.5, criteria_score: 0.5, tokens_used: 30000, time_seconds: 200, cost_usd: 1.0, criteria_passed: 5, criteria_total: 10 },
     ]
     const s = summarizeVariant('x', runs)
-    assert.equal(s.full_pass_rate, 0.5)
+    assert.equal(s.criteria_passed, 15)
+    assert.equal(s.criteria_total, 20)
+    assert.equal(s.perfect_runs, 1)
+  })
+
+  it('counts existing test pass criteria independently from perfect runs', () => {
+    const runs = [
+      { final_score: 0.9, criteria_score: 0.9, tokens_used: 5000, time_seconds: 30, cost_usd: 0.2, criteria_passed: 9, criteria_total: 10, criteria_results: [{ id: 'existing_tests_pass', pass: true }] },
+      { final_score: 0.7, criteria_score: 0.8, tokens_used: 7000, time_seconds: 40, cost_usd: 0.3, criteria_passed: 8, criteria_total: 10, criteria_results: [{ id: 'existing_tests_pass', pass: false }] },
+    ]
+
+    const s = summarizeVariant('x', runs)
+
+    assert.equal(s.tests_passed, 1)
+    assert.equal(s.perfect_runs, 0)
   })
 })
 

@@ -1,0 +1,13 @@
+{
+  "id": "baseline-no-docs",
+  "name": "Baseline guidance, no repository docs",
+  "description": "Same as baseline-guidance, but removes repository Markdown documentation from the run worktree. Tests whether inherited baseline guidance works when only code, tests and agent configuration remain.",
+  "claude_md": "inherit-trimmed",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": false,
+  "hooks": false,
+  "hide_documentation": "all-markdown",
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

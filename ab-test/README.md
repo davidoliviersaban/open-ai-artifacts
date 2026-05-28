@@ -30,10 +30,10 @@ ab-test/
 node --test ab-test/scripts/lib.test.js ab-test/scripts/runner.test.js ab-test/scripts/score.test.js
 
 # Quick run one variant
-node ab-test/scripts/quick-run.js b-bare-agent --model sonnet
+node ab-test/scripts/quick-run.js baseline-guidance --model opus
 
-# Full batch: all variants × 3 iterations
-node ab-test/scripts/batch.js --iterations 3 --model sonnet
+# Full batch: baseline variants × all challenges × 3 iterations
+node ab-test/scripts/batch.js --iterations 3 --model opus
 
 # Report only (on existing runs)
 node ab-test/scripts/report.js
@@ -51,6 +51,9 @@ A task definition with:
 - A prompt (what to tell the agent)
 - Acceptance criteria (independently checkable assertions)
 - Scoring weights (criteria adherence, efficiency, code quality)
+- Optional documentation isolation via `hide_documentation`:
+  - `all-markdown` removes non-agent `*.md` files, including README files and `docs/`
+  - `docs-only` removes `docs/` while keeping README files available
 
 ### Variant
 
@@ -60,10 +63,23 @@ An agent configuration:
 - `disable_skills`: whether to pass `--disable-slash-commands`
 - `system_prompt`: optional system prompt override
 - `model`: model override
+- `hide_documentation`: optional variant-level documentation isolation, using the same values as challenges
+
+### Baseline
+
+The benchmark baseline is versioned in `ab-test/baseline.json`. New runs copy this metadata into `metadata.json`, and `report.js` aggregates only runs from one baseline at a time.
+
+The active baseline is Opus-only and keeps a focused variant matrix: `baseline-guidance`, `baseline-no-docs`, `baseline-no-skills`, `unguided-agent`, and `minimal-guidance`. When no `--variants` flag is provided, `batch.js` uses this baseline variant list instead of every variant directory.
+
+Historical runs without explicit baseline metadata are reported as `legacy-unversioned`. Keep them for audit, but do not compare them with current or future baselines because prompt rules, challenges, isolation, and scoring behavior may have changed.
 
 ### Isolation
 
+Each agent run starts in a temporary worktree on a temporary feature branch named `feat/ab-test-<run-id>`. This mirrors normal autonomous feature work while keeping the run isolated from the developer's branch.
+
 The agent never sees `ab-test/` — it's deleted from the worktree before the run. Scoring happens in a separate worktree after the run completes. The referee is the test suite, not the agent.
+
+Some challenges can further hide documentation to measure how much the agent relies on repository docs versus code and tests. This isolation is applied both during execution and scoring so agent diffs apply against the same baseline.
 
 ### Scoring
 
@@ -71,6 +87,22 @@ Final score = weighted combination of:
 - **Criteria adherence** (50%): pass/fail on each acceptance criterion
 - **Efficiency** (30%): token usage + wall-clock time vs budget
 - **Code quality** (20%): existing test suite passes (no regressions)
+
+The report table uses these metrics:
+
+| Metric | Purpose | Calculation |
+|--------|---------|-------------|
+| `Score` | Overall ranking signal for the variant. | Average `final_score` across runs. `final_score` combines criteria adherence, efficiency and code quality using the challenge weights. |
+| `Criteria` | Average task correctness, independent of cost and duration. | Average of each run's `criteria_passed / criteria_total`. |
+| `Perfect` | Strict robustness signal. A run counts only if every criterion passed. | `count(criteria_passed === criteria_total) / runs`. |
+| `Tests` | Regression safety signal. | `count(existing_tests_pass === true) / runs`. |
+| `Tokens` | Average model token usage. | Average `tokens_used` across runs. |
+| `Time(s)` | Average wall-clock duration. | Average `time_seconds` across runs. |
+| `Cost$` | Average model cost. | Average `cost_usd` across runs. |
+
+`Criteria` and `Perfect` answer different questions. `Criteria` shows how much of each task was satisfied on average; `Perfect` shows how often the agent delivered a completely clean run.
+
+The generated report also includes an analysis section. It compares `baseline-guidance` against `unguided-agent` by challenge, calls out the largest wins and losses, and gives recommendations for the next prompt or benchmark iteration. Treat this section as the interpretation layer for the raw table, not as a statistically final conclusion when the run count is low.
 
 ## OpenCode Support
 
@@ -113,7 +145,7 @@ OpenCode reports cache tokens (the system prompt being stored/retrieved from Ant
 
 ## Results: Hook Enforcement + TDD Guidelines
 
-Benchmark: Claude Code + Opus, challenge `story-ac` (YAML block scalar parser implementation).
+Benchmark: Claude Code + Opus, challenge `story-ac` (YAML block scalar parser implementation). These findings come from legacy unversioned benchmark runs and should be treated as historical until rerun against the current `ab-test/baseline.json` baseline.
 
 | Variant | Score | Criteria | Tests Pass | Cost | Time |
 |---------|-------|----------|-----------|------|------|

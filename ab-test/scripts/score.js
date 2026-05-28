@@ -93,16 +93,75 @@ function applyDiff(worktree, diffFile, { abDir, variant } = {}) {
   // Stage removals so the worktree matches the baseline
   execSync('git add -A && git commit -m "score-baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
 
+  const filteredDiffFile = writeScorableDiff(diffFile)
+  if (!filteredDiffFile) return
+
   try {
-    execSync(`git apply "${diffFile}"`, { cwd: worktree, stdio: 'pipe' })
+    execSync(`git apply "${filteredDiffFile}"`, { cwd: worktree, stdio: 'pipe' })
   } catch {
     // Fall back to 3-way merge if exact apply fails (handles context drift)
     try {
-      execSync(`git apply --3way "${diffFile}"`, { cwd: worktree, stdio: 'pipe' })
+      execSync(`git apply --3way "${filteredDiffFile}"`, { cwd: worktree, stdio: 'pipe' })
     } catch (err) {
       throw new Error(`diff could not be applied cleanly: ${err.message}`)
     }
   }
+}
+
+function isIsolatedAgentArtifact(filePath) {
+  return filePath === 'AGENTS.md'
+    || filePath === 'CLAUDE.md'
+    || filePath.startsWith('.claude/')
+    || filePath.startsWith('.github/agent/')
+    || filePath.startsWith('.github/skills/')
+    || filePath.startsWith('.opencode/')
+}
+
+function isScorablePath(filePath) {
+  return filePath === 'README.md'
+    || filePath === 'packages/ai-artifacts/README.md'
+    || /^packages\/ai-artifacts\/[^/]+\.(js|mjs|cjs|ts)$/.test(filePath)
+}
+
+function diffHeaderPath(line) {
+  const match = /^diff --git a\/(.*) b\/(.*)$/.exec(line)
+  if (!match) return null
+  return match[2] === '/dev/null' ? match[1] : match[2]
+}
+
+function filterScorableDiff(diffText) {
+  const lines = diffText.split('\n')
+  const kept = []
+  let current = []
+  let currentPath = null
+
+  function flush() {
+    if (current.length > 0 && currentPath && !isIsolatedAgentArtifact(currentPath) && isScorablePath(currentPath)) {
+      kept.push(...current)
+    }
+    current = []
+    currentPath = null
+  }
+
+  for (const line of lines) {
+    const pathFromHeader = diffHeaderPath(line)
+    if (pathFromHeader) {
+      flush()
+      currentPath = pathFromHeader
+    }
+    current.push(line)
+  }
+  flush()
+
+  return kept.join('\n')
+}
+
+function writeScorableDiff(diffFile) {
+  const filtered = filterScorableDiff(fs.readFileSync(diffFile, 'utf8'))
+  if (filtered.trim() === '') return null
+  const filteredFile = path.join(path.dirname(diffFile), 'changes.scorable.diff')
+  fs.writeFileSync(filteredFile, filtered.endsWith('\n') ? filtered : `${filtered}\n`)
+  return filteredFile
 }
 
 function runCriteria(criteria, cwd, { runDir } = {}) {
@@ -142,4 +201,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { scoreRun, runCriteria, applyDiff }
+module.exports = { scoreRun, runCriteria, applyDiff, filterScorableDiff, isIsolatedAgentArtifact, isScorablePath }

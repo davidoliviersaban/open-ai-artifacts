@@ -5,7 +5,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const os = require('node:os')
-const { buildClaudeFlags, parseArgs, prepareWorktree, loadChallenge, loadVariant } = require('./runner.js')
+const { buildClaudeFlags, createRunBranchName, parseArgs, prepareWorktree, loadBaseline, loadChallenge, loadVariant } = require('./runner.js')
 
 describe('parseArgs', () => {
   it('parses all flags', () => {
@@ -68,6 +68,16 @@ describe('buildClaudeFlags', () => {
   })
 })
 
+describe('createRunBranchName', () => {
+  it('creates a feature branch name for a run id', () => {
+    assert.equal(createRunBranchName('variant_challenge_20260526120000_iter1'), 'feat/ab-test-variant_challenge_20260526120000_iter1')
+  })
+
+  it('sanitizes unsafe branch characters', () => {
+    assert.equal(createRunBranchName('variant challenge:1'), 'feat/ab-test-variant-challenge-1')
+  })
+})
+
 describe('prepareWorktree', () => {
   let tmpDir
 
@@ -76,10 +86,14 @@ describe('prepareWorktree', () => {
     fs.mkdirSync(path.join(tmpDir, 'ab-test'))
     fs.writeFileSync(path.join(tmpDir, 'ab-test', 'secret.json'), '{}')
     fs.writeFileSync(path.join(tmpDir, 'CLAUDE.md'), '# Original')
+    fs.writeFileSync(path.join(tmpDir, 'README.md'), '# Main README')
     fs.mkdirSync(path.join(tmpDir, '.claude', 'memory'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, '.claude', 'memory', 'state.md'), 'prior run info')
     fs.mkdirSync(path.join(tmpDir, 'docs', 'adr'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'docs', 'adr', '010-ab-test-framework.md'), '# ADR')
+    fs.writeFileSync(path.join(tmpDir, 'docs', 'guide.md'), '# Guide')
+    fs.mkdirSync(path.join(tmpDir, 'packages', 'ai-artifacts'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'packages', 'ai-artifacts', 'README.md'), '# Package README')
   })
 
   afterEach(() => {
@@ -113,7 +127,22 @@ describe('prepareWorktree', () => {
 
   it('preserves CLAUDE.md when claude_md=inherit', () => {
     prepareWorktree(tmpDir, { claude_md: 'inherit' })
-    assert.equal(fs.readFileSync(path.join(tmpDir, 'CLAUDE.md'), 'utf8'), '# Original')
+    assert.match(fs.readFileSync(path.join(tmpDir, 'CLAUDE.md'), 'utf8'), /^# Original/)
+  })
+
+  it('tells inherited guidance to stay on the current feature branch', () => {
+    prepareWorktree(tmpDir, { claude_md: 'inherit' })
+    const content = fs.readFileSync(path.join(tmpDir, 'CLAUDE.md'), 'utf8')
+    assert.match(content, /current feature branch/)
+    assert.match(content, /Do not create additional worktrees or branches/)
+  })
+
+  it('can keep full inherited guidance for full-pipeline variants', () => {
+    fs.writeFileSync(path.join(tmpDir, 'CLAUDE.md'), '### Skill Invocation\n\nMust invoke skills.\n\n### Pipeline (every change)\n\nUse pipeline.\n\n## Next\n')
+    prepareWorktree(tmpDir, { claude_md: 'inherit', keep_full_guidance: true })
+    const content = fs.readFileSync(path.join(tmpDir, 'CLAUDE.md'), 'utf8')
+    assert.match(content, /### Skill Invocation/)
+    assert.match(content, /### Pipeline \(every change\)/)
   })
 
   it('removes individually disabled skills', () => {
@@ -126,6 +155,32 @@ describe('prepareWorktree', () => {
 
     assert.ok(!fs.existsSync(path.join(tmpDir, '.github', 'skills', 'ship')))
     assert.ok(fs.existsSync(path.join(tmpDir, '.github', 'skills', 'task-plan-guidelines')))
+  })
+
+  it('can hide all Markdown documentation while preserving agent configuration', () => {
+    prepareWorktree(tmpDir, { claude_md: 'inherit' }, tmpDir, { hide_documentation: 'all-markdown' })
+
+    assert.ok(fs.existsSync(path.join(tmpDir, 'CLAUDE.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'README.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'docs', 'guide.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'packages', 'ai-artifacts', 'README.md')))
+  })
+
+  it('can hide documentation from the variant configuration', () => {
+    prepareWorktree(tmpDir, { claude_md: 'inherit', hide_documentation: 'all-markdown' }, tmpDir)
+
+    assert.ok(fs.existsSync(path.join(tmpDir, 'CLAUDE.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'README.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'docs', 'guide.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'packages', 'ai-artifacts', 'README.md')))
+  })
+
+  it('can hide docs while keeping the main README available', () => {
+    prepareWorktree(tmpDir, { claude_md: 'inherit' }, tmpDir, { hide_documentation: 'docs-only' })
+
+    assert.ok(fs.existsSync(path.join(tmpDir, 'README.md')))
+    assert.ok(!fs.existsSync(path.join(tmpDir, 'docs')))
+    assert.ok(fs.existsSync(path.join(tmpDir, 'packages', 'ai-artifacts', 'README.md')))
   })
 })
 
@@ -174,5 +229,32 @@ describe('loadVariant', () => {
 
   it('throws for missing variant', () => {
     assert.throws(() => loadVariant(tmpDir, 'nope'), /not found/)
+  })
+})
+
+describe('loadBaseline', () => {
+  let tmpDir
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ab-baseline-'))
+  })
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true })
+  })
+
+  it('loads baseline metadata when present', () => {
+    fs.writeFileSync(path.join(tmpDir, 'baseline.json'), JSON.stringify({ id: 'baseline-a', created_at: '2026-05-28' }))
+
+    const baseline = loadBaseline(tmpDir)
+
+    assert.equal(baseline.id, 'baseline-a')
+    assert.equal(baseline.created_at, '2026-05-28')
+  })
+
+  it('marks missing baseline metadata as legacy', () => {
+    const baseline = loadBaseline(tmpDir)
+
+    assert.equal(baseline.id, 'legacy-unversioned')
   })
 })

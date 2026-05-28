@@ -59,7 +59,10 @@ function summarizeVariant(variant, runs) {
   const tokens = runs.map(r => r.tokens_used || 0)
   const times = runs.map(r => r.time_seconds || 0)
   const costs = runs.map(r => r.cost_usd || 0)
-  const fullPass = runs.filter(r => r.criteria_passed === r.criteria_total).length
+  const criteriaPassed = runs.reduce((total, run) => total + (run.criteria_passed || 0), 0)
+  const criteriaTotal = runs.reduce((total, run) => total + (run.criteria_total || 0), 0)
+  const perfectRuns = runs.filter(r => r.criteria_passed === r.criteria_total).length
+  const testsPassed = runs.filter(r => r.criteria_results?.find(c => c.id === 'existing_tests_pass')?.pass).length
 
   return {
     variant,
@@ -71,7 +74,10 @@ function summarizeVariant(variant, runs) {
     median_tokens: Math.round(median(tokens)),
     avg_time: Math.round(avg(times)),
     avg_cost: avg(costs),
-    full_pass_rate: fullPass / runs.length
+    criteria_passed: criteriaPassed,
+    criteria_total: criteriaTotal,
+    perfect_runs: perfectRuns,
+    tests_passed: testsPassed,
   }
 }
 

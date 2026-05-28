@@ -1,0 +1,12 @@
+{
+  "id": "unguided-agent",
+  "name": "Unguided agent",
+  "description": "No CLAUDE.md guidance, but normal access to repository code, documentation and tests. Skills are disabled because there is no guidance telling the agent when to use them.",
+  "claude_md": "none",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": true,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}

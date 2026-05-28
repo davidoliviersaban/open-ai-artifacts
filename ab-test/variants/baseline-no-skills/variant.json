@@ -1,0 +1,12 @@
+{
+  "id": "baseline-no-skills",
+  "name": "Baseline guidance, no skills",
+  "description": "Same as baseline-guidance, but removes local skills and disables slash commands. Tests whether skill visibility changes autonomous coding behavior under the baseline guidance.",
+  "claude_md": "inherit-trimmed",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": true,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}
