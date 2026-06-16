@@ -8,11 +8,13 @@ const DEFAULT_ROOT = path.resolve(PACKAGE_ROOT, '..', '..')
 
 function installAIArtifacts(root = DEFAULT_ROOT, options = {}) {
   const packageRoot = options.packageRoot || PACKAGE_ROOT
+  const installConfig = loadInstallConfig(root)
   const files = [
     {
       label: 'AI artifacts workflow',
       source: path.join(packageRoot, 'workflows/ai-artifacts.yml'),
       target: path.join(root, '.github/workflows/ai-artifacts.yml'),
+      vars: installConfig,
     },
     {
       label: 'AI artifacts schema',
@@ -73,12 +75,30 @@ function isManagedLegacyOpencodePlugin(content) {
   return content.includes('const fs = require(\'node:fs\')') && content.includes('detectSkillUsage') && content.includes("const auditFile = path.join(root, '.ai-artifacts', 'audit.jsonl')")
 }
 
+function loadInstallConfig(root) {
+  const configPath = path.join(root, '.ai-artifacts/artifacts.yml')
+  if (!fs.existsSync(configPath)) return { runner: 'ubuntu-latest' }
+  const { parseArtifactConfig } = require('./lib')
+  const config = parseArtifactConfig(fs.readFileSync(configPath, 'utf8'))
+  const install = config.install || {}
+  if (!install.runner) install.runner = 'ubuntu-latest'
+  return install
+}
+
+function renderTemplate(content, vars) {
+  if (!vars || Object.keys(vars).length === 0) return content
+  return content.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key) => {
+    return key in vars ? vars[key] : match
+  })
+}
+
 function installFile(file, options) {
-  const { label, source, target } = file
+  const { label, source, target, vars } = file
 
   if (!fs.existsSync(source)) throw new Error(`${label} source not found: ${source}`)
 
-  const sourceContent = fs.readFileSync(source, 'utf8')
+  const rawContent = fs.readFileSync(source, 'utf8')
+  const sourceContent = renderTemplate(rawContent, vars)
   const targetExists = fs.existsSync(target)
   const targetContent = targetExists ? fs.readFileSync(target, 'utf8') : null
 

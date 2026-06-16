@@ -237,6 +237,100 @@ test('audit entries distinguish direct user and named agent invocations', () => 
   })
 })
 
+test('installAIArtifacts renders workflow template with custom runner from artifacts.yml', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-runner-'))
+  const packageRoot = path.join(root, 'package')
+
+  try {
+    fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'claude'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'opencode'), { recursive: true })
+    fs.writeFileSync(path.join(packageRoot, 'workflows/ai-artifacts.yml'), 'runs-on: {{ runner }}\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'claude/audit-skill.js'), 'claude audit\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'opencode/skill-audit.js'), 'opencode audit\n', 'utf8')
+
+    fs.mkdirSync(path.join(root, '.ai-artifacts'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.ai-artifacts/artifacts.yml'), `version: 1
+install:
+  runner: self-hosted-custom
+packages:
+  upstream:
+    type: git
+    repo: https://example.test/upstream.git
+    version: v1
+artifacts:
+  - id: test
+    kind: config
+    target: test.txt
+    steps:
+      - copy:
+          from: root:test.txt
+          to: test.txt
+`, 'utf8')
+
+    const result = installAIArtifacts(root, { packageRoot })
+
+    assert.equal(result.installed, true)
+    assert.equal(fs.readFileSync(path.join(root, '.github/workflows/ai-artifacts.yml'), 'utf8'), 'runs-on: self-hosted-custom\n')
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('installAIArtifacts check mode passes when workflow matches rendered template with custom runner', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-artifacts-install-runner-check-'))
+  const packageRoot = path.join(root, 'package')
+
+  try {
+    fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'claude'), { recursive: true })
+    fs.mkdirSync(path.join(packageRoot, 'opencode'), { recursive: true })
+    fs.writeFileSync(path.join(packageRoot, 'workflows/ai-artifacts.yml'), 'runs-on: {{ runner }}\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'claude/audit-skill.js'), 'claude audit\n', 'utf8')
+    fs.writeFileSync(path.join(packageRoot, 'opencode/skill-audit.js'), 'opencode audit\n', 'utf8')
+
+    fs.mkdirSync(path.join(root, '.ai-artifacts'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.ai-artifacts/artifacts.yml'), `version: 1
+install:
+  runner: my-org-runner
+packages:
+  upstream:
+    type: git
+    repo: https://example.test/upstream.git
+    version: v1
+artifacts:
+  - id: test
+    kind: config
+    target: test.txt
+    steps:
+      - copy:
+          from: root:test.txt
+          to: test.txt
+`, 'utf8')
+
+    fs.mkdirSync(path.join(root, '.github/workflows'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.ai-artifacts/schemas'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.github/workflows/ai-artifacts.yml'), 'runs-on: my-org-runner\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.ai-artifacts/schemas/artifacts.schema.json'), '{"title":"schema"}\n', 'utf8')
+    fs.mkdirSync(path.join(root, '.claude/hooks'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.opencode/plugins'), { recursive: true })
+    fs.mkdirSync(path.join(root, '.opencode/plugin'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.claude/hooks/audit-skill.js'), 'claude audit\n', 'utf8')
+    fs.writeFileSync(path.join(root, '.opencode/plugins/skill-audit.js'), 'opencode audit\n', 'utf8')
+    fs.symlinkSync('../plugins/skill-audit.js', path.join(root, '.opencode/plugin/skill-audit.js'))
+
+    const result = installAIArtifacts(root, { check: true, packageRoot })
+
+    assert.equal(result.checked, true)
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
 function writePackageInstallFiles(packageRoot) {
   fs.mkdirSync(path.join(packageRoot, 'workflows'), { recursive: true })
   fs.mkdirSync(path.join(packageRoot, 'schemas'), { recursive: true })

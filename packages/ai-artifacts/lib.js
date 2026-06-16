@@ -5,7 +5,7 @@ function parseArtifactConfig(content) {
 }
 
 function validateArtifactConfig(config) {
-  assertKnownFields('config', config, ['version', 'vendorDir', 'reportsDir', 'riskPolicy', 'overlaysDir', 'packages', 'artifacts'])
+  assertKnownFields('config', config, ['version', 'vendorDir', 'reportsDir', 'riskPolicy', 'overlaysDir', 'packages', 'artifacts', 'install'])
   if (config.version !== 1) throw new Error('config.version must be 1')
   if (!config.packages || typeof config.packages !== 'object') throw new Error('config.packages is required')
   if (!Array.isArray(config.artifacts)) throw new Error('config.artifacts must be an array')

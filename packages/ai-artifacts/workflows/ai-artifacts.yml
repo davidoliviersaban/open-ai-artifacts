@@ -44,7 +44,7 @@ jobs:
   validate-ai-artifacts:
     name: Validate AI artifacts
     if: github.event_name != 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: {{ runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -103,7 +103,7 @@ jobs:
   propose-ai-artifact-updates:
     name: Propose AI artifact updates
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: {{ runner }}
     permissions:
       contents: write
       pull-requests: write
