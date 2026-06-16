@@ -1,9 +1,13 @@
 {
-  "name": "@amadeus-nexwave/ai-artifacts-bench",
+  "name": "@d-o.s/ai-artifacts-bench",
   "version": "0.1.0",
   "description": "Benchmark framework for A/B testing AI agent configurations.",
-  "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidoliviersaban/open-ai-artifacts.git",
+    "directory": "packages/ai-artifacts-bench"
+  },
   "main": "lib.js",
   "scripts": {
     "test": "node --test '**/*.test.js'"

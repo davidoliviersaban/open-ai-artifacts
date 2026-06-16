@@ -1,9 +1,13 @@
 {
-  "name": "@amadeus-nexwave/ai-artifacts",
+  "name": "@d-o.s/ai-artifacts",
   "version": "0.1.0",
   "description": "Dependency management for AI prompts, skills, instructions and agentic workflow artifacts.",
-  "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidoliviersaban/open-ai-artifacts.git",
+    "directory": "packages/ai-artifacts"
+  },
   "main": "app.js",
   "bin": {
     "ai-artifacts": "cli.js"

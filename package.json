@@ -1,8 +1,8 @@
 {
-  "name": "@amadeus-nexwave/ai-artifacts-workspace",
+  "name": "ai-artifacts-workspace",
   "version": "0.0.0",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "scripts": {
     "nx": "nx",
     "build:whitepaper": "nx build whitepaper",
