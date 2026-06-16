@@ -10,7 +10,7 @@
   },
   "main": "lib.js",
   "scripts": {
-    "test": "node --test '**/*.test.js'"
+    "test": "find . -name '*.test.js' | xargs node --test"
   },
   "engines": {
     "node": ">=20"
