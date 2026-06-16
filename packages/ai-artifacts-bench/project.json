@@ -5,7 +5,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --test 'packages/ai-artifacts-bench/**/*.test.js'"
+        "command": "find packages/ai-artifacts-bench -name '*.test.js' | xargs node --test"
       }
     }
   }
