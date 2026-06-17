@@ -37,7 +37,9 @@ Run the package test target and generated-artifact validation target from the re
 
 ## Release Process
 
-Only release when the package is stable and ready for external consumers. Do NOT release for CI fixes, typos, docs-only changes, or iterations that only affect this repo's dogfooding.
+Only release when the package is stable and ready for external consumers. Changes accumulate on main until a coherent version is ready — typically every 1–2 weeks. No pre-release tags (beta, rc, alpha).
+
+Do NOT release for: CI fixes, typos, docs-only changes, refactors that only affect this repo's dogfooding. Test those locally via the workspace.
 
 Steps:
 1. Ensure all tests pass: `npm run test:ai-artifacts && npm run test:ai-artifacts-bench`
@@ -45,11 +47,9 @@ Steps:
 3. Bump version in BOTH `packages/ai-artifacts/package.json` and `packages/ai-artifacts-bench/package.json` (keep them in sync)
 4. Commit: `chore: release vX.Y.Z`
 5. Push to main
-6. Create a GitHub Release with tag `vX.Y.Z` — the workflow handles tests, publish with provenance
+6. Create a GitHub Release with tag `vX.Y.Z` — the workflow handles tests, publish with `--provenance` (SLSA Build L3)
 
-Semver rules:
+Semver:
 - `patch` — bug fixes, no API change
 - `minor` — new features, backward compatible
 - `major` — breaking changes
-
-Packages are published with `--provenance` (SLSA Build L3 attestation).

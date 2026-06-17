@@ -116,25 +116,27 @@ This repository consumes its own packages. The `.ai-artifacts/` directory uses `
 
 ### Release Strategy
 
-Releases follow these rules:
+Development happens on main. Changes accumulate until a coherent, stable version is ready for external consumers. There are no pre-release tags (beta, rc, alpha) — the only consumer during incubation is this repo itself via the workspace.
 
-1. **Validate locally** before any version bump:
-   ```bash
-   npm run test:ai-artifacts
-   npm run test:ai-artifacts-bench
-   npm run validate:ai-artifacts
-   ```
+**When to release:**
+- You have a set of changes ready for another repo to consume
+- Typically every 1–2 weeks, not every commit
 
-2. **Version bumps** follow semver:
-   - `patch` — bug fixes, no API change
-   - `minor` — new features, backward compatible
-   - `major` — breaking changes
+**When NOT to release:**
+- CI fixes, typos, refactors that only affect this repo
+- Work-in-progress iterations — test locally via the workspace
 
-3. **Release only when stable** — do not publish for CI fixes, typos, or iterations that only affect this repo. A release means the package is ready for external consumers.
+**Process:**
+1. Validate: `npm run test:ai-artifacts && npm run test:ai-artifacts-bench && npm run validate:ai-artifacts`
+2. Bump version in both `packages/ai-artifacts/package.json` and `packages/ai-artifacts-bench/package.json`
+3. Commit: `chore: release vX.Y.Z`
+4. Push to main, create a GitHub Release with tag `vX.Y.Z`
+5. The workflow runs tests and publishes both packages with `--provenance` (SLSA Build L3)
 
-4. **Provenance** — all published packages include npm provenance attestation (SLSA Build L3), proving they were built from this repo via GitHub Actions.
-
-5. **Process** — bump version in both `packages/*/package.json`, push to main, then create a GitHub Release with tag `vX.Y.Z`. The workflow runs tests and publishes both packages with `--provenance`.
+**Semver:**
+- `patch` — bug fixes, no API change
+- `minor` — new features, backward compatible
+- `major` — breaking changes
 
 ## A/B Benchmark
 
