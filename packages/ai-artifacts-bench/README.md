@@ -105,6 +105,11 @@ criteria pass by default — the challenge cannot discriminate between an agent 
 nothing and one that made things worse. Rewrite criteria until the baseline is under
 0.25. This guarantees that any score above 0.25 reflects real work by the agent.
 
+Guard-rail criteria (build passes, tests pass, exports preserved) will always pass on
+the base. That is acceptable — they protect against regressions. But they must be a
+minority: if guard rails alone push the baseline above 0.25, add more discriminating
+criteria until they are diluted below the threshold.
+
 ### Test the change, not the state
 
 Bad: `grep -r 'async' src/utils/` — passes if any async function already exists.
