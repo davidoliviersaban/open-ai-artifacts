@@ -99,6 +99,12 @@ git checkout <base_commit>
 If you cannot make a criterion fail on the base state, it is not testing the change.
 Drop it or replace it with one that does.
 
+**Baseline score threshold: the untouched code must score below 0.25.** Run the full
+scorer on the base commit with no modifications. If the score is above 0.25, too many
+criteria pass by default — the challenge cannot discriminate between an agent that did
+nothing and one that made things worse. Rewrite criteria until the baseline is under
+0.25. This guarantees that any score above 0.25 reflects real work by the agent.
+
 ### Test the change, not the state
 
 Bad: `grep -r 'async' src/utils/` — passes if any async function already exists.
