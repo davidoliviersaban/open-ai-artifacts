@@ -101,20 +101,20 @@ Drop it or replace it with one that does.
 
 ### Test the change, not the state
 
-Bad: `grep -r 'tel:' src/` — passes if `tel:` already exists anywhere in the code.
+Bad: `grep -r 'async' src/utils/` — passes if any async function already exists.
 
-Good: `node --test src/call-confirmation/tel-fix.spec.js` — a test that exercises
-the specific behavior the agent must implement. It fails before the fix and passes
-after.
+Good: `node --test src/utils/retry.test.js` — a test file that imports the function
+the agent must create, exercises its behavior, and asserts the contract. It fails
+before implementation and passes after.
 
 The strongest criteria are **unit tests that the agent must make pass**. They encode
 the expected behavior precisely and cannot pass by accident.
 
 ### Avoid negation traps
 
-`! grep 'badPattern' src/` passes whenever the file is missing OR the pattern is
-absent. On an unmodified base, the file might not contain the pattern yet (the bug
-may live elsewhere), giving a false pass.
+`! grep 'deprecated_call()' src/` passes whenever the file is missing OR the
+pattern is absent. On an unmodified base, the deprecated call might live in a
+different file than expected, giving a false pass.
 
 If you need a negation ("the agent must remove X"), verify the pattern exists on the
 base first. If it doesn't, the criterion tests nothing.
