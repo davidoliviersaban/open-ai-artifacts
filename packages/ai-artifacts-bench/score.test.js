@@ -4,7 +4,36 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const { runCriteria } = require('./score.js')
+const { scoreRun, runCriteria } = require('./score.js')
+
+test('scoreRun returns zero score when changes.diff is empty', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bench-empty-diff-'))
+  const runDir = path.join(root, 'run-001')
+  fs.mkdirSync(runDir)
+  fs.writeFileSync(path.join(runDir, 'metadata.json'), JSON.stringify({ variant: 'v', challenge: 'c' }))
+  fs.writeFileSync(path.join(runDir, 'usage.json'), JSON.stringify({ total_tokens: 500, cost_usd: 0.01, elapsed_seconds: 10, model: 'test-model' }))
+  fs.writeFileSync(path.join(runDir, 'changes.diff'), '')
+
+  const challengesDir = path.join(root, 'challenges', 'c')
+  fs.mkdirSync(challengesDir, { recursive: true })
+  fs.writeFileSync(path.join(challengesDir, 'challenge.json'), JSON.stringify({
+    acceptance_criteria: [{ id: 'a', command: 'true' }, { id: 'b', command: 'true' }],
+  }))
+
+  const variantsDir = path.join(root, 'variants')
+  fs.mkdirSync(variantsDir)
+
+  try {
+    const result = scoreRun(runDir, { config: { challengesDir: path.join(root, 'challenges'), variantsDir, repoRoot: root } })
+    assert.equal(result.criteria_score, 0)
+    assert.equal(result.final_score, 0)
+    assert.equal(result.empty_diff, true)
+    assert.equal(result.criteria_results.length, 2)
+    assert.equal(result.criteria_results.every(c => c.pass === false), true)
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
 
 test('runCriteria passes criteria with successful commands', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bench-criteria-'))

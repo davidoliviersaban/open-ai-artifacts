@@ -11,14 +11,36 @@ function scoreRun(runDir, { config }) {
   const challengeFile = path.join(config.challengesDir, metadata.challenge, 'challenge.json')
   const challenge = JSON.parse(fs.readFileSync(challengeFile, 'utf8'))
   const diffFile = path.join(runDir, 'changes.diff')
+  const diffEmpty = !fs.existsSync(diffFile) || fs.statSync(diffFile).size === 0
 
   const variantFile = path.join(config.variantsDir, metadata.variant, 'variant.json')
   const variant = fs.existsSync(variantFile) ? JSON.parse(fs.readFileSync(variantFile, 'utf8')) : null
 
+  if (diffEmpty) {
+    const result = {
+      run_id: path.basename(runDir),
+      variant: metadata.variant,
+      criteria_passed: 0,
+      criteria_total: challenge.acceptance_criteria.length,
+      criteria_score: 0,
+      efficiency_score: 0,
+      code_quality_score: 0,
+      final_score: 0,
+      tokens_used: usage.total_tokens || 0,
+      cost_usd: usage.cost_usd || 0,
+      time_seconds: usage.elapsed_seconds || 0,
+      model: usage.model || 'unknown',
+      criteria_results: challenge.acceptance_criteria.map(c => ({ id: c.id, pass: false })),
+      empty_diff: true,
+    }
+    fs.writeFileSync(path.join(runDir, 'score.json'), JSON.stringify(result, null, 2))
+    return result
+  }
+
   const worktree = createScoringWorktree(config.repoRoot, runDir)
 
   try {
-    applyDiff(worktree, diffFile, { config, variant })
+    applyDiff(worktree, diffFile, { config, variant, challenge })
     const criteriaResults = runCriteria(challenge.acceptance_criteria, worktree, { runDir })
     const score = computeScore(usage, criteriaResults, challenge.scoring)
 
@@ -58,11 +80,11 @@ function removeScoringWorktree(repoRoot, worktree) {
   } catch { /* best effort */ }
 }
 
-function applyDiff(worktree, diffFile, { config, variant } = {}) {
+function applyDiff(worktree, diffFile, { config, variant, challenge } = {}) {
   if (!fs.existsSync(diffFile) || fs.statSync(diffFile).size === 0) return
 
   if (config && config.prepareScoringWorktree) {
-    config.prepareScoringWorktree(worktree, variant)
+    config.prepareScoringWorktree(worktree, variant, { challenge })
   }
 
   execSync('git add -A && git commit -m "score-baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
