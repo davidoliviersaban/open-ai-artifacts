@@ -1,6 +1,6 @@
 {
   "id": "yaml-multiline-story-ac-with-skills",
-  "title": "Block scalars \u2014 Story + AC + explicit skill usage",
+  "title": "Block scalars — Story + AC + explicit skill usage",
   "description": "Same task, but prompt explicitly instructs the agent to use available skills (research, plan) before implementing.",
   "difficulty": "medium",
   "prompt": "## Instructions\n\nBefore implementing, you MUST follow this process using the available slash commands:\n\n1. Run /task-research-guidelines to research the codebase and understand the parser\n2. Run /task-plan-guidelines to create an implementation plan\n3. Then implement the feature following your plan\n\nDO NOT skip the research and planning steps. Use the skills available to you.\n\n## Story\n\nAs a consumer of `parseYamlSubset`, I need support for YAML block scalars (`|` and `>`) so that multiline content can be expressed naturally in artifact config files.\n\nThe parser is in `packages/ai-artifacts/lib.js`. Do not use external YAML libraries.\n\n## Context\n\n- `|` is a literal block scalar: preserves newlines exactly as written.\n- `>` is a folded block scalar: joins consecutive lines with a space, but double newlines become paragraph breaks.\n- Block content indentation is determined by the first non-empty line after the indicator.\n- A single trailing newline is always appended.\n- Strip/keep/clip modifiers (`|-`, `|+`) are NOT required.\n\n## Acceptance Criteria\n\n- [ ] `key: |\n  line1\n  line2\n` parses to `{ key: \"line1\nline2\n\" }`\n- [ ] `key: >\n  line1\n  line2\n` parses to `{ key: \"line1 line2\n\" }`\n- [ ] Folded mode: a blank line between content lines produces a paragraph break (`\n\n`)\n- [ ] A block scalar followed by a sibling key at the same indentation level parses both keys correctly\n- [ ] Block scalars work as items inside a sequence (`- |\n    content`)\n- [ ] Lines indented further than the minimum are preserved with their extra indentation (literal mode)\n- [ ] All existing tests pass: `npm run test:ai-artifacts`\n- [ ] A new test file `packages/ai-artifacts/lib.block-scalars.test.js` exists with at least 6 test cases\n- [ ] No external dependencies added to `packages/ai-artifacts/package.json`\n\n## Definition of Done\n\nAll acceptance criteria above are met. Tests pass. No regressions.",
@@ -63,5 +63,6 @@
     "code_quality_weight": 0.2,
     "max_tokens_budget": 50000,
     "max_time_seconds": 300
-  }
+  },
+  "category": "spec-feature"
 }

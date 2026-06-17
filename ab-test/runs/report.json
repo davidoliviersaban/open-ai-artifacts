@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T11:51:20.507Z",
+  "generated_at": "2026-06-17T12:33:26.408Z",
   "baseline": {
     "id": "agent-config-2026-05-28-v2",
     "created_at": "2026-05-28",
@@ -173,6 +173,1515 @@
           "delta": -0.006000000000000005
         }
       ]
+    }
+  },
+  "decision": {
+    "profiles": [
+      "quality",
+      "cost",
+      "latency"
+    ],
+    "categories": {
+      "ambiguous": {
+        "run_count": 28,
+        "candidates": [
+          {
+            "id": "opus-4-6 / baseline-guidance",
+            "model": "opus-4-6",
+            "variant": "baseline-guidance",
+            "n": 3,
+            "ci": {
+              "mean": 0.9666666666666667,
+              "margin": 0.06533333333333331,
+              "low": 0.9013333333333333,
+              "high": 1.032,
+              "n": 3,
+              "insufficient_data": false
+            },
+            "quality": 0.9666666666666667,
+            "cost_usd": 1.1916823333333333,
+            "time_seconds": 260.3333333333333,
+            "tokens": 13470
+          },
+          {
+            "id": "opus-4-8 / baseline-guidance",
+            "model": "opus-4-8",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5,
+              "margin": 0,
+              "low": 0.5,
+              "high": 0.5,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-guidance",
+            "model": "opus-4-7",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.4,
+              "margin": 0,
+              "low": 0.4,
+              "high": 0.4,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.4,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-6 / baseline-no-docs",
+            "model": "opus-4-6",
+            "variant": "baseline-no-docs",
+            "n": 3,
+            "ci": {
+              "mean": 0.9,
+              "margin": 0,
+              "low": 0.9,
+              "high": 0.9,
+              "n": 3,
+              "insufficient_data": false
+            },
+            "quality": 0.9,
+            "cost_usd": 0.9541657499999999,
+            "time_seconds": 218,
+            "tokens": 12626
+          },
+          {
+            "id": "opus-4-8 / baseline-no-docs",
+            "model": "opus-4-8",
+            "variant": "baseline-no-docs",
+            "n": 1,
+            "ci": {
+              "mean": 0.9,
+              "margin": 0,
+              "low": 0.9,
+              "high": 0.9,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-no-docs",
+            "model": "opus-4-7",
+            "variant": "baseline-no-docs",
+            "n": 1,
+            "ci": {
+              "mean": 0.8,
+              "margin": 0,
+              "low": 0.8,
+              "high": 0.8,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.8,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-6 / baseline-no-skills",
+            "model": "opus-4-6",
+            "variant": "baseline-no-skills",
+            "n": 3,
+            "ci": {
+              "mean": 0.9333333333333332,
+              "margin": 0.06533333333333333,
+              "low": 0.8679999999999999,
+              "high": 0.9986666666666666,
+              "n": 3,
+              "insufficient_data": false
+            },
+            "quality": 0.9333333333333332,
+            "cost_usd": 1.0856925833333333,
+            "time_seconds": 237.33333333333334,
+            "tokens": 18396
+          },
+          {
+            "id": "opus-4-8 / baseline-no-skills",
+            "model": "opus-4-8",
+            "variant": "baseline-no-skills",
+            "n": 1,
+            "ci": {
+              "mean": 0.7,
+              "margin": 0,
+              "low": 0.7,
+              "high": 0.7,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.7,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-no-skills",
+            "model": "opus-4-7",
+            "variant": "baseline-no-skills",
+            "n": 1,
+            "ci": {
+              "mean": 0.8,
+              "margin": 0,
+              "low": 0.8,
+              "high": 0.8,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.8,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-6 / minimal-guidance",
+            "model": "opus-4-6",
+            "variant": "minimal-guidance",
+            "n": 3,
+            "ci": {
+              "mean": 0.9666666666666667,
+              "margin": 0.06533333333333331,
+              "low": 0.9013333333333333,
+              "high": 1.032,
+              "n": 3,
+              "insufficient_data": false
+            },
+            "quality": 0.9666666666666667,
+            "cost_usd": 1.0197261666666664,
+            "time_seconds": 249.66666666666666,
+            "tokens": 13243
+          },
+          {
+            "id": "opus-4-8 / minimal-guidance",
+            "model": "opus-4-8",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.4,
+              "margin": 0,
+              "low": 0.4,
+              "high": 0.4,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.4,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / minimal-guidance",
+            "model": "opus-4-7",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.9,
+              "margin": 0,
+              "low": 0.9,
+              "high": 0.9,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-8 / time-aware-agent",
+            "model": "opus-4-8",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 1,
+              "margin": 0,
+              "low": 1,
+              "high": 1,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 1,
+            "cost_usd": 1.05299475,
+            "time_seconds": 257,
+            "tokens": 14875
+          },
+          {
+            "id": "opus-4-7 / time-aware-agent",
+            "model": "opus-4-7",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.8,
+              "margin": 0,
+              "low": 0.8,
+              "high": 0.8,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.8,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-6 / time-aware-agent",
+            "model": "opus-4-6",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.8,
+              "margin": 0,
+              "low": 0.8,
+              "high": 0.8,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.8,
+            "cost_usd": 1.1161410000000003,
+            "time_seconds": 150,
+            "tokens": 7513
+          },
+          {
+            "id": "opus-4-6 / unguided-agent",
+            "model": "opus-4-6",
+            "variant": "unguided-agent",
+            "n": 3,
+            "ci": {
+              "mean": 0.9666666666666667,
+              "margin": 0.06533333333333333,
+              "low": 0.9013333333333333,
+              "high": 1.032,
+              "n": 3,
+              "insufficient_data": false
+            },
+            "quality": 0.9666666666666667,
+            "cost_usd": 0.7608506666666667,
+            "time_seconds": 191,
+            "tokens": 9145
+          },
+          {
+            "id": "opus-4-8 / unguided-agent",
+            "model": "opus-4-8",
+            "variant": "unguided-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.7,
+              "margin": 0,
+              "low": 0.7,
+              "high": 0.7,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.7,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / unguided-agent",
+            "model": "opus-4-7",
+            "variant": "unguided-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.8,
+              "margin": 0,
+              "low": 0.8,
+              "high": 0.8,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.8,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          }
+        ],
+        "recommendations": {
+          "quality": {
+            "profile": "quality",
+            "pick": {
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 3,
+              "ci": {
+                "mean": 0.9666666666666667,
+                "margin": 0.06533333333333333,
+                "low": 0.9013333333333333,
+                "high": 1.032,
+                "n": 3,
+                "insufficient_data": false
+              },
+              "quality": 0.9666666666666667,
+              "cost_usd": 0.7608506666666667,
+              "time_seconds": 191,
+              "tokens": 9145
+            },
+            "low_confidence": false,
+            "frontier_size": 3,
+            "tied_on_quality": [
+              "opus-4-6 / unguided-agent"
+            ]
+          },
+          "cost": {
+            "profile": "cost",
+            "pick": {
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 3,
+              "ci": {
+                "mean": 0.9666666666666667,
+                "margin": 0.06533333333333333,
+                "low": 0.9013333333333333,
+                "high": 1.032,
+                "n": 3,
+                "insufficient_data": false
+              },
+              "quality": 0.9666666666666667,
+              "cost_usd": 0.7608506666666667,
+              "time_seconds": 191,
+              "tokens": 9145
+            },
+            "low_confidence": false,
+            "frontier_size": 3,
+            "tied_on_quality": [
+              "opus-4-6 / unguided-agent"
+            ]
+          },
+          "latency": {
+            "profile": "latency",
+            "pick": {
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 3,
+              "ci": {
+                "mean": 0.9666666666666667,
+                "margin": 0.06533333333333333,
+                "low": 0.9013333333333333,
+                "high": 1.032,
+                "n": 3,
+                "insufficient_data": false
+              },
+              "quality": 0.9666666666666667,
+              "cost_usd": 0.7608506666666667,
+              "time_seconds": 191,
+              "tokens": 9145
+            },
+            "low_confidence": false,
+            "frontier_size": 2,
+            "tied_on_quality": [
+              "opus-4-6 / unguided-agent"
+            ]
+          }
+        }
+      },
+      "refactor": {
+        "run_count": 10,
+        "candidates": [
+          {
+            "id": "opus-4-6 / baseline-guidance",
+            "model": "opus-4-6",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.47197050000000007,
+            "time_seconds": 95,
+            "tokens": 7628
+          },
+          {
+            "id": "opus-4-6 / baseline-no-docs",
+            "model": "opus-4-6",
+            "variant": "baseline-no-docs",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.3771155,
+            "time_seconds": 100,
+            "tokens": 4969
+          },
+          {
+            "id": "opus-4-6 / baseline-no-skills",
+            "model": "opus-4-6",
+            "variant": "baseline-no-skills",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.38125600000000004,
+            "time_seconds": 99,
+            "tokens": 5090
+          },
+          {
+            "id": "opus-4-6 / minimal-guidance",
+            "model": "opus-4-6",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.41433025,
+            "time_seconds": 105,
+            "tokens": 5455
+          },
+          {
+            "id": "opus-4-8 / time-aware-agent",
+            "model": "opus-4-8",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.38461538461538464,
+              "margin": 0,
+              "low": 0.38461538461538464,
+              "high": 0.38461538461538464,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.38461538461538464,
+            "cost_usd": 0.41990475000000005,
+            "time_seconds": 86,
+            "tokens": 7222
+          },
+          {
+            "id": "opus-4-7 / time-aware-agent",
+            "model": "opus-4-7",
+            "variant": "time-aware-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.46153846153846156,
+              "margin": 0.15076923076923068,
+              "low": 0.3107692307692309,
+              "high": 0.6123076923076922,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.46153846153846156,
+            "cost_usd": 0.64497425,
+            "time_seconds": 116,
+            "tokens": 7669
+          },
+          {
+            "id": "opus-4-6 / time-aware-agent",
+            "model": "opus-4-6",
+            "variant": "time-aware-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.46153846153846156,
+              "margin": 0.15076923076923068,
+              "low": 0.3107692307692309,
+              "high": 0.6123076923076922,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.46153846153846156,
+            "cost_usd": 0.567510875,
+            "time_seconds": 74,
+            "tokens": 4967
+          },
+          {
+            "id": "opus-4-6 / unguided-agent",
+            "model": "opus-4-6",
+            "variant": "unguided-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.350992,
+            "time_seconds": 99,
+            "tokens": 4991
+          }
+        ],
+        "recommendations": {
+          "quality": {
+            "profile": "quality",
+            "pick": {
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 1,
+              "ci": {
+                "mean": 0.5384615384615384,
+                "margin": 0,
+                "low": 0.5384615384615384,
+                "high": 0.5384615384615384,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "quality": 0.5384615384615384,
+              "cost_usd": 0.350992,
+              "time_seconds": 99,
+              "tokens": 4991
+            },
+            "low_confidence": true,
+            "frontier_size": 1,
+            "tied_on_quality": [
+              "opus-4-6 / unguided-agent"
+            ]
+          },
+          "cost": {
+            "profile": "cost",
+            "pick": {
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 1,
+              "ci": {
+                "mean": 0.5384615384615384,
+                "margin": 0,
+                "low": 0.5384615384615384,
+                "high": 0.5384615384615384,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "quality": 0.5384615384615384,
+              "cost_usd": 0.350992,
+              "time_seconds": 99,
+              "tokens": 4991
+            },
+            "low_confidence": true,
+            "frontier_size": 1,
+            "tied_on_quality": [
+              "opus-4-6 / unguided-agent"
+            ]
+          },
+          "latency": {
+            "profile": "latency",
+            "pick": {
+              "id": "opus-4-6 / time-aware-agent",
+              "model": "opus-4-6",
+              "variant": "time-aware-agent",
+              "n": 2,
+              "ci": {
+                "mean": 0.46153846153846156,
+                "margin": 0.15076923076923068,
+                "low": 0.3107692307692309,
+                "high": 0.6123076923076922,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "quality": 0.46153846153846156,
+              "cost_usd": 0.567510875,
+              "time_seconds": 74,
+              "tokens": 4967
+            },
+            "low_confidence": false,
+            "frontier_size": 2,
+            "tied_on_quality": [
+              "opus-4-6 / baseline-guidance",
+              "opus-4-6 / time-aware-agent"
+            ]
+          }
+        }
+      },
+      "spec-feature": {
+        "run_count": 91,
+        "candidates": [
+          {
+            "id": "opus-4-6 / baseline-guidance",
+            "model": "opus-4-6",
+            "variant": "baseline-guidance",
+            "n": 10,
+            "ci": {
+              "mean": 0.5681818181818182,
+              "margin": 0.2576115839612049,
+              "low": 0.3105702342206133,
+              "high": 0.8257934021430231,
+              "n": 10,
+              "insufficient_data": false
+            },
+            "quality": 0.5681818181818182,
+            "cost_usd": 0.2581544,
+            "time_seconds": 1707.5,
+            "tokens": 4417
+          },
+          {
+            "id": "opus-4-8 / baseline-guidance",
+            "model": "opus-4-8",
+            "variant": "baseline-guidance",
+            "n": 2,
+            "ci": {
+              "mean": 0.6,
+              "margin": 0.784,
+              "low": -0.18400000000000005,
+              "high": 1.384,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.6,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-guidance",
+            "model": "opus-4-7",
+            "variant": "baseline-guidance",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "sonnet-4-5 / baseline-guidance",
+            "model": "sonnet-4-5",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5,
+              "margin": 0,
+              "low": 0.5,
+              "high": 0.5,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5,
+            "cost_usd": 0.6283384500000001,
+            "time_seconds": 192,
+            "tokens": 11481
+          },
+          {
+            "id": "opus-4-6 / baseline-no-docs",
+            "model": "opus-4-6",
+            "variant": "baseline-no-docs",
+            "n": 9,
+            "ci": {
+              "mean": 0.6090909090909091,
+              "margin": 0.2597084471138659,
+              "low": 0.3493824619770432,
+              "high": 0.8687993562047751,
+              "n": 9,
+              "insufficient_data": false
+            },
+            "quality": 0.6090909090909091,
+            "cost_usd": 0.2612353055555555,
+            "time_seconds": 813.7777777777778,
+            "tokens": 6173
+          },
+          {
+            "id": "opus-4-8 / baseline-no-docs",
+            "model": "opus-4-8",
+            "variant": "baseline-no-docs",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 749,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-no-docs",
+            "model": "opus-4-7",
+            "variant": "baseline-no-docs",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-6 / baseline-no-skills",
+            "model": "opus-4-6",
+            "variant": "baseline-no-skills",
+            "n": 9,
+            "ci": {
+              "mean": 0.6090909090909091,
+              "margin": 0.2597084471138659,
+              "low": 0.3493824619770432,
+              "high": 0.8687993562047751,
+              "n": 9,
+              "insufficient_data": false
+            },
+            "quality": 0.6090909090909091,
+            "cost_usd": 0.20889136111111112,
+            "time_seconds": 1425.2222222222222,
+            "tokens": 3857
+          },
+          {
+            "id": "opus-4-8 / baseline-no-skills",
+            "model": "opus-4-8",
+            "variant": "baseline-no-skills",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 749,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-no-skills",
+            "model": "opus-4-7",
+            "variant": "baseline-no-skills",
+            "n": 1,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-6 / minimal-guidance",
+            "model": "opus-4-6",
+            "variant": "minimal-guidance",
+            "n": 9,
+            "ci": {
+              "mean": 0.5314814814814816,
+              "margin": 0.27667445573843974,
+              "low": 0.2548070257430418,
+              "high": 0.8081559372199213,
+              "n": 9,
+              "insufficient_data": false
+            },
+            "quality": 0.5314814814814816,
+            "cost_usd": 0.22931080555555555,
+            "time_seconds": 1164.2222222222222,
+            "tokens": 4991
+          },
+          {
+            "id": "opus-4-8 / minimal-guidance",
+            "model": "opus-4-8",
+            "variant": "minimal-guidance",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 1216.5,
+            "tokens": 0
+          },
+          {
+            "id": "sonnet-4-5 / minimal-guidance",
+            "model": "sonnet-4-5",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5,
+              "margin": 0,
+              "low": 0.5,
+              "high": 0.5,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5,
+            "cost_usd": 0.7217817000000001,
+            "time_seconds": 263,
+            "tokens": 15794
+          },
+          {
+            "id": "opus-4-7 / minimal-guidance",
+            "model": "opus-4-7",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-8 / time-aware-agent",
+            "model": "opus-4-8",
+            "variant": "time-aware-agent",
+            "n": 9,
+            "ci": {
+              "mean": 0.88989898989899,
+              "margin": 0.17117526137001024,
+              "low": 0.7187237285289797,
+              "high": 1.0610742512690001,
+              "n": 9,
+              "insufficient_data": false
+            },
+            "quality": 0.88989898989899,
+            "cost_usd": 0.43323833333333334,
+            "time_seconds": 197.66666666666666,
+            "tokens": 11641
+          },
+          {
+            "id": "opus-4-7 / time-aware-agent",
+            "model": "opus-4-7",
+            "variant": "time-aware-agent",
+            "n": 8,
+            "ci": {
+              "mean": 0.7636363636363636,
+              "margin": 0.177895224061248,
+              "low": 0.5857411395751155,
+              "high": 0.9415315876976116,
+              "n": 8,
+              "insufficient_data": false
+            },
+            "quality": 0.7636363636363636,
+            "cost_usd": 0.22202446875000004,
+            "time_seconds": 246.125,
+            "tokens": 4159
+          },
+          {
+            "id": "opus-4-6 / time-aware-agent",
+            "model": "opus-4-6",
+            "variant": "time-aware-agent",
+            "n": 8,
+            "ci": {
+              "mean": 0.9553030303030303,
+              "margin": 0.045410291588862214,
+              "low": 0.9098927387141681,
+              "high": 1.0007133218918924,
+              "n": 8,
+              "insufficient_data": false
+            },
+            "quality": 0.9553030303030303,
+            "cost_usd": 0.71864074375,
+            "time_seconds": 164,
+            "tokens": 10263
+          },
+          {
+            "id": "opus-4-6 / unguided-agent",
+            "model": "opus-4-6",
+            "variant": "unguided-agent",
+            "n": 7,
+            "ci": {
+              "mean": 0.6428571428571429,
+              "margin": 0.30799999999999994,
+              "low": 0.33485714285714296,
+              "high": 0.9508571428571428,
+              "n": 7,
+              "insufficient_data": false
+            },
+            "quality": 0.6428571428571429,
+            "cost_usd": 0.3126481071428571,
+            "time_seconds": 434.7142857142857,
+            "tokens": 5309
+          },
+          {
+            "id": "opus-4-8 / unguided-agent",
+            "model": "opus-4-8",
+            "variant": "unguided-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 749,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / unguided-agent",
+            "model": "opus-4-7",
+            "variant": "unguided-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.2,
+              "margin": 0,
+              "low": 0.2,
+              "high": 0.2,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.2,
+            "cost_usd": 0,
+            "time_seconds": 300,
+            "tokens": 0
+          },
+          {
+            "id": "sonnet-4-5 / unguided-agent",
+            "model": "sonnet-4-5",
+            "variant": "unguided-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.5,
+              "margin": 0,
+              "low": 0.5,
+              "high": 0.5,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.5,
+            "cost_usd": 0.5481582,
+            "time_seconds": 179,
+            "tokens": 10448
+          }
+        ],
+        "recommendations": {
+          "quality": {
+            "profile": "quality",
+            "pick": {
+              "id": "opus-4-6 / time-aware-agent",
+              "model": "opus-4-6",
+              "variant": "time-aware-agent",
+              "n": 8,
+              "ci": {
+                "mean": 0.9553030303030303,
+                "margin": 0.045410291588862214,
+                "low": 0.9098927387141681,
+                "high": 1.0007133218918924,
+                "n": 8,
+                "insufficient_data": false
+              },
+              "quality": 0.9553030303030303,
+              "cost_usd": 0.71864074375,
+              "time_seconds": 164,
+              "tokens": 10263
+            },
+            "low_confidence": false,
+            "frontier_size": 11,
+            "tied_on_quality": [
+              "opus-4-8 / time-aware-agent",
+              "opus-4-7 / time-aware-agent",
+              "opus-4-6 / time-aware-agent"
+            ]
+          },
+          "cost": {
+            "profile": "cost",
+            "pick": {
+              "id": "opus-4-7 / time-aware-agent",
+              "model": "opus-4-7",
+              "variant": "time-aware-agent",
+              "n": 8,
+              "ci": {
+                "mean": 0.7636363636363636,
+                "margin": 0.177895224061248,
+                "low": 0.5857411395751155,
+                "high": 0.9415315876976116,
+                "n": 8,
+                "insufficient_data": false
+              },
+              "quality": 0.7636363636363636,
+              "cost_usd": 0.22202446875000004,
+              "time_seconds": 246.125,
+              "tokens": 4159
+            },
+            "low_confidence": false,
+            "frontier_size": 11,
+            "tied_on_quality": [
+              "opus-4-8 / time-aware-agent",
+              "opus-4-7 / time-aware-agent",
+              "opus-4-6 / time-aware-agent"
+            ]
+          },
+          "latency": {
+            "profile": "latency",
+            "pick": {
+              "id": "opus-4-6 / time-aware-agent",
+              "model": "opus-4-6",
+              "variant": "time-aware-agent",
+              "n": 8,
+              "ci": {
+                "mean": 0.9553030303030303,
+                "margin": 0.045410291588862214,
+                "low": 0.9098927387141681,
+                "high": 1.0007133218918924,
+                "n": 8,
+                "insufficient_data": false
+              },
+              "quality": 0.9553030303030303,
+              "cost_usd": 0.71864074375,
+              "time_seconds": 164,
+              "tokens": 10263
+            },
+            "low_confidence": false,
+            "frontier_size": 1,
+            "tied_on_quality": [
+              "opus-4-6 / time-aware-agent"
+            ]
+          }
+        }
+      },
+      "delivery": {
+        "run_count": 24,
+        "candidates": [
+          {
+            "id": "opus-4-6 / baseline-guidance",
+            "model": "opus-4-6",
+            "variant": "baseline-guidance",
+            "n": 2,
+            "ci": {
+              "mean": 0.5666666666666667,
+              "margin": 0.7186666666666668,
+              "low": -0.15200000000000014,
+              "high": 1.2853333333333334,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.5666666666666667,
+            "cost_usd": 0.29504562500000003,
+            "time_seconds": 626.5,
+            "tokens": 2637
+          },
+          {
+            "id": "opus-4-8 / baseline-guidance",
+            "model": "opus-4-8",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.26666666666666666,
+              "margin": 0,
+              "low": 0.26666666666666666,
+              "high": 0.26666666666666666,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.26666666666666666,
+            "cost_usd": 0,
+            "time_seconds": 2133,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-guidance",
+            "model": "opus-4-7",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.8389635000000003,
+            "time_seconds": 176,
+            "tokens": 7819
+          },
+          {
+            "id": "opus-4-6 / baseline-no-docs",
+            "model": "opus-4-6",
+            "variant": "baseline-no-docs",
+            "n": 2,
+            "ci": {
+              "mean": 0.6,
+              "margin": 0.784,
+              "low": -0.18400000000000005,
+              "high": 1.384,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.6,
+            "cost_usd": 0.31275675000000003,
+            "time_seconds": 585.5,
+            "tokens": 3063
+          },
+          {
+            "id": "opus-4-8 / baseline-no-docs",
+            "model": "opus-4-8",
+            "variant": "baseline-no-docs",
+            "n": 1,
+            "ci": {
+              "mean": 0.26666666666666666,
+              "margin": 0,
+              "low": 0.26666666666666666,
+              "high": 0.26666666666666666,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.26666666666666666,
+            "cost_usd": 0,
+            "time_seconds": 2133,
+            "tokens": 0
+          },
+          {
+            "id": "opus-4-7 / baseline-no-docs",
+            "model": "opus-4-7",
+            "variant": "baseline-no-docs",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 1.16257125,
+            "time_seconds": 244,
+            "tokens": 12793
+          },
+          {
+            "id": "opus-4-6 / baseline-no-skills",
+            "model": "opus-4-6",
+            "variant": "baseline-no-skills",
+            "n": 2,
+            "ci": {
+              "mean": 0.5333333333333333,
+              "margin": 0.7840000000000001,
+              "low": -0.2506666666666668,
+              "high": 1.3173333333333335,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.5333333333333333,
+            "cost_usd": 0.22950724999999997,
+            "time_seconds": 522.5,
+            "tokens": 2232
+          },
+          {
+            "id": "opus-4-8 / baseline-no-skills",
+            "model": "opus-4-8",
+            "variant": "baseline-no-skills",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.8048955000000001,
+            "time_seconds": 259,
+            "tokens": 11135
+          },
+          {
+            "id": "opus-4-7 / baseline-no-skills",
+            "model": "opus-4-7",
+            "variant": "baseline-no-skills",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.9204640000000001,
+            "time_seconds": 235,
+            "tokens": 10000
+          },
+          {
+            "id": "opus-4-6 / minimal-guidance",
+            "model": "opus-4-6",
+            "variant": "minimal-guidance",
+            "n": 2,
+            "ci": {
+              "mean": 0.5333333333333333,
+              "margin": 0.7840000000000001,
+              "low": -0.2506666666666668,
+              "high": 1.3173333333333335,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.5333333333333333,
+            "cost_usd": 0.25295125,
+            "time_seconds": 568.5,
+            "tokens": 4457
+          },
+          {
+            "id": "opus-4-8 / minimal-guidance",
+            "model": "opus-4-8",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.603731,
+            "time_seconds": 194,
+            "tokens": 9798
+          },
+          {
+            "id": "opus-4-7 / minimal-guidance",
+            "model": "opus-4-7",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.9894785,
+            "time_seconds": 272,
+            "tokens": 10179
+          },
+          {
+            "id": "opus-4-8 / time-aware-agent",
+            "model": "opus-4-8",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 1,
+              "margin": 0,
+              "low": 1,
+              "high": 1,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 1,
+            "cost_usd": 0.5852255,
+            "time_seconds": 178,
+            "tokens": 9745
+          },
+          {
+            "id": "opus-4-7 / time-aware-agent",
+            "model": "opus-4-7",
+            "variant": "time-aware-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.8333333333333333,
+              "margin": 0.19600000000000004,
+              "low": 0.6373333333333332,
+              "high": 1.0293333333333332,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.8333333333333333,
+            "cost_usd": 0.686105625,
+            "time_seconds": 127.5,
+            "tokens": 7093
+          },
+          {
+            "id": "opus-4-6 / time-aware-agent",
+            "model": "opus-4-6",
+            "variant": "time-aware-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.8333333333333333,
+              "margin": 0.19600000000000004,
+              "low": 0.6373333333333332,
+              "high": 1.0293333333333332,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.8333333333333333,
+            "cost_usd": 0.549238875,
+            "time_seconds": 75,
+            "tokens": 8688
+          },
+          {
+            "id": "opus-4-6 / unguided-agent",
+            "model": "opus-4-6",
+            "variant": "unguided-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.5666666666666667,
+              "margin": 0.8493333333333334,
+              "low": -0.28266666666666673,
+              "high": 1.416,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.5666666666666667,
+            "cost_usd": 0.22019875000000003,
+            "time_seconds": 345.5,
+            "tokens": 2275
+          },
+          {
+            "id": "opus-4-7 / unguided-agent",
+            "model": "opus-4-7",
+            "variant": "unguided-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.9998032499999998,
+            "time_seconds": 248,
+            "tokens": 9751
+          }
+        ],
+        "recommendations": {
+          "quality": {
+            "profile": "quality",
+            "pick": {
+              "id": "opus-4-8 / time-aware-agent",
+              "model": "opus-4-8",
+              "variant": "time-aware-agent",
+              "n": 1,
+              "ci": {
+                "mean": 1,
+                "margin": 0,
+                "low": 1,
+                "high": 1,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "quality": 1,
+              "cost_usd": 0.5852255,
+              "time_seconds": 178,
+              "tokens": 9745
+            },
+            "low_confidence": true,
+            "frontier_size": 4,
+            "tied_on_quality": [
+              "opus-4-8 / time-aware-agent",
+              "opus-4-6 / time-aware-agent"
+            ]
+          },
+          "cost": {
+            "profile": "cost",
+            "pick": {
+              "id": "opus-4-6 / time-aware-agent",
+              "model": "opus-4-6",
+              "variant": "time-aware-agent",
+              "n": 2,
+              "ci": {
+                "mean": 0.8333333333333333,
+                "margin": 0.19600000000000004,
+                "low": 0.6373333333333332,
+                "high": 1.0293333333333332,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "quality": 0.8333333333333333,
+              "cost_usd": 0.549238875,
+              "time_seconds": 75,
+              "tokens": 8688
+            },
+            "low_confidence": false,
+            "frontier_size": 4,
+            "tied_on_quality": [
+              "opus-4-8 / time-aware-agent",
+              "opus-4-6 / time-aware-agent"
+            ]
+          },
+          "latency": {
+            "profile": "latency",
+            "pick": {
+              "id": "opus-4-6 / time-aware-agent",
+              "model": "opus-4-6",
+              "variant": "time-aware-agent",
+              "n": 2,
+              "ci": {
+                "mean": 0.8333333333333333,
+                "margin": 0.19600000000000004,
+                "low": 0.6373333333333332,
+                "high": 1.0293333333333332,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "quality": 0.8333333333333333,
+              "cost_usd": 0.549238875,
+              "time_seconds": 75,
+              "tokens": 8688
+            },
+            "low_confidence": false,
+            "frontier_size": 3,
+            "tied_on_quality": [
+              "opus-4-8 / time-aware-agent",
+              "opus-4-6 / time-aware-agent"
+            ]
+          }
+        }
+      }
     }
   },
   "baselines": [
@@ -405,7 +1914,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 291
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-guidance_ambiguous-improvement_20260529072320_iter1",
@@ -502,7 +2012,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 269
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-guidance_ambiguous-improvement_20260605115727_iter1",
@@ -594,7 +2105,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-guidance_ambiguous-improvement_20260605124235_iter1",
@@ -686,7 +2198,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-guidance_ambiguous-improvement_20260605130144_iter1",
@@ -783,7 +2296,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 221
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-guidance_cross-file-refactor_20260528143215_iter1",
@@ -892,7 +2406,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 95
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "baseline-guidance_default_20260528144035_iter1",
@@ -989,7 +2504,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 182
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_default_20260605105151_iter1",
@@ -1081,7 +2597,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_default_20260605122337_iter1",
@@ -1173,7 +2690,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_default_20260605124841_iter1",
@@ -1270,7 +2788,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 160
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_minimal_20260528141326_iter3",
@@ -1367,7 +2886,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
         "elapsed_seconds": 192
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_minimal_20260528144128_iter1",
@@ -1464,7 +2984,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 137
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_minimal_20260528171815_iter1",
@@ -1556,7 +3077,8 @@
         "elapsed_seconds": 13088,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_original_20260529013432_iter1",
@@ -1648,7 +3170,8 @@
         "elapsed_seconds": 970,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_semantic-merge-deliver_20260529040249_iter1",
@@ -1760,7 +3283,8 @@
         "elapsed_seconds": 1128,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-guidance_semantic-merge-deliver_20260605112152_iter1",
@@ -1872,7 +3396,8 @@
         "elapsed_seconds": 2133,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-guidance_semantic-merge-deliver_20260605123339_iter1",
@@ -1989,7 +3514,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 176
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-guidance_semantic-merge-deliver_20260605125732_iter1",
@@ -2106,7 +3632,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 125
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-guidance_semantic-merge-no-doc_20260529052041_iter1",
@@ -2202,7 +3729,8 @@
         "elapsed_seconds": 913,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_story-ac-with-skills_20260529072421_iter1",
@@ -2299,7 +3827,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 140
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_story-ac_20260529063926_iter1",
@@ -2391,7 +3920,8 @@
         "elapsed_seconds": 996,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_story-ac_20260605105652_iter1",
@@ -2483,7 +4013,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_story-ac_20260605122837_iter1",
@@ -2575,7 +4106,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_story-ac_20260605125122_iter1",
@@ -2672,7 +4204,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 189
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-guidance_tech-spec_20260529074644_iter1",
@@ -2764,7 +4297,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_ambiguous-improvement_20260528141540_iter1",
@@ -2861,7 +4395,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 211
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-docs_ambiguous-improvement_20260529072558_iter1",
@@ -2958,7 +4493,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 274
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-docs_ambiguous-improvement_20260605120041_iter1",
@@ -3050,7 +4586,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-docs_ambiguous-improvement_20260605124248_iter1",
@@ -3142,7 +4679,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-docs_ambiguous-improvement_20260605130213_iter1",
@@ -3239,7 +4777,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 169
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-docs_cross-file-refactor_20260528143351_iter1",
@@ -3348,7 +4887,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 100
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "baseline-no-docs_default_20260528144338_iter1",
@@ -3445,7 +4985,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 287
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_default_20260605105151_iter1",
@@ -3537,7 +5078,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_default_20260605122337_iter1",
@@ -3629,7 +5171,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_default_20260605124841_iter1",
@@ -3726,7 +5269,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 118
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_minimal_20260528144309_iter1",
@@ -3823,7 +5367,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 272
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_minimal_20260528205624_iter1",
@@ -3915,7 +5460,8 @@
         "elapsed_seconds": 4190,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_semantic-merge-deliver_20260529042138_iter1",
@@ -4027,7 +5573,8 @@
         "elapsed_seconds": 1029,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-docs_semantic-merge-deliver_20260605112152_iter1",
@@ -4139,7 +5686,8 @@
         "elapsed_seconds": 2133,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-docs_semantic-merge-deliver_20260605123636_iter1",
@@ -4256,7 +5804,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 244
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-docs_semantic-merge-deliver_20260605125800_iter1",
@@ -4373,7 +5922,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 142
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-docs_semantic-merge-no-doc_20260529053555_iter1",
@@ -4469,7 +6019,8 @@
         "elapsed_seconds": 973,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_story-ac-with-skills_20260529072641_iter1",
@@ -4561,7 +6112,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_story-ac_20260529065603_iter1",
@@ -4653,7 +6205,8 @@
         "elapsed_seconds": 586,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_story-ac_20260605110153_iter1",
@@ -4745,7 +6298,8 @@
         "elapsed_seconds": 1198,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_story-ac_20260605122838_iter1",
@@ -4837,7 +6391,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_story-ac_20260605125301_iter1",
@@ -4934,7 +6489,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 298
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-docs_tech-spec_20260529075145_iter1",
@@ -5026,7 +6582,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_ambiguous-improvement_20260528141912_iter1",
@@ -5123,7 +6680,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 259
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-skills_ambiguous-improvement_20260529072649_iter1",
@@ -5220,7 +6778,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 251
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-skills_ambiguous-improvement_20260605120146_iter1",
@@ -5312,7 +6871,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-skills_ambiguous-improvement_20260605124513_iter1",
@@ -5404,7 +6964,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-skills_ambiguous-improvement_20260605130256_iter1",
@@ -5501,7 +7062,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 202
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "baseline-no-skills_cross-file-refactor_20260528143531_iter1",
@@ -5610,7 +7172,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 99
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "baseline-no-skills_default_20260528144825_iter1",
@@ -5707,7 +7270,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 150
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_default_20260605105151_iter1",
@@ -5799,7 +7363,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_default_20260605124841_iter1",
@@ -5896,7 +7461,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 161
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_minimal_20260528144346_iter1",
@@ -5993,7 +7559,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 148
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_minimal_20260528220615_iter1",
@@ -6085,7 +7652,8 @@
         "elapsed_seconds": 10227,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_semantic-merge-deliver_20260529043847_iter1",
@@ -6197,7 +7765,8 @@
         "elapsed_seconds": 920,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-skills_semantic-merge-deliver_20260605115726_iter1",
@@ -6314,7 +7883,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 259
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-skills_semantic-merge-deliver_20260605123839_iter1",
@@ -6431,7 +8001,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 235
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-skills_semantic-merge-deliver_20260605125938_iter1",
@@ -6548,7 +8119,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 125
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "baseline-no-skills_semantic-merge-no-doc_20260529055208_iter1",
@@ -6644,7 +8216,8 @@
         "elapsed_seconds": 761,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_story-ac-with-skills_20260529073142_iter1",
@@ -6736,7 +8309,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_story-ac_20260529070549_iter1",
@@ -6828,7 +8402,8 @@
         "elapsed_seconds": 627,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_story-ac_20260605110153_iter1",
@@ -6920,7 +8495,8 @@
         "elapsed_seconds": 1198,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_story-ac_20260605122838_iter1",
@@ -7012,7 +8588,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_story-ac_20260605125433_iter1",
@@ -7109,7 +8686,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 153
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "baseline-no-skills_tech-spec_20260529075645_iter1",
@@ -7201,7 +8779,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_ambiguous-improvement_20260528142718_iter1",
@@ -7298,7 +8877,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 297
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "minimal-guidance_ambiguous-improvement_20260529072320_iter1",
@@ -7395,7 +8975,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 208
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "minimal-guidance_ambiguous-improvement_20260605120542_iter1",
@@ -7487,7 +9068,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "minimal-guidance_ambiguous-improvement_20260605124749_iter1",
@@ -7579,7 +9161,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "minimal-guidance_ambiguous-improvement_20260605130526_iter1",
@@ -7676,7 +9259,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 244
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "minimal-guidance_cross-file-refactor_20260528143850_iter1",
@@ -7785,7 +9369,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 105
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "minimal-guidance_default_20260528151128_iter1",
@@ -7877,7 +9462,8 @@
         "elapsed_seconds": 7607,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_default_20260605105652_iter1",
@@ -7969,7 +9555,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_default_20260605125122_iter1",
@@ -8066,7 +9653,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 192
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_minimal_20260528142115_iter3",
@@ -8163,7 +9751,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
         "elapsed_seconds": 263
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_minimal_20260528144128_iter1",
@@ -8260,7 +9849,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 100
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_minimal_20260529011815_iter1",
@@ -8352,7 +9942,8 @@
         "elapsed_seconds": 977,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_semantic-merge-deliver_20260529050350_iter1",
@@ -8464,7 +10055,8 @@
         "elapsed_seconds": 1011,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "minimal-guidance_semantic-merge-deliver_20260605115726_iter1",
@@ -8581,7 +10173,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 194
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "minimal-guidance_semantic-merge-deliver_20260605124041_iter1",
@@ -8698,7 +10291,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 272
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "minimal-guidance_semantic-merge-deliver_20260605130049_iter1",
@@ -8815,7 +10409,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 126
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "minimal-guidance_semantic-merge_20260529035422_iter1",
@@ -8915,7 +10510,8 @@
         "elapsed_seconds": 507,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_story-ac-with-skills_20260529074143_iter1",
@@ -9007,7 +10603,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_story-ac_20260529071946_iter1",
@@ -9104,7 +10701,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 274
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_story-ac_20260605112152_iter1",
@@ -9196,7 +10794,8 @@
         "elapsed_seconds": 2133,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_story-ac_20260605123339_iter1",
@@ -9288,7 +10887,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_story-ac_20260605125707_iter1",
@@ -9385,7 +10985,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 221
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "minimal-guidance_tech-spec_20260529080647_iter1",
@@ -9477,7 +11078,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_ambiguous-improvement_20260617101425_iter1",
@@ -9574,7 +11176,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 257
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "time-aware-agent_ambiguous-improvement_20260617104603_iter1",
@@ -9666,7 +11269,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "time-aware-agent_ambiguous-improvement_20260617110414_iter1",
@@ -9763,7 +11367,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 150
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "time-aware-agent_cross-file-refactor_20260617104315_iter1",
@@ -9872,7 +11477,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 86
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "time-aware-agent_cross-file-refactor_20260617104603_iter1",
@@ -9981,7 +11587,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 130
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "time-aware-agent_cross-file-refactor_20260617110414_iter1",
@@ -10090,7 +11697,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 75
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "time-aware-agent_cross-file-refactor_20260617114555_iter1",
@@ -10199,7 +11807,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 102
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "time-aware-agent_cross-file-refactor_20260617114946_iter1",
@@ -10308,7 +11917,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 73
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "time-aware-agent_default_20260617101425_iter1",
@@ -10405,7 +12015,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 199
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_default_20260617104603_iter1",
@@ -10497,7 +12108,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_default_20260617110414_iter1",
@@ -10594,7 +12206,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 197
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_minimal_20260617101426_iter1",
@@ -10686,7 +12299,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_minimal_20260617104814_iter1",
@@ -10778,7 +12392,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_minimal_20260617110530_iter1",
@@ -10875,7 +12490,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 121
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_original_20260617101745_iter1",
@@ -10972,7 +12588,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 258
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_original_20260617105104_iter1",
@@ -11064,7 +12681,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_original_20260617110644_iter1",
@@ -11161,7 +12779,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 162
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-deliver_20260617101926_iter1",
@@ -11278,7 +12897,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 178
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-deliver_20260617105312_iter1",
@@ -11395,7 +13015,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 63
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-deliver_20260617110732_iter1",
@@ -11512,7 +13133,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 69
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-deliver_20260617114555_iter1",
@@ -11629,7 +13251,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 192
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-deliver_20260617114946_iter1",
@@ -11746,7 +13369,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 81
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-no-doc_20260617102039_iter1",
@@ -11847,7 +13471,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 80
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-no-doc_20260617105315_iter1",
@@ -11948,7 +13573,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 77
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_semantic-merge-no-doc_20260617110842_iter1",
@@ -12049,7 +13675,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 50
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_semantic-merge_20260617101843_iter1",
@@ -12154,7 +13781,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 115
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_semantic-merge_20260617105104_iter1",
@@ -12259,7 +13887,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 127
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_semantic-merge_20260617110732_iter1",
@@ -12364,7 +13993,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 77
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac-with-skills_20260617102204_iter1",
@@ -12461,7 +14091,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 274
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac-with-skills_20260617105432_iter1",
@@ -12553,7 +14184,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac-with-skills_20260617110926_iter1",
@@ -12650,7 +14282,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 268
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac_20260617100903_iter1",
@@ -12747,7 +14380,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 209
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac_20260617102200_iter1",
@@ -12844,7 +14478,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 185
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac_20260617105416_iter1",
@@ -12941,7 +14576,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 265
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_story-ac_20260617110850_iter1",
@@ -13038,7 +14674,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 175
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_tech-spec_20260617102225_iter1",
@@ -13135,7 +14772,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-8",
         "elapsed_seconds": 159
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_tech-spec_20260617105605_iter1",
@@ -13227,7 +14865,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "time-aware-agent_tech-spec_20260617110932_iter1",
@@ -13324,7 +14963,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 262
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_ambiguous-improvement_20260528142332_iter1",
@@ -13421,7 +15061,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 225
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "unguided-agent_ambiguous-improvement_20260529072320_iter1",
@@ -13518,7 +15159,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 158
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "unguided-agent_ambiguous-improvement_20260605120227_iter1",
@@ -13610,7 +15252,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "unguided-agent_ambiguous-improvement_20260605124736_iter1",
@@ -13702,7 +15345,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "unguided-agent_ambiguous-improvement_20260605130503_iter1",
@@ -13799,7 +15443,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 190
-      }
+      },
+      "category": "ambiguous"
     },
     {
       "run_id": "unguided-agent_cross-file-refactor_20260528143711_iter1",
@@ -13908,7 +15553,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 99
-      }
+      },
+      "category": "refactor"
     },
     {
       "run_id": "unguided-agent_default_20260528145055_iter1",
@@ -14000,7 +15646,8 @@
         "elapsed_seconds": 729,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_default_20260605105652_iter1",
@@ -14092,7 +15739,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_default_20260605122337_iter1",
@@ -14184,7 +15832,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_default_20260605125040_iter1",
@@ -14281,7 +15930,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 141
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_minimal_20260528141326_iter1",
@@ -14378,7 +16028,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
         "elapsed_seconds": 167
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_minimal_20260528141629_iter3",
@@ -14475,7 +16126,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
         "elapsed_seconds": 191
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_minimal_20260528144128_iter1",
@@ -14572,7 +16224,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 195
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_minimal_20260529005643_iter1",
@@ -14664,7 +16317,8 @@
         "elapsed_seconds": 1292,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_semantic-merge-deliver_20260529045407_iter1",
@@ -14776,7 +16430,8 @@
         "elapsed_seconds": 582,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "unguided-agent_semantic-merge-deliver_20260605123839_iter1",
@@ -14893,7 +16548,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-7",
         "elapsed_seconds": 248
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "unguided-agent_semantic-merge-deliver_20260605130023_iter1",
@@ -15010,7 +16666,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 109
-      }
+      },
+      "category": "delivery"
     },
     {
       "run_id": "unguided-agent_story-ac-with-skills_20260529073642_iter1",
@@ -15102,7 +16759,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "us.anthropic.claude-opus-4-6-v1"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_story-ac_20260529071617_iter1",
@@ -15199,7 +16857,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 209
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_story-ac_20260605110153_iter1",
@@ -15291,7 +16950,8 @@
         "elapsed_seconds": 1198,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_story-ac_20260605123338_iter1",
@@ -15383,7 +17043,8 @@
         "elapsed_seconds": 300,
         "exit_type": "parse_error",
         "model": "unknown"
-      }
+      },
+      "category": "spec-feature"
     },
     {
       "run_id": "unguided-agent_story-ac_20260605125435_iter1",
@@ -15480,7 +17141,8 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 177
-      }
+      },
+      "category": "spec-feature"
     }
   ]
 }
