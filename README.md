@@ -4,9 +4,9 @@ Version, compose and audit AI agents, skills, tools and instructions across repo
 
 ## Status
 
-Apache 2.0 licensed. Incubating as an internal-public Amadeus project, targeting open-source extraction once APIs and governance stabilize.
+Apache 2.0 licensed. Open-source project by David-Olivier Saban.
 
-**Upstream**: [github.com/amadeus-nexwave/open-ai-artifacts](https://github.com/amadeus-nexwave/open-ai-artifacts)
+**Repository**: [github.com/davidoliviersaban/open-ai-artifacts](https://github.com/davidoliviersaban/open-ai-artifacts)
 
 ## What it does
 
@@ -102,6 +102,49 @@ npm run build:whitepaper
 |--------|---------|
 | `docs/whitepaper/whitepaper-v3.pdf` | Long-form version for Engineering Managers and Tech Leads |
 | `docs/whitepaper/whitepaper-management-summary.pdf` | Condensed version for Heads of Engineering and Product Leaders |
+
+## Packages
+
+| Package | npm | Purpose |
+|---------|-----|---------|
+| `@d-o.s/ai-artifacts` | [![npm](https://img.shields.io/npm/v/@d-o.s/ai-artifacts)](https://www.npmjs.com/package/@d-o.s/ai-artifacts) | CLI/library for versioning, composing and auditing AI artifacts |
+| `@d-o.s/ai-artifacts-bench` | [![npm](https://img.shields.io/npm/v/@d-o.s/ai-artifacts-bench)](https://www.npmjs.com/package/@d-o.s/ai-artifacts-bench) | A/B testing framework for agent configurations |
+
+### Dogfooding
+
+This repository consumes its own packages. The `.ai-artifacts/` directory uses `@d-o.s/ai-artifacts` to generate agent instructions, skills, hooks and tool configs from upstream sources + local overlays. The `ab-test/` directory uses `@d-o.s/ai-artifacts-bench` to benchmark agent configurations.
+
+### Release Strategy
+
+Releases follow these rules:
+
+1. **Validate locally** before any version bump:
+   ```bash
+   npm run test:ai-artifacts
+   npm run test:ai-artifacts-bench
+   npm run validate:ai-artifacts
+   ```
+
+2. **Version bumps** follow semver:
+   - `patch` — bug fixes, no API change
+   - `minor` — new features, backward compatible
+   - `major` — breaking changes
+
+3. **Release only when stable** — do not publish for CI fixes, typos, or iterations that only affect this repo. A release means the package is ready for external consumers.
+
+4. **Provenance** — all published packages include npm provenance attestation (SLSA Build L3), proving they were built from this repo via GitHub Actions.
+
+5. **Process** — bump version in both `packages/*/package.json`, push to main, then create a GitHub Release with tag `vX.Y.Z`. The workflow runs tests and publishes both packages with `--provenance`.
+
+## A/B Benchmark
+
+```bash
+node ab-test/scripts/quick-run.js baseline-guidance --model opus
+node ab-test/scripts/batch.js --iterations 3 --model opus
+node ab-test/scripts/report.js
+```
+
+See `ab-test/README.md` for the full benchmark framework documentation and `docs/publication-ab-test-methodology.md` for the methodology paper.
 
 ## Architecture Decisions
 

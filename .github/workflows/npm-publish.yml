@@ -4,6 +4,10 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,13 +26,16 @@ jobs:
   publish-ai-artifacts:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm publish --access public
+      - run: npm publish --access public --provenance
         working-directory: packages/ai-artifacts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -36,13 +43,16 @@ jobs:
   publish-ai-artifacts-bench:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm publish --access public
+      - run: npm publish --access public --provenance
         working-directory: packages/ai-artifacts-bench
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
