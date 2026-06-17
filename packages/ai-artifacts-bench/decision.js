@@ -128,16 +128,18 @@ function candidateId(model, variant) {
   return `${normalizeModel(model)} / ${variant || 'default'}`
 }
 
-// Collapse candidates to the single best-quality variant per model.
-// Used by the "which model" view: each model competes under its best config,
-// not once per variant. Uses the same conservative qualityRank.
-function bestVariantPerModel(candidates) {
+// Collapse candidates to one representative variant per model, chosen by the
+// SAME profile-aware rule used to pick between models (Pareto + CI + profile).
+// So under `cost`, a model is represented by its cheapest variant among those
+// statistically tied on quality — not just its highest-quality variant.
+// Used by the "which model" view: each model competes under its best config.
+function bestVariantPerModel(candidates, profile = 'cost') {
   const byModel = {}
   for (const c of candidates) {
-    const m = c.model
-    if (!byModel[m] || qualityRank(c) > qualityRank(byModel[m])) byModel[m] = c
+    if (!byModel[c.model]) byModel[c.model] = []
+    byModel[c.model].push(c)
   }
-  return Object.values(byModel)
+  return Object.values(byModel).map(group => recommend(group, profile).pick).filter(Boolean)
 }
 
 // Build per-(model,variant) candidates within a set of runs.
@@ -229,10 +231,11 @@ function synthesizeDecision(runs, options = {}) {
   const categories = {}
   for (const [category, categoryRuns] of Object.entries(byCategory)) {
     const candidates = buildCandidates(categoryRuns)
-    // View A "which model": each model competes under its best variant only.
-    const modelCandidates = bestVariantPerModel(candidates)
+    // View A "which model": each model competes under its best variant for the
+    // active profile (the representative variant is profile-aware too).
     const modelChoice = {}
     for (const profile of profiles) {
+      const modelCandidates = bestVariantPerModel(candidates, profile)
       modelChoice[profile] = recommend(modelCandidates, profile)
     }
     categories[category] = {

@@ -86,4 +86,4 @@ node --test 'packages/ai-artifacts-bench/**/*.test.js'
 npm run test:ai-artifacts-bench
 ```
 
-78 tests cover all modules and prove the plugin architecture works end-to-end.
+79 tests cover all modules and prove the plugin architecture works end-to-end.

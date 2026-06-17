@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T14:04:18.165Z",
+  "generated_at": "2026-06-17T14:09:33.838Z",
   "baseline": {
     "id": "agent-config-2026-05-28-v2",
     "created_at": "2026-05-28",
@@ -516,82 +516,79 @@
           "cost": {
             "profile": "cost",
             "pick": {
-              "id": "opus-4-8 / time-aware-agent",
-              "model": "opus-4-8",
-              "variant": "time-aware-agent",
-              "n": 1,
-              "ci": {
-                "mean": 1,
-                "margin": 0,
-                "low": 1,
-                "high": 1,
-                "n": 1,
-                "insufficient_data": true
-              },
-              "quality": 1,
-              "cost_usd": 1.05299475,
-              "time_seconds": 257,
-              "tokens": 14875
-            },
-            "low_confidence": true,
-            "frontier_size": 3,
-            "tied_on_quality": [
-              "opus-4-6 / baseline-guidance",
-              "opus-4-8 / time-aware-agent"
-            ]
-          },
-          "quality": {
-            "profile": "quality",
-            "pick": {
-              "id": "opus-4-6 / baseline-guidance",
+              "id": "opus-4-6 / unguided-agent",
               "model": "opus-4-6",
-              "variant": "baseline-guidance",
+              "variant": "unguided-agent",
               "n": 3,
               "ci": {
                 "mean": 0.9666666666666667,
-                "margin": 0.06533333333333331,
+                "margin": 0.06533333333333333,
                 "low": 0.9013333333333333,
                 "high": 1.032,
                 "n": 3,
                 "insufficient_data": false
               },
               "quality": 0.9666666666666667,
-              "cost_usd": 1.1916823333333333,
-              "time_seconds": 260.3333333333333,
-              "tokens": 13470
+              "cost_usd": 0.7608506666666667,
+              "time_seconds": 191,
+              "tokens": 9145
             },
             "low_confidence": false,
-            "frontier_size": 3,
+            "frontier_size": 2,
             "tied_on_quality": [
-              "opus-4-6 / baseline-guidance",
-              "opus-4-8 / time-aware-agent"
+              "opus-4-6 / unguided-agent"
+            ]
+          },
+          "quality": {
+            "profile": "quality",
+            "pick": {
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 3,
+              "ci": {
+                "mean": 0.9666666666666667,
+                "margin": 0.06533333333333333,
+                "low": 0.9013333333333333,
+                "high": 1.032,
+                "n": 3,
+                "insufficient_data": false
+              },
+              "quality": 0.9666666666666667,
+              "cost_usd": 0.7608506666666667,
+              "time_seconds": 191,
+              "tokens": 9145
+            },
+            "low_confidence": false,
+            "frontier_size": 2,
+            "tied_on_quality": [
+              "opus-4-6 / unguided-agent"
             ]
           },
           "latency": {
             "profile": "latency",
             "pick": {
-              "id": "opus-4-8 / time-aware-agent",
-              "model": "opus-4-8",
-              "variant": "time-aware-agent",
-              "n": 1,
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
+              "n": 3,
               "ci": {
-                "mean": 1,
-                "margin": 0,
-                "low": 1,
-                "high": 1,
-                "n": 1,
-                "insufficient_data": true
+                "mean": 0.9666666666666667,
+                "margin": 0.06533333333333333,
+                "low": 0.9013333333333333,
+                "high": 1.032,
+                "n": 3,
+                "insufficient_data": false
               },
-              "quality": 1,
-              "cost_usd": 1.05299475,
-              "time_seconds": 257,
-              "tokens": 14875
+              "quality": 0.9666666666666667,
+              "cost_usd": 0.7608506666666667,
+              "time_seconds": 191,
+              "tokens": 9145
             },
-            "low_confidence": true,
-            "frontier_size": 2,
+            "low_confidence": false,
+            "frontier_size": 1,
             "tied_on_quality": [
-              "opus-4-6 / baseline-guidance",
-              "opus-4-8 / time-aware-agent"
+              "opus-4-6 / unguided-agent"
             ]
           }
         },
@@ -1167,9 +1164,9 @@
           "cost": {
             "profile": "cost",
             "pick": {
-              "id": "opus-4-8 / baseline-guidance",
-              "model": "opus-4-8",
-              "variant": "baseline-guidance",
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
               "n": 1,
               "ci": {
                 "mean": 0.5384615384615384,
@@ -1180,22 +1177,22 @@
                 "insufficient_data": true
               },
               "quality": 0.5384615384615384,
-              "cost_usd": 0.4322345,
-              "time_seconds": 120,
-              "tokens": 9722
+              "cost_usd": 0.350992,
+              "time_seconds": 99,
+              "tokens": 4991
             },
             "low_confidence": true,
             "frontier_size": 1,
             "tied_on_quality": [
-              "opus-4-8 / baseline-guidance"
+              "opus-4-6 / unguided-agent"
             ]
           },
           "quality": {
             "profile": "quality",
             "pick": {
-              "id": "opus-4-8 / baseline-guidance",
-              "model": "opus-4-8",
-              "variant": "baseline-guidance",
+              "id": "opus-4-6 / unguided-agent",
+              "model": "opus-4-6",
+              "variant": "unguided-agent",
               "n": 1,
               "ci": {
                 "mean": 0.5384615384615384,
@@ -1206,40 +1203,41 @@
                 "insufficient_data": true
               },
               "quality": 0.5384615384615384,
-              "cost_usd": 0.4322345,
-              "time_seconds": 120,
-              "tokens": 9722
+              "cost_usd": 0.350992,
+              "time_seconds": 99,
+              "tokens": 4991
             },
             "low_confidence": true,
             "frontier_size": 1,
             "tied_on_quality": [
-              "opus-4-8 / baseline-guidance"
+              "opus-4-6 / unguided-agent"
             ]
           },
           "latency": {
             "profile": "latency",
             "pick": {
-              "id": "opus-4-6 / baseline-guidance",
+              "id": "opus-4-6 / time-aware-agent",
               "model": "opus-4-6",
-              "variant": "baseline-guidance",
-              "n": 1,
+              "variant": "time-aware-agent",
+              "n": 2,
               "ci": {
-                "mean": 0.5384615384615384,
-                "margin": 0,
-                "low": 0.5384615384615384,
-                "high": 0.5384615384615384,
-                "n": 1,
-                "insufficient_data": true
+                "mean": 0.46153846153846156,
+                "margin": 0.15076923076923068,
+                "low": 0.3107692307692309,
+                "high": 0.6123076923076922,
+                "n": 2,
+                "insufficient_data": false
               },
-              "quality": 0.5384615384615384,
-              "cost_usd": 0.47197050000000007,
-              "time_seconds": 95,
-              "tokens": 7628
+              "quality": 0.46153846153846156,
+              "cost_usd": 0.567510875,
+              "time_seconds": 74,
+              "tokens": 4967
             },
-            "low_confidence": true,
-            "frontier_size": 1,
+            "low_confidence": false,
+            "frontier_size": 2,
             "tied_on_quality": [
-              "opus-4-6 / baseline-guidance"
+              "opus-4-6 / time-aware-agent",
+              "opus-4-8 / baseline-guidance"
             ]
           }
         },
@@ -1914,7 +1912,7 @@
             "frontier_size": 3,
             "tied_on_quality": [
               "opus-4-6 / time-aware-agent",
-              "opus-4-8 / baseline-guidance",
+              "opus-4-8 / time-aware-agent",
               "opus-4-7 / time-aware-agent"
             ]
           },
@@ -2753,27 +2751,27 @@
           "cost": {
             "profile": "cost",
             "pick": {
-              "id": "opus-4-6 / time-aware-agent",
+              "id": "opus-4-6 / unguided-agent",
               "model": "opus-4-6",
-              "variant": "time-aware-agent",
+              "variant": "unguided-agent",
               "n": 2,
               "ci": {
-                "mean": 0.8333333333333333,
-                "margin": 0.19600000000000004,
-                "low": 0.6373333333333332,
-                "high": 1.0293333333333332,
+                "mean": 0.5666666666666667,
+                "margin": 0.8493333333333334,
+                "low": -0.28266666666666673,
+                "high": 1.416,
                 "n": 2,
                 "insufficient_data": false
               },
-              "quality": 0.8333333333333333,
-              "cost_usd": 0.549238875,
-              "time_seconds": 75,
-              "tokens": 8688
+              "quality": 0.5666666666666667,
+              "cost_usd": 0.22019875000000003,
+              "time_seconds": 345.5,
+              "tokens": 2275
             },
             "low_confidence": false,
             "frontier_size": 2,
             "tied_on_quality": [
-              "opus-4-6 / time-aware-agent",
+              "opus-4-6 / unguided-agent",
               "opus-4-8 / minimal-guidance"
             ]
           },

@@ -15,16 +15,28 @@ const {
   synthesizeDecision,
 } = require('./decision.js')
 
-test('bestVariantPerModel keeps each model only under its highest-quality variant', () => {
+test('bestVariantPerModel collapses each model to one candidate (quality profile picks highest quality)', () => {
   const candidates = [
     { id: 'opus-4-8 / time-aware', model: 'opus-4-8', variant: 'time-aware', ci: { mean: 0.9, low: 0.85, high: 0.95, insufficient_data: false }, cost_usd: 0.5, time_seconds: 180 },
     { id: 'opus-4-8 / baseline', model: 'opus-4-8', variant: 'baseline', ci: { mean: 0.4, low: 0.3, high: 0.5, insufficient_data: false }, cost_usd: 0.2, time_seconds: 300 },
     { id: 'opus-4-6 / minimal', model: 'opus-4-6', variant: 'minimal', ci: { mean: 0.8, low: 0.75, high: 0.85, insufficient_data: false }, cost_usd: 0.3, time_seconds: 150 },
   ]
-  const best = bestVariantPerModel(candidates)
+  const best = bestVariantPerModel(candidates, 'quality')
   assert.equal(best.length, 2)
   assert.equal(best.find(c => c.model === 'opus-4-8').variant, 'time-aware')
   assert.equal(best.find(c => c.model === 'opus-4-6').variant, 'minimal')
+})
+
+test('bestVariantPerModel is profile-aware: cost profile prefers cheaper variant when quality is tied', () => {
+  const candidates = [
+    // same model, two variants statistically tied on quality (overlapping CI) but different cost
+    { id: 'opus-4-6 / time-aware', model: 'opus-4-6', variant: 'time-aware', ci: { mean: 0.96, low: 0.90, high: 1.0, insufficient_data: false }, cost_usd: 0.72, time_seconds: 200 },
+    { id: 'opus-4-6 / minimal', model: 'opus-4-6', variant: 'minimal', ci: { mean: 0.94, low: 0.89, high: 0.99, insufficient_data: false }, cost_usd: 0.54, time_seconds: 150 },
+  ]
+  // quality profile → highest quality (time-aware)
+  assert.equal(bestVariantPerModel(candidates, 'quality')[0].variant, 'time-aware')
+  // cost profile → tied on quality, so cheaper variant (minimal)
+  assert.equal(bestVariantPerModel(candidates, 'cost')[0].variant, 'minimal')
 })
 
 test('variantSensitivity ranks variants within each model and reports best/worst + spread', () => {

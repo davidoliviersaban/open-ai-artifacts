@@ -125,8 +125,11 @@ With models × variants × categories × 3 cost axes, showing everything is unre
 Instead the report answers exactly two questions, each freezing all axes but one:
 
 - **View A — "Which model for this use case?"** Per category, each model competes under
-  its *best variant only* (`bestVariantPerModel`), and the winner is picked by the default
-  profile. Answers "what should I run". Other profiles are shown only when they disagree.
+  its best variant *for the active profile* (`bestVariantPerModel` is profile-aware: it
+  reuses the Pareto + CI + profile rule to pick the representative variant, so under `cost`
+  a model is represented by its cheapest variant among those tied on quality). The winner
+  across models is then picked by the same profile. Pareto + CI thus apply consistently at
+  both levels — variant selection and model selection. Other profiles shown only on disagreement.
 - **View B — "How do I configure model X?"** Per model, the variant spread (best vs worst)
   and `config_sensitive` flag. Answers "how to get the best out of this model".
 
