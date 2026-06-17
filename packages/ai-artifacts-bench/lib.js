@@ -115,18 +115,40 @@ function parseUsageFromJson(raw) {
   try { data = JSON.parse(raw) } catch { return null }
 
   const modelUsage = data.modelUsage || {}
-  const firstModel = Object.values(modelUsage)[0] || {}
+  const models = Object.entries(modelUsage)
+
+  let input_tokens = 0
+  let output_tokens = 0
+  let cache_read_tokens = 0
+  let cache_write_tokens = 0
+  let cost_usd = 0
+  let primaryModel = 'unknown'
+  let primaryTokens = 0
+
+  for (const [name, usage] of models) {
+    const inp = usage.inputTokens || 0
+    const out = usage.outputTokens || 0
+    input_tokens += inp
+    output_tokens += out
+    cache_read_tokens += usage.cacheReadInputTokens || 0
+    cache_write_tokens += usage.cacheCreationInputTokens || 0
+    cost_usd += usage.costUSD || 0
+    if ((inp + out) > primaryTokens) {
+      primaryTokens = inp + out
+      primaryModel = name
+    }
+  }
 
   return {
-    input_tokens: firstModel.inputTokens || 0,
-    output_tokens: firstModel.outputTokens || 0,
-    cache_read_tokens: firstModel.cacheReadInputTokens || 0,
-    cache_write_tokens: firstModel.cacheCreationInputTokens || 0,
-    total_tokens: (firstModel.inputTokens || 0) + (firstModel.outputTokens || 0),
-    cost_usd: firstModel.costUSD || data.total_cost_usd || 0,
+    input_tokens,
+    output_tokens,
+    cache_read_tokens,
+    cache_write_tokens,
+    total_tokens: input_tokens + output_tokens,
+    cost_usd: cost_usd || data.total_cost_usd || 0,
     num_turns: data.num_turns || 0,
     exit_type: data.subtype || 'unknown',
-    model: Object.keys(modelUsage)[0] || 'unknown',
+    model: primaryModel,
   }
 }
 

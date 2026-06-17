@@ -103,6 +103,25 @@ test('parseUsageFromJson extracts model usage', () => {
   assert.equal(result.num_turns, 5)
 })
 
+test('parseUsageFromJson aggregates multi-model usage and picks primary by token volume', () => {
+  const raw = JSON.stringify({
+    modelUsage: {
+      'claude-opus-4-8': { inputTokens: 20000, outputTokens: 8000, cacheReadInputTokens: 500, costUSD: 1.20 },
+      'claude-haiku-4-5': { inputTokens: 3000, outputTokens: 1000, cacheReadInputTokens: 100, costUSD: 0.05 },
+    },
+    num_turns: 12,
+    subtype: 'end_turn',
+  })
+  const result = parseUsageFromJson(raw)
+  assert.equal(result.input_tokens, 23000)
+  assert.equal(result.output_tokens, 9000)
+  assert.equal(result.total_tokens, 32000)
+  assert.equal(result.cache_read_tokens, 600)
+  assert.equal(result.cost_usd, 1.25)
+  assert.equal(result.model, 'claude-opus-4-8')
+  assert.equal(result.num_turns, 12)
+})
+
 test('parseUsageFromJson returns null for invalid JSON', () => {
   assert.equal(parseUsageFromJson('not json'), null)
 })
