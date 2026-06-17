@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T11:14:59.255Z",
+  "generated_at": "2026-06-17T11:51:20.507Z",
   "baseline": {
     "id": "agent-config-2026-05-28-v2",
     "created_at": "2026-05-28",
@@ -84,18 +84,18 @@
     },
     {
       "variant": "time-aware-agent",
-      "runs": 34,
-      "avg_score": 0.7873823529411766,
+      "runs": 38,
+      "avg_score": 0.7876315789473685,
       "median_score": 0.824,
-      "avg_criteria": 0.8229740847387905,
-      "avg_tokens": 8378,
-      "median_tokens": 7368,
-      "avg_time": 187,
-      "avg_cost": 0.4907315867647059,
-      "criteria_passed": 304,
-      "criteria_total": 373,
+      "avg_criteria": 0.8138081217028585,
+      "avg_tokens": 8325,
+      "median_tokens": 7473,
+      "avg_time": 179,
+      "avg_cost": 0.5130103144736842,
+      "criteria_passed": 346,
+      "criteria_total": 429,
       "perfect_runs": 15,
-      "tests_passed": 33
+      "tests_passed": 37
     },
     {
       "variant": "unguided-agent",
@@ -115,15 +115,15 @@
   ],
   "winner": {
     "winner": "time-aware-agent",
-    "winner_score": 0.7873823529411766,
+    "winner_score": 0.7876315789473685,
     "runner_up": "baseline-no-skills",
     "runner_up_score": 0.6692727272727272,
-    "delta": 0.1181096256684494,
+    "delta": 0.11835885167464122,
     "confident": true
   },
   "analysis": {
     "findings": [
-      "time-aware-agent leads the active baseline by average score (0.787 vs baseline-no-skills at 0.669).",
+      "time-aware-agent leads the active baseline by average score (0.788 vs baseline-no-skills at 0.669).",
       "baseline-guidance trails unguided-agent on average by 0.025.",
       "baseline-guidance beats unguided-agent on 2/7 challenges, loses on 4/7, and ties on 1/7.",
       "baseline-guidance is ahead of minimal-guidance by 0.004, suggesting the full guidance still helps on this matrix."
@@ -198,7 +198,7 @@
           "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
         ]
       },
-      "run_count": 149,
+      "run_count": 153,
       "variants": [
         "baseline-guidance",
         "baseline-no-docs",
@@ -270,18 +270,18 @@
         },
         {
           "variant": "time-aware-agent",
-          "runs": 34,
-          "avg_score": 0.7873823529411766,
+          "runs": 38,
+          "avg_score": 0.7876315789473685,
           "median_score": 0.824,
-          "avg_criteria": 0.8229740847387905,
-          "avg_tokens": 8378,
-          "median_tokens": 7368,
-          "avg_time": 187,
-          "avg_cost": 0.4907315867647059,
-          "criteria_passed": 304,
-          "criteria_total": 373,
+          "avg_criteria": 0.8138081217028585,
+          "avg_tokens": 8325,
+          "median_tokens": 7473,
+          "avg_time": 179,
+          "avg_cost": 0.5130103144736842,
+          "criteria_passed": 346,
+          "criteria_total": 429,
           "perfect_runs": 15,
-          "tests_passed": 33
+          "tests_passed": 37
         },
         {
           "variant": "unguided-agent",
@@ -301,10 +301,10 @@
       ],
       "winner": {
         "winner": "time-aware-agent",
-        "winner_score": 0.7873823529411766,
+        "winner_score": 0.7876315789473685,
         "runner_up": "baseline-no-skills",
         "runner_up_score": 0.6692727272727272,
-        "delta": 0.1181096256684494,
+        "delta": 0.11835885167464122,
         "confident": true
       }
     }
@@ -10093,6 +10093,224 @@
       }
     },
     {
+      "run_id": "time-aware-agent_cross-file-refactor_20260617114555_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 7,
+      "criteria_total": 13,
+      "criteria_score": 0.5384615384615384,
+      "efficiency_score": 0.7680583333333333,
+      "code_quality_score": 1,
+      "final_score": 0.7,
+      "tokens_used": 7433,
+      "cost_usd": 0.67093375,
+      "time_seconds": 102,
+      "model": "us.anthropic.claude-opus-4-7",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": false
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": false
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T11:45:55.623Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_cross-file-refactor_20260617114555_iter1",
+      "branch": "feat/ab-test-time-aware-agent_cross-file-refactor_20260617114555_iter1",
+      "completed_at": "2026-06-17T11:47:38.367Z",
+      "elapsed_seconds": 102,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1187,
+        "output_tokens": 6246,
+        "cache_read_tokens": 429135,
+        "cache_write_tokens": 47085,
+        "total_tokens": 7433,
+        "cost_usd": 0.67093375,
+        "num_turns": 12,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-7",
+        "elapsed_seconds": 102
+      }
+    },
+    {
+      "run_id": "time-aware-agent_cross-file-refactor_20260617114946_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 7,
+      "criteria_total": 13,
+      "criteria_score": 0.5384615384615384,
+      "efficiency_score": 0.8372916666666667,
+      "code_quality_score": 1,
+      "final_score": 0.72,
+      "tokens_used": 4925,
+      "cost_usd": 0.5546942499999999,
+      "time_seconds": 73,
+      "model": "us.anthropic.claude-opus-4-6-v1",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": false
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": false
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T11:49:47.124Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_cross-file-refactor_20260617114946_iter1",
+      "branch": "feat/ab-test-time-aware-agent_cross-file-refactor_20260617114946_iter1",
+      "completed_at": "2026-06-17T11:51:00.826Z",
+      "elapsed_seconds": 73,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 837,
+        "output_tokens": 4088,
+        "cache_read_tokens": 225606,
+        "cache_write_tokens": 53681,
+        "total_tokens": 4925,
+        "cost_usd": 0.5546942499999999,
+        "num_turns": 11,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 73
+      }
+    },
+    {
       "run_id": "time-aware-agent_default_20260617101425_iter1",
       "variant": "time-aware-agent",
       "criteria_passed": 10,
@@ -11294,6 +11512,240 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 69
+      }
+    },
+    {
+      "run_id": "time-aware-agent_semantic-merge-deliver_20260617114555_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 14,
+      "criteria_total": 15,
+      "criteria_score": 0.9333333333333333,
+      "efficiency_score": 0.5759099999999999,
+      "code_quality_score": 1,
+      "final_score": 0.839,
+      "tokens_used": 10409,
+      "cost_usd": 0.983607,
+      "time_seconds": 192,
+      "model": "us.anthropic.claude-opus-4-7",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T11:45:55.622Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_semantic-merge-deliver_20260617114555_iter1",
+      "branch": "feat/ab-test-time-aware-agent_semantic-merge-deliver_20260617114555_iter1",
+      "completed_at": "2026-06-17T11:49:07.983Z",
+      "elapsed_seconds": 192,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 1215,
+        "output_tokens": 9194,
+        "cache_read_tokens": 1051514,
+        "cache_write_tokens": 35508,
+        "total_tokens": 10409,
+        "cost_usd": 0.983607,
+        "num_turns": 26,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-7",
+        "elapsed_seconds": 192
+      }
+    },
+    {
+      "run_id": "time-aware-agent_semantic-merge-deliver_20260617114946_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 14,
+      "criteria_total": 15,
+      "criteria_score": 0.9333333333333333,
+      "efficiency_score": 0.77774,
+      "code_quality_score": 1,
+      "final_score": 0.9,
+      "tokens_used": 8726,
+      "cost_usd": 0.600283,
+      "time_seconds": 81,
+      "model": "us.anthropic.claude-opus-4-6-v1",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T11:49:47.123Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_semantic-merge-deliver_20260617114946_iter1",
+      "branch": "feat/ab-test-time-aware-agent_semantic-merge-deliver_20260617114946_iter1",
+      "completed_at": "2026-06-17T11:51:08.345Z",
+      "elapsed_seconds": 81,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 5281,
+        "output_tokens": 3445,
+        "cache_read_tokens": 314631,
+        "cache_write_tokens": 52870,
+        "total_tokens": 8726,
+        "cost_usd": 0.600283,
+        "num_turns": 15,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-opus-4-6-v1",
+        "elapsed_seconds": 81
       }
     },
     {
