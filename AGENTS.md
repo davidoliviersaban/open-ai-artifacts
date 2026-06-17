@@ -63,6 +63,7 @@ Read `.github/WORKFLOW.md` for the full development pipeline and `.github/WORKFL
 - `whitepaper-editor`: whitepaper editorial assistance.
 - `prompt-build` / `prompt-analyze` / `prompt-refactor`: prompt engineering pipeline.
 - `add-skill`: scaffold and register new skills (with RPI research step).
+- `bench-run`: run A/B benchmark matrix across models and variants, generate decision report.
 
 ## Repository Scope
 

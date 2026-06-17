@@ -200,4 +200,5 @@ artifacts:
 #   - package-maintainer: package code maintenance guidelines
 #   - ship: validated commit+push workflow
 #   - whitepaper-editor: whitepaper editorial assistance
+#   - bench-run: A/B benchmark matrix runner and decision reporter
 
