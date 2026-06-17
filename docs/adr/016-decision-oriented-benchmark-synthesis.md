@@ -90,6 +90,35 @@ The `cost`/`latency` rule is the core insight: *if two configs are indistinguish
 quality, prefer the cheaper/faster one.* "4× slower for an epsilon gain" is then visibly
 rejected, without hiding the trade-off in a blended score.
 
+### Three independent levers (not one timeout)
+
+What used to be a single `max_time_seconds: 300` conflated three different things.
+They are now separate:
+
+1. **Hard deadline** — a safety kill switch that stops a diverging run. It is generous
+   (default 900s), configurable per project (`hard_deadline_seconds` in `challenge.json`
+   or `--hard-deadline`), and is **never** told to the model. A run killed here failed
+   (blank exam). It is decoupled from the scored budget so a tight budget never kills
+   valid work.
+2. **Cost scoring** — whether the project cares about time/tokens/$. Handled by the
+   `cost` / `latency` decision profiles. If the project is not time-sensitive, use the
+   `quality` profile and the deadline only catches genuine divergence.
+3. **Time-aware guidance** — *telling* the model it has a budget. This is injected context,
+   so it is treated as an explicit variant axis (a config under test), never silently
+   mixed into a model comparison. Comparing a `time-aware` candidate against a
+   non-time-aware one as if it were a model difference is a confound and is disallowed.
+
+The canonical cross-model comparison runs with a generous deadline and **no** injected
+time-awareness; the `cost` profile penalizes slowness honestly without lying to the model.
+
+### Variant sensitivity (per-model config tuning)
+
+Beyond "which candidate wins", the synthesis reports, for each model, **how much the
+variant (AI context) changes its result**: best variant, worst variant, and the quality
+spread. A large spread (`config_sensitive`) means the model is not weak — it is
+mis-configured by default, and a few context tweaks unlock it. This is the project thesis
+made literal: tune the environment, don't just reach for another model.
+
 ### Output
 
 The synthesis is emitted as structured JSON (`decision` block in `report.json`) plus a

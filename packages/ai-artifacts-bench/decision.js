@@ -157,6 +157,52 @@ function avg(arr) {
   return arr.reduce((a, b) => a + b, 0) / arr.length
 }
 
+// Spread above which a model is considered "config-sensitive": its result
+// depends materially on the AI context, so tuning the variant is worthwhile.
+const CONFIG_SENSITIVITY_THRESHOLD = 0.10
+
+// For each model, show how much the variant (AI context) changes the outcome.
+// Answers: "how do I get the best out of this model with a few config tweaks?"
+// — best variant, worst variant, and the quality spread between them.
+function variantSensitivity(runs) {
+  const byModel = {}
+  for (const run of runs) {
+    const model = normalizeModel(run.model)
+    if (!byModel[model]) byModel[model] = {}
+    const variant = run.variant || 'default'
+    if (!byModel[model][variant]) byModel[model][variant] = []
+    byModel[model][variant].push(run)
+  }
+
+  const result = []
+  for (const [model, variants] of Object.entries(byModel)) {
+    const perVariant = Object.entries(variants).map(([variant, variantRuns]) => {
+      const ci = confidenceInterval(variantRuns)
+      return {
+        variant,
+        quality: ci.mean,
+        ci,
+        n: variantRuns.length,
+        cost_usd: avg(variantRuns.map(r => r.cost_usd || 0)),
+        time_seconds: avg(variantRuns.map(r => r.time_seconds || 0)),
+      }
+    }).sort((a, b) => b.quality - a.quality)
+
+    const best = perVariant[0]
+    const worst = perVariant[perVariant.length - 1]
+    const spread = best.quality - worst.quality
+    result.push({
+      model,
+      variants: perVariant,
+      best,
+      worst,
+      spread,
+      config_sensitive: spread >= CONFIG_SENSITIVITY_THRESHOLD,
+    })
+  }
+  return result.sort((a, b) => b.best.quality - a.best.quality)
+}
+
 function synthesizeDecision(runs, options = {}) {
   const profiles = options.profiles || ['quality', 'cost', 'latency']
   const byCategory = {}
@@ -177,6 +223,7 @@ function synthesizeDecision(runs, options = {}) {
       run_count: categoryRuns.length,
       candidates,
       recommendations,
+      variant_sensitivity: variantSensitivity(categoryRuns),
     }
   }
 
@@ -191,5 +238,6 @@ module.exports = {
   recommend,
   normalizeModel,
   buildCandidates,
+  variantSensitivity,
   synthesizeDecision,
 }

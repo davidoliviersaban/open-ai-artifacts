@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T12:33:26.408Z",
+  "generated_at": "2026-06-17T12:56:27.974Z",
   "baseline": {
     "id": "agent-config-2026-05-28-v2",
     "created_at": "2026-05-28",
@@ -589,7 +589,390 @@
               "opus-4-6 / unguided-agent"
             ]
           }
-        }
+        },
+        "variant_sensitivity": [
+          {
+            "model": "opus-4-8",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 1,
+                "ci": {
+                  "mean": 1,
+                  "margin": 0,
+                  "low": 1,
+                  "high": 1,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 1.05299475,
+                "time_seconds": 257
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.9,
+                "ci": {
+                  "mean": 0.9,
+                  "margin": 0,
+                  "low": 0.9,
+                  "high": 0.9,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.7,
+                "ci": {
+                  "mean": 0.7,
+                  "margin": 0,
+                  "low": 0.7,
+                  "high": 0.7,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.7,
+                "ci": {
+                  "mean": 0.7,
+                  "margin": 0,
+                  "low": 0.7,
+                  "high": 0.7,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.5,
+                "ci": {
+                  "mean": 0.5,
+                  "margin": 0,
+                  "low": 0.5,
+                  "high": 0.5,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.4,
+                "ci": {
+                  "mean": 0.4,
+                  "margin": 0,
+                  "low": 0.4,
+                  "high": 0.4,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 1,
+              "ci": {
+                "mean": 1,
+                "margin": 0,
+                "low": 1,
+                "high": 1,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 1.05299475,
+              "time_seconds": 257
+            },
+            "worst": {
+              "variant": "minimal-guidance",
+              "quality": 0.4,
+              "ci": {
+                "mean": 0.4,
+                "margin": 0,
+                "low": 0.4,
+                "high": 0.4,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0,
+              "time_seconds": 300
+            },
+            "spread": 0.6,
+            "config_sensitive": true
+          },
+          {
+            "model": "opus-4-6",
+            "variants": [
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.9666666666666667,
+                "ci": {
+                  "mean": 0.9666666666666667,
+                  "margin": 0.06533333333333331,
+                  "low": 0.9013333333333333,
+                  "high": 1.032,
+                  "n": 3,
+                  "insufficient_data": false
+                },
+                "n": 3,
+                "cost_usd": 1.1916823333333333,
+                "time_seconds": 260.3333333333333
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.9666666666666667,
+                "ci": {
+                  "mean": 0.9666666666666667,
+                  "margin": 0.06533333333333331,
+                  "low": 0.9013333333333333,
+                  "high": 1.032,
+                  "n": 3,
+                  "insufficient_data": false
+                },
+                "n": 3,
+                "cost_usd": 1.0197261666666664,
+                "time_seconds": 249.66666666666666
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.9666666666666667,
+                "ci": {
+                  "mean": 0.9666666666666667,
+                  "margin": 0.06533333333333333,
+                  "low": 0.9013333333333333,
+                  "high": 1.032,
+                  "n": 3,
+                  "insufficient_data": false
+                },
+                "n": 3,
+                "cost_usd": 0.7608506666666667,
+                "time_seconds": 191
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.9333333333333332,
+                "ci": {
+                  "mean": 0.9333333333333332,
+                  "margin": 0.06533333333333333,
+                  "low": 0.8679999999999999,
+                  "high": 0.9986666666666666,
+                  "n": 3,
+                  "insufficient_data": false
+                },
+                "n": 3,
+                "cost_usd": 1.0856925833333333,
+                "time_seconds": 237.33333333333334
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.9,
+                "ci": {
+                  "mean": 0.9,
+                  "margin": 0,
+                  "low": 0.9,
+                  "high": 0.9,
+                  "n": 3,
+                  "insufficient_data": false
+                },
+                "n": 3,
+                "cost_usd": 0.9541657499999999,
+                "time_seconds": 218
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.8,
+                "ci": {
+                  "mean": 0.8,
+                  "margin": 0,
+                  "low": 0.8,
+                  "high": 0.8,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 1.1161410000000003,
+                "time_seconds": 150
+              }
+            ],
+            "best": {
+              "variant": "baseline-guidance",
+              "quality": 0.9666666666666667,
+              "ci": {
+                "mean": 0.9666666666666667,
+                "margin": 0.06533333333333331,
+                "low": 0.9013333333333333,
+                "high": 1.032,
+                "n": 3,
+                "insufficient_data": false
+              },
+              "n": 3,
+              "cost_usd": 1.1916823333333333,
+              "time_seconds": 260.3333333333333
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.8,
+              "ci": {
+                "mean": 0.8,
+                "margin": 0,
+                "low": 0.8,
+                "high": 0.8,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 1.1161410000000003,
+              "time_seconds": 150
+            },
+            "spread": 0.16666666666666663,
+            "config_sensitive": true
+          },
+          {
+            "model": "opus-4-7",
+            "variants": [
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.9,
+                "ci": {
+                  "mean": 0.9,
+                  "margin": 0,
+                  "low": 0.9,
+                  "high": 0.9,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.8,
+                "ci": {
+                  "mean": 0.8,
+                  "margin": 0,
+                  "low": 0.8,
+                  "high": 0.8,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.8,
+                "ci": {
+                  "mean": 0.8,
+                  "margin": 0,
+                  "low": 0.8,
+                  "high": 0.8,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.8,
+                "ci": {
+                  "mean": 0.8,
+                  "margin": 0,
+                  "low": 0.8,
+                  "high": 0.8,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.8,
+                "ci": {
+                  "mean": 0.8,
+                  "margin": 0,
+                  "low": 0.8,
+                  "high": 0.8,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.4,
+                "ci": {
+                  "mean": 0.4,
+                  "margin": 0,
+                  "low": 0.4,
+                  "high": 0.4,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              }
+            ],
+            "best": {
+              "variant": "minimal-guidance",
+              "quality": 0.9,
+              "ci": {
+                "mean": 0.9,
+                "margin": 0,
+                "low": 0.9,
+                "high": 0.9,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0,
+              "time_seconds": 300
+            },
+            "worst": {
+              "variant": "baseline-guidance",
+              "quality": 0.4,
+              "ci": {
+                "mean": 0.4,
+                "margin": 0,
+                "low": 0.4,
+                "high": 0.4,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0,
+              "time_seconds": 300
+            },
+            "spread": 0.5,
+            "config_sensitive": true
+          }
+        ]
       },
       "refactor": {
         "run_count": 10,
@@ -819,7 +1202,240 @@
               "opus-4-6 / time-aware-agent"
             ]
           }
-        }
+        },
+        "variant_sensitivity": [
+          {
+            "model": "opus-4-6",
+            "variants": [
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.47197050000000007,
+                "time_seconds": 95
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.3771155,
+                "time_seconds": 100
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.38125600000000004,
+                "time_seconds": 99
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.41433025,
+                "time_seconds": 105
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.350992,
+                "time_seconds": 99
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.46153846153846156,
+                "ci": {
+                  "mean": 0.46153846153846156,
+                  "margin": 0.15076923076923068,
+                  "low": 0.3107692307692309,
+                  "high": 0.6123076923076922,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.567510875,
+                "time_seconds": 74
+              }
+            ],
+            "best": {
+              "variant": "baseline-guidance",
+              "quality": 0.5384615384615384,
+              "ci": {
+                "mean": 0.5384615384615384,
+                "margin": 0,
+                "low": 0.5384615384615384,
+                "high": 0.5384615384615384,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.47197050000000007,
+              "time_seconds": 95
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.46153846153846156,
+              "ci": {
+                "mean": 0.46153846153846156,
+                "margin": 0.15076923076923068,
+                "low": 0.3107692307692309,
+                "high": 0.6123076923076922,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.567510875,
+              "time_seconds": 74
+            },
+            "spread": 0.07692307692307687,
+            "config_sensitive": false
+          },
+          {
+            "model": "opus-4-7",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.46153846153846156,
+                "ci": {
+                  "mean": 0.46153846153846156,
+                  "margin": 0.15076923076923068,
+                  "low": 0.3107692307692309,
+                  "high": 0.6123076923076922,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.64497425,
+                "time_seconds": 116
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 0.46153846153846156,
+              "ci": {
+                "mean": 0.46153846153846156,
+                "margin": 0.15076923076923068,
+                "low": 0.3107692307692309,
+                "high": 0.6123076923076922,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.64497425,
+              "time_seconds": 116
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.46153846153846156,
+              "ci": {
+                "mean": 0.46153846153846156,
+                "margin": 0.15076923076923068,
+                "low": 0.3107692307692309,
+                "high": 0.6123076923076922,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.64497425,
+              "time_seconds": 116
+            },
+            "spread": 0,
+            "config_sensitive": false
+          },
+          {
+            "model": "opus-4-8",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.38461538461538464,
+                "ci": {
+                  "mean": 0.38461538461538464,
+                  "margin": 0,
+                  "low": 0.38461538461538464,
+                  "high": 0.38461538461538464,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.41990475000000005,
+                "time_seconds": 86
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 0.38461538461538464,
+              "ci": {
+                "mean": 0.38461538461538464,
+                "margin": 0,
+                "low": 0.38461538461538464,
+                "high": 0.38461538461538464,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.41990475000000005,
+              "time_seconds": 86
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.38461538461538464,
+              "ci": {
+                "mean": 0.38461538461538464,
+                "margin": 0,
+                "low": 0.38461538461538464,
+                "high": 0.38461538461538464,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.41990475000000005,
+              "time_seconds": 86
+            },
+            "spread": 0,
+            "config_sensitive": false
+          }
+        ]
       },
       "spec-feature": {
         "run_count": 91,
@@ -1286,7 +1902,472 @@
               "opus-4-6 / time-aware-agent"
             ]
           }
-        }
+        },
+        "variant_sensitivity": [
+          {
+            "model": "opus-4-6",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.9553030303030303,
+                "ci": {
+                  "mean": 0.9553030303030303,
+                  "margin": 0.045410291588862214,
+                  "low": 0.9098927387141681,
+                  "high": 1.0007133218918924,
+                  "n": 8,
+                  "insufficient_data": false
+                },
+                "n": 8,
+                "cost_usd": 0.71864074375,
+                "time_seconds": 164
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.6428571428571429,
+                "ci": {
+                  "mean": 0.6428571428571429,
+                  "margin": 0.30799999999999994,
+                  "low": 0.33485714285714296,
+                  "high": 0.9508571428571428,
+                  "n": 7,
+                  "insufficient_data": false
+                },
+                "n": 7,
+                "cost_usd": 0.3126481071428571,
+                "time_seconds": 434.7142857142857
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.6090909090909091,
+                "ci": {
+                  "mean": 0.6090909090909091,
+                  "margin": 0.2597084471138659,
+                  "low": 0.3493824619770432,
+                  "high": 0.8687993562047751,
+                  "n": 9,
+                  "insufficient_data": false
+                },
+                "n": 9,
+                "cost_usd": 0.2612353055555555,
+                "time_seconds": 813.7777777777778
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.6090909090909091,
+                "ci": {
+                  "mean": 0.6090909090909091,
+                  "margin": 0.2597084471138659,
+                  "low": 0.3493824619770432,
+                  "high": 0.8687993562047751,
+                  "n": 9,
+                  "insufficient_data": false
+                },
+                "n": 9,
+                "cost_usd": 0.20889136111111112,
+                "time_seconds": 1425.2222222222222
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.5681818181818182,
+                "ci": {
+                  "mean": 0.5681818181818182,
+                  "margin": 0.2576115839612049,
+                  "low": 0.3105702342206133,
+                  "high": 0.8257934021430231,
+                  "n": 10,
+                  "insufficient_data": false
+                },
+                "n": 10,
+                "cost_usd": 0.2581544,
+                "time_seconds": 1707.5
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.5314814814814816,
+                "ci": {
+                  "mean": 0.5314814814814816,
+                  "margin": 0.27667445573843974,
+                  "low": 0.2548070257430418,
+                  "high": 0.8081559372199213,
+                  "n": 9,
+                  "insufficient_data": false
+                },
+                "n": 9,
+                "cost_usd": 0.22931080555555555,
+                "time_seconds": 1164.2222222222222
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 0.9553030303030303,
+              "ci": {
+                "mean": 0.9553030303030303,
+                "margin": 0.045410291588862214,
+                "low": 0.9098927387141681,
+                "high": 1.0007133218918924,
+                "n": 8,
+                "insufficient_data": false
+              },
+              "n": 8,
+              "cost_usd": 0.71864074375,
+              "time_seconds": 164
+            },
+            "worst": {
+              "variant": "minimal-guidance",
+              "quality": 0.5314814814814816,
+              "ci": {
+                "mean": 0.5314814814814816,
+                "margin": 0.27667445573843974,
+                "low": 0.2548070257430418,
+                "high": 0.8081559372199213,
+                "n": 9,
+                "insufficient_data": false
+              },
+              "n": 9,
+              "cost_usd": 0.22931080555555555,
+              "time_seconds": 1164.2222222222222
+            },
+            "spread": 0.42382154882154877,
+            "config_sensitive": true
+          },
+          {
+            "model": "opus-4-8",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.88989898989899,
+                "ci": {
+                  "mean": 0.88989898989899,
+                  "margin": 0.17117526137001024,
+                  "low": 0.7187237285289797,
+                  "high": 1.0610742512690001,
+                  "n": 9,
+                  "insufficient_data": false
+                },
+                "n": 9,
+                "cost_usd": 0.43323833333333334,
+                "time_seconds": 197.66666666666666
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.6,
+                "ci": {
+                  "mean": 0.6,
+                  "margin": 0.784,
+                  "low": -0.18400000000000005,
+                  "high": 1.384,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 749
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 749
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 1216.5
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 749
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 0.88989898989899,
+              "ci": {
+                "mean": 0.88989898989899,
+                "margin": 0.17117526137001024,
+                "low": 0.7187237285289797,
+                "high": 1.0610742512690001,
+                "n": 9,
+                "insufficient_data": false
+              },
+              "n": 9,
+              "cost_usd": 0.43323833333333334,
+              "time_seconds": 197.66666666666666
+            },
+            "worst": {
+              "variant": "unguided-agent",
+              "quality": 0.2,
+              "ci": {
+                "mean": 0.2,
+                "margin": 0,
+                "low": 0.2,
+                "high": 0.2,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0,
+              "time_seconds": 749
+            },
+            "spread": 0.68989898989899,
+            "config_sensitive": true
+          },
+          {
+            "model": "opus-4-7",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.7636363636363636,
+                "ci": {
+                  "mean": 0.7636363636363636,
+                  "margin": 0.177895224061248,
+                  "low": 0.5857411395751155,
+                  "high": 0.9415315876976116,
+                  "n": 8,
+                  "insufficient_data": false
+                },
+                "n": 8,
+                "cost_usd": 0.22202446875000004,
+                "time_seconds": 246.125
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 300
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.2,
+                "ci": {
+                  "mean": 0.2,
+                  "margin": 0,
+                  "low": 0.2,
+                  "high": 0.2,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0,
+                "time_seconds": 300
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 0.7636363636363636,
+              "ci": {
+                "mean": 0.7636363636363636,
+                "margin": 0.177895224061248,
+                "low": 0.5857411395751155,
+                "high": 0.9415315876976116,
+                "n": 8,
+                "insufficient_data": false
+              },
+              "n": 8,
+              "cost_usd": 0.22202446875000004,
+              "time_seconds": 246.125
+            },
+            "worst": {
+              "variant": "unguided-agent",
+              "quality": 0.2,
+              "ci": {
+                "mean": 0.2,
+                "margin": 0,
+                "low": 0.2,
+                "high": 0.2,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0,
+              "time_seconds": 300
+            },
+            "spread": 0.5636363636363635,
+            "config_sensitive": true
+          },
+          {
+            "model": "sonnet-4-5",
+            "variants": [
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.5,
+                "ci": {
+                  "mean": 0.5,
+                  "margin": 0,
+                  "low": 0.5,
+                  "high": 0.5,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.6283384500000001,
+                "time_seconds": 192
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.5,
+                "ci": {
+                  "mean": 0.5,
+                  "margin": 0,
+                  "low": 0.5,
+                  "high": 0.5,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.7217817000000001,
+                "time_seconds": 263
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.5,
+                "ci": {
+                  "mean": 0.5,
+                  "margin": 0,
+                  "low": 0.5,
+                  "high": 0.5,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.5481582,
+                "time_seconds": 179
+              }
+            ],
+            "best": {
+              "variant": "baseline-guidance",
+              "quality": 0.5,
+              "ci": {
+                "mean": 0.5,
+                "margin": 0,
+                "low": 0.5,
+                "high": 0.5,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.6283384500000001,
+              "time_seconds": 192
+            },
+            "worst": {
+              "variant": "unguided-agent",
+              "quality": 0.5,
+              "ci": {
+                "mean": 0.5,
+                "margin": 0,
+                "low": 0.5,
+                "high": 0.5,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.5481582,
+              "time_seconds": 179
+            },
+            "spread": 0,
+            "config_sensitive": false
+          }
+        ]
       },
       "delivery": {
         "run_count": 24,
@@ -1680,7 +2761,375 @@
               "opus-4-6 / time-aware-agent"
             ]
           }
-        }
+        },
+        "variant_sensitivity": [
+          {
+            "model": "opus-4-8",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 1,
+                "ci": {
+                  "mean": 1,
+                  "margin": 0,
+                  "low": 1,
+                  "high": 1,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.5852255,
+                "time_seconds": 178
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.8048955000000001,
+                "time_seconds": 259
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.603731,
+                "time_seconds": 194
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.26666666666666666,
+                "ci": {
+                  "mean": 0.26666666666666666,
+                  "margin": 0,
+                  "low": 0.26666666666666666,
+                  "high": 0.26666666666666666,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 2133
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.26666666666666666,
+                "ci": {
+                  "mean": 0.26666666666666666,
+                  "margin": 0,
+                  "low": 0.26666666666666666,
+                  "high": 0.26666666666666666,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0,
+                "time_seconds": 2133
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 1,
+              "ci": {
+                "mean": 1,
+                "margin": 0,
+                "low": 1,
+                "high": 1,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.5852255,
+              "time_seconds": 178
+            },
+            "worst": {
+              "variant": "baseline-no-docs",
+              "quality": 0.26666666666666666,
+              "ci": {
+                "mean": 0.26666666666666666,
+                "margin": 0,
+                "low": 0.26666666666666666,
+                "high": 0.26666666666666666,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0,
+              "time_seconds": 2133
+            },
+            "spread": 0.7333333333333334,
+            "config_sensitive": true
+          },
+          {
+            "model": "opus-4-7",
+            "variants": [
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.8389635000000003,
+                "time_seconds": 176
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 1.16257125,
+                "time_seconds": 244
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.9204640000000001,
+                "time_seconds": 235
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.9894785,
+                "time_seconds": 272
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.9998032499999998,
+                "time_seconds": 248
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.8333333333333333,
+                "ci": {
+                  "mean": 0.8333333333333333,
+                  "margin": 0.19600000000000004,
+                  "low": 0.6373333333333332,
+                  "high": 1.0293333333333332,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.686105625,
+                "time_seconds": 127.5
+              }
+            ],
+            "best": {
+              "variant": "baseline-guidance",
+              "quality": 0.9333333333333333,
+              "ci": {
+                "mean": 0.9333333333333333,
+                "margin": 0,
+                "low": 0.9333333333333333,
+                "high": 0.9333333333333333,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.8389635000000003,
+              "time_seconds": 176
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.8333333333333333,
+              "ci": {
+                "mean": 0.8333333333333333,
+                "margin": 0.19600000000000004,
+                "low": 0.6373333333333332,
+                "high": 1.0293333333333332,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.686105625,
+              "time_seconds": 127.5
+            },
+            "spread": 0.10000000000000009,
+            "config_sensitive": true
+          },
+          {
+            "model": "opus-4-6",
+            "variants": [
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.8333333333333333,
+                "ci": {
+                  "mean": 0.8333333333333333,
+                  "margin": 0.19600000000000004,
+                  "low": 0.6373333333333332,
+                  "high": 1.0293333333333332,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.549238875,
+                "time_seconds": 75
+              },
+              {
+                "variant": "baseline-no-docs",
+                "quality": 0.6,
+                "ci": {
+                  "mean": 0.6,
+                  "margin": 0.784,
+                  "low": -0.18400000000000005,
+                  "high": 1.384,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.31275675000000003,
+                "time_seconds": 585.5
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.5666666666666667,
+                "ci": {
+                  "mean": 0.5666666666666667,
+                  "margin": 0.7186666666666668,
+                  "low": -0.15200000000000014,
+                  "high": 1.2853333333333334,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.29504562500000003,
+                "time_seconds": 626.5
+              },
+              {
+                "variant": "unguided-agent",
+                "quality": 0.5666666666666667,
+                "ci": {
+                  "mean": 0.5666666666666667,
+                  "margin": 0.8493333333333334,
+                  "low": -0.28266666666666673,
+                  "high": 1.416,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.22019875000000003,
+                "time_seconds": 345.5
+              },
+              {
+                "variant": "baseline-no-skills",
+                "quality": 0.5333333333333333,
+                "ci": {
+                  "mean": 0.5333333333333333,
+                  "margin": 0.7840000000000001,
+                  "low": -0.2506666666666668,
+                  "high": 1.3173333333333335,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.22950724999999997,
+                "time_seconds": 522.5
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.5333333333333333,
+                "ci": {
+                  "mean": 0.5333333333333333,
+                  "margin": 0.7840000000000001,
+                  "low": -0.2506666666666668,
+                  "high": 1.3173333333333335,
+                  "n": 2,
+                  "insufficient_data": false
+                },
+                "n": 2,
+                "cost_usd": 0.25295125,
+                "time_seconds": 568.5
+              }
+            ],
+            "best": {
+              "variant": "time-aware-agent",
+              "quality": 0.8333333333333333,
+              "ci": {
+                "mean": 0.8333333333333333,
+                "margin": 0.19600000000000004,
+                "low": 0.6373333333333332,
+                "high": 1.0293333333333332,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.549238875,
+              "time_seconds": 75
+            },
+            "worst": {
+              "variant": "minimal-guidance",
+              "quality": 0.5333333333333333,
+              "ci": {
+                "mean": 0.5333333333333333,
+                "margin": 0.7840000000000001,
+                "low": -0.2506666666666668,
+                "high": 1.3173333333333335,
+                "n": 2,
+                "insufficient_data": false
+              },
+              "n": 2,
+              "cost_usd": 0.25295125,
+              "time_seconds": 568.5
+            },
+            "spread": 0.29999999999999993,
+            "config_sensitive": true
+          }
+        ]
       }
     }
   },

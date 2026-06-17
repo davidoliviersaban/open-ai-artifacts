@@ -10,8 +10,41 @@ const {
   paretoFrontier,
   recommend,
   normalizeModel,
+  variantSensitivity,
   synthesizeDecision,
 } = require('./decision.js')
+
+test('variantSensitivity ranks variants within each model and reports best/worst + spread', () => {
+  const runs = [
+    { category: 'c', model: 'opus-4-8', variant: 'time-aware', criteria_score: 0.95, cost_usd: 0.5, time_seconds: 180 },
+    { category: 'c', model: 'opus-4-8', variant: 'baseline', criteria_score: 0.30, cost_usd: 0.0, time_seconds: 900 },
+    { category: 'c', model: 'opus-4-6', variant: 'time-aware', criteria_score: 0.88, cost_usd: 0.5, time_seconds: 160 },
+    { category: 'c', model: 'opus-4-6', variant: 'baseline', criteria_score: 0.85, cost_usd: 0.6, time_seconds: 200 },
+  ]
+  const sens = variantSensitivity(runs)
+
+  // opus-4-8: best time-aware (0.95), worst baseline (0.30), big spread
+  const m48 = sens.find(m => m.model === 'opus-4-8')
+  assert.equal(m48.best.variant, 'time-aware')
+  assert.equal(m48.worst.variant, 'baseline')
+  assert.ok(Math.abs(m48.spread - 0.65) < 1e-9)
+  assert.equal(m48.config_sensitive, true) // spread is large → config matters a lot
+
+  // opus-4-6: both variants close → low spread → not very config-sensitive
+  const m46 = sens.find(m => m.model === 'opus-4-6')
+  assert.ok(m46.spread < 0.1)
+  assert.equal(m46.config_sensitive, false)
+})
+
+test('variantSensitivity handles a model with a single variant (spread 0)', () => {
+  const runs = [
+    { category: 'c', model: 'opus-4-8', variant: 'only', criteria_score: 0.9, cost_usd: 0.5, time_seconds: 180 },
+  ]
+  const sens = variantSensitivity(runs)
+  assert.equal(sens[0].spread, 0)
+  assert.equal(sens[0].best.variant, 'only')
+  assert.equal(sens[0].best.variant, sens[0].worst.variant)
+})
 
 test('normalizeModel collapses provider prefixes and version suffixes to a stable label', () => {
   assert.equal(normalizeModel('us.anthropic.claude-opus-4-6-v1'), 'opus-4-6')

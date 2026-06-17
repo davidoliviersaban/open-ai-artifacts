@@ -194,6 +194,16 @@ function printDecision(decision) {
       const flag = rec.low_confidence ? '  ⚠ low confidence (single run)' : ''
       console.log(`    → ${profile.padEnd(8)}: ${rec.pick.id}${flag}`)
     }
+
+    // How much does config (variant) change each model's result here?
+    const sensitive = (data.variant_sensitivity || []).filter(m => m.variants.length > 1)
+    if (sensitive.length > 0) {
+      console.log('    config sensitivity (best variant per model):')
+      for (const m of sensitive) {
+        const tag = m.config_sensitive ? 'config-sensitive' : 'config-robust'
+        console.log(`      ${m.model.padEnd(12)} best=${m.best.variant} (${m.best.quality.toFixed(2)})  worst=${m.worst.variant} (${m.worst.quality.toFixed(2)})  Δ${m.spread.toFixed(2)} ${tag}`)
+      }
+    }
     console.log('')
   }
 }

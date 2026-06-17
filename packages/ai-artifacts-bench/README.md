@@ -59,6 +59,16 @@ deterministic — no randomness, no LLM — so the same runs always produce the 
 - **Pareto frontier:** dominated candidates (worse on quality *and* cost) are never picked.
 - **Profiles:** `quality` (highest reliable lower-bound), `cost` and `latency` (cheapest /
   fastest among candidates statistically tied on quality).
+- **Variant sensitivity:** per model, the best/worst variant and the quality spread —
+  shows how much the AI context tweaks each model's result (`config_sensitive` flag).
+
+### Hard deadline vs scored budget
+
+The hard deadline is a **safety kill switch** (default 900s, `hard_deadline_seconds` in
+`challenge.json` or `--hard-deadline`), decoupled from the scored cost. It is generous so
+legitimate work finishes, and is never told to the model — a run killed here failed.
+Time-awareness (telling the model its budget) is a separate variant axis, never silently
+folded into a model comparison.
 
 Challenges declare a `category` in `challenge.json`. An optional LLM pass may translate the
 resulting `decision` JSON into prose for non-experts, but it consumes the verdict — it
@@ -72,4 +82,4 @@ node --test 'packages/ai-artifacts-bench/**/*.test.js'
 npm run test:ai-artifacts-bench
 ```
 
-72 tests cover all modules and prove the plugin architecture works end-to-end.
+77 tests cover all modules and prove the plugin architecture works end-to-end.
