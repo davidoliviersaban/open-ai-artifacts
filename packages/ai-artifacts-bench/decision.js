@@ -128,6 +128,18 @@ function candidateId(model, variant) {
   return `${normalizeModel(model)} / ${variant || 'default'}`
 }
 
+// Collapse candidates to the single best-quality variant per model.
+// Used by the "which model" view: each model competes under its best config,
+// not once per variant. Uses the same conservative qualityRank.
+function bestVariantPerModel(candidates) {
+  const byModel = {}
+  for (const c of candidates) {
+    const m = c.model
+    if (!byModel[m] || qualityRank(c) > qualityRank(byModel[m])) byModel[m] = c
+  }
+  return Object.values(byModel)
+}
+
 // Build per-(model,variant) candidates within a set of runs.
 function buildCandidates(runs) {
   const groups = {}
@@ -203,8 +215,10 @@ function variantSensitivity(runs) {
   return result.sort((a, b) => b.best.quality - a.best.quality)
 }
 
+// cost first: the default lens is "if quality is tied, don't pay more".
 function synthesizeDecision(runs, options = {}) {
-  const profiles = options.profiles || ['quality', 'cost', 'latency']
+  const profiles = options.profiles || ['cost', 'quality', 'latency']
+  const defaultProfile = options.defaultProfile || profiles[0]
   const byCategory = {}
   for (const run of runs) {
     const category = run.category || 'uncategorized'
@@ -215,19 +229,21 @@ function synthesizeDecision(runs, options = {}) {
   const categories = {}
   for (const [category, categoryRuns] of Object.entries(byCategory)) {
     const candidates = buildCandidates(categoryRuns)
-    const recommendations = {}
+    // View A "which model": each model competes under its best variant only.
+    const modelCandidates = bestVariantPerModel(candidates)
+    const modelChoice = {}
     for (const profile of profiles) {
-      recommendations[profile] = recommend(candidates, profile)
+      modelChoice[profile] = recommend(modelCandidates, profile)
     }
     categories[category] = {
       run_count: categoryRuns.length,
       candidates,
-      recommendations,
-      variant_sensitivity: variantSensitivity(categoryRuns),
+      model_choice: modelChoice,             // View A: which model (best variant per model)
+      variant_sensitivity: variantSensitivity(categoryRuns), // View B: how to configure
     }
   }
 
-  return { profiles, categories }
+  return { profiles, default_profile: defaultProfile, categories }
 }
 
 module.exports = {
@@ -238,6 +254,7 @@ module.exports = {
   recommend,
   normalizeModel,
   buildCandidates,
+  bestVariantPerModel,
   variantSensitivity,
   synthesizeDecision,
 }

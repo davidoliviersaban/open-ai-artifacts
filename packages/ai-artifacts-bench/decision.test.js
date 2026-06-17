@@ -11,8 +11,21 @@ const {
   recommend,
   normalizeModel,
   variantSensitivity,
+  bestVariantPerModel,
   synthesizeDecision,
 } = require('./decision.js')
+
+test('bestVariantPerModel keeps each model only under its highest-quality variant', () => {
+  const candidates = [
+    { id: 'opus-4-8 / time-aware', model: 'opus-4-8', variant: 'time-aware', ci: { mean: 0.9, low: 0.85, high: 0.95, insufficient_data: false }, cost_usd: 0.5, time_seconds: 180 },
+    { id: 'opus-4-8 / baseline', model: 'opus-4-8', variant: 'baseline', ci: { mean: 0.4, low: 0.3, high: 0.5, insufficient_data: false }, cost_usd: 0.2, time_seconds: 300 },
+    { id: 'opus-4-6 / minimal', model: 'opus-4-6', variant: 'minimal', ci: { mean: 0.8, low: 0.75, high: 0.85, insufficient_data: false }, cost_usd: 0.3, time_seconds: 150 },
+  ]
+  const best = bestVariantPerModel(candidates)
+  assert.equal(best.length, 2)
+  assert.equal(best.find(c => c.model === 'opus-4-8').variant, 'time-aware')
+  assert.equal(best.find(c => c.model === 'opus-4-6').variant, 'minimal')
+})
 
 test('variantSensitivity ranks variants within each model and reports best/worst + spread', () => {
   const runs = [
@@ -210,14 +223,13 @@ test('synthesizeDecision groups runs by category and candidate, recommends per c
 
   const spec = decision.categories['spec-feature']
   assert.equal(spec.candidates.length, 2)
-  // quality profile should pick the higher-mean candidate
-  assert.ok(spec.recommendations.quality.pick)
-  // cost profile present
-  assert.ok(spec.recommendations.cost.pick)
+  // model_choice (View A) recommends per profile
+  assert.ok(spec.model_choice.quality.pick)
+  assert.ok(spec.model_choice.cost.pick)
 
   // refactor has a single-run candidate → low confidence
   const refactor = decision.categories['refactor']
-  assert.equal(refactor.recommendations.quality.low_confidence, true)
+  assert.equal(refactor.model_choice.quality.low_confidence, true)
 })
 
 test('synthesizeDecision defaults uncategorized runs to "uncategorized"', () => {

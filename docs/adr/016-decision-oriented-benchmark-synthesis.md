@@ -119,6 +119,20 @@ spread. A large spread (`config_sensitive`) means the model is not weak — it i
 mis-configured by default, and a few context tweaks unlock it. This is the project thesis
 made literal: tune the environment, don't just reach for another model.
 
+### Two canonical views (avoid the value dump)
+
+With models × variants × categories × 3 cost axes, showing everything is unreadable.
+Instead the report answers exactly two questions, each freezing all axes but one:
+
+- **View A — "Which model for this use case?"** Per category, each model competes under
+  its *best variant only* (`bestVariantPerModel`), and the winner is picked by the default
+  profile. Answers "what should I run". Other profiles are shown only when they disagree.
+- **View B — "How do I configure model X?"** Per model, the variant spread (best vs worst)
+  and `config_sensitive` flag. Answers "how to get the best out of this model".
+
+The default profile is **`cost`**: among models statistically tied on quality, recommend
+the cheapest. This encodes the thesis — if quality is equal, don't pay more.
+
 ### Output
 
 The synthesis is emitted as structured JSON (`decision` block in `report.json`) plus a

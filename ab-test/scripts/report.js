@@ -173,39 +173,43 @@ function format(template, ...args) {
 }
 
 function printDecision(decision) {
-  console.log('══ Decision: best model + config per use case ══')
-  console.log('')
-  console.log('  Quality = mean criteria pass rate (the rendered copy).')
-  console.log('  Recommendations are drawn from the Pareto frontier; ties within the')
-  console.log('  95% confidence band are broken by the profile (cost or latency).')
-  console.log('')
+  const def = decision.default_profile || 'cost'
 
+  // ── View A: which model to pick, per use case ──
+  console.log('══ View A — Which model for each use case ══')
+  console.log('')
+  console.log(`  Each model competes under its best variant. Default lens: ${def}`)
+  console.log('  (among models tied on quality within the 95% CI, the cheapest wins).')
+  console.log('')
   for (const [category, data] of Object.entries(decision.categories).sort()) {
-    console.log(`▸ ${category}  (${data.run_count} runs, ${data.candidates.length} candidates)`)
-    for (const candidate of [...data.candidates].sort((a, b) => b.ci.mean - a.ci.mean)) {
-      const ci = candidate.ci
-      const band = ci.insufficient_data
-        ? '(n=1, no CI)'
-        : `±${ci.margin.toFixed(3)} [${ci.low.toFixed(2)}–${ci.high.toFixed(2)}]`
-      console.log(`    ${candidate.id.padEnd(34)} q=${ci.mean.toFixed(3)} ${band.padEnd(22)} ${candidate.time_seconds.toFixed(0)}s  $${candidate.cost_usd.toFixed(2)}`)
+    const rec = data.model_choice[def]
+    if (!rec || !rec.pick) { console.log(`▸ ${category}: no data`); continue }
+    const flag = rec.low_confidence ? '  ⚠ low confidence (single run)' : ''
+    console.log(`▸ ${category.padEnd(22)} → ${rec.pick.id}  (q=${rec.pick.ci.mean.toFixed(2)}, ${rec.pick.time_seconds.toFixed(0)}s, $${rec.pick.cost_usd.toFixed(2)})${flag}`)
+    // show the other profiles only when they disagree with the default
+    for (const [profile, r] of Object.entries(data.model_choice)) {
+      if (profile === def || !r.pick || r.pick.id === rec.pick.id) continue
+      console.log(`    (${profile}: ${r.pick.id})`)
     }
-    for (const [profile, rec] of Object.entries(data.recommendations)) {
-      if (!rec.pick) continue
-      const flag = rec.low_confidence ? '  ⚠ low confidence (single run)' : ''
-      console.log(`    → ${profile.padEnd(8)}: ${rec.pick.id}${flag}`)
-    }
-
-    // How much does config (variant) change each model's result here?
-    const sensitive = (data.variant_sensitivity || []).filter(m => m.variants.length > 1)
-    if (sensitive.length > 0) {
-      console.log('    config sensitivity (best variant per model):')
-      for (const m of sensitive) {
-        const tag = m.config_sensitive ? 'config-sensitive' : 'config-robust'
-        console.log(`      ${m.model.padEnd(12)} best=${m.best.variant} (${m.best.quality.toFixed(2)})  worst=${m.worst.variant} (${m.worst.quality.toFixed(2)})  Δ${m.spread.toFixed(2)} ${tag}`)
-      }
-    }
-    console.log('')
   }
+  console.log('')
+
+  // ── View B: how to configure a given model ──
+  console.log('══ View B — How to configure each model ══')
+  console.log('')
+  console.log('  Quality spread between a model\'s best and worst variant.')
+  console.log('  Large spread = config-sensitive: the AI context makes or breaks it.')
+  console.log('')
+  for (const [category, data] of Object.entries(decision.categories).sort()) {
+    const sensitive = (data.variant_sensitivity || []).filter(m => m.variants.length > 1)
+    if (sensitive.length === 0) continue
+    console.log(`▸ ${category}`)
+    for (const m of sensitive.sort((a, b) => b.spread - a.spread)) {
+      const tag = m.config_sensitive ? 'config-sensitive' : 'config-robust'
+      console.log(`    ${m.model.padEnd(12)} best=${m.best.variant} (${m.best.quality.toFixed(2)})  worst=${m.worst.variant} (${m.worst.quality.toFixed(2)})  Δ${m.spread.toFixed(2)}  ${tag}`)
+    }
+  }
+  console.log('')
 }
 
 function generateReport(runs, outputDir) {

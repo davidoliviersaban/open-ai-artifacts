@@ -62,6 +62,10 @@ deterministic — no randomness, no LLM — so the same runs always produce the 
 - **Variant sensitivity:** per model, the best/worst variant and the quality spread —
   shows how much the AI context tweaks each model's result (`config_sensitive` flag).
 
+The report renders two views to avoid dumping every value: **View A** (which model per
+use case — each model under its best variant, default lens `cost`) and **View B** (how to
+configure each model — the variant spread). Default profile is `cost`.
+
 ### Hard deadline vs scored budget
 
 The hard deadline is a **safety kill switch** (default 900s, `hard_deadline_seconds` in
@@ -82,4 +86,4 @@ node --test 'packages/ai-artifacts-bench/**/*.test.js'
 npm run test:ai-artifacts-bench
 ```
 
-77 tests cover all modules and prove the plugin architecture works end-to-end.
+78 tests cover all modules and prove the plugin architecture works end-to-end.
