@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/audit-skill.js"
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/audit-skill.js\""
           }
         ]
       },
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/audit-bash-scripts.js"
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/audit-bash-scripts.js\""
           }
         ]
       },
@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/validate-on-edit.js"
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-on-edit.js\""
           }
         ]
       }
@@ -35,7 +35,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/validate-on-stop.js"
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-on-stop.js\""
           }
         ]
       }
