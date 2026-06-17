@@ -16,6 +16,7 @@
     "ai-artifacts:summary": "node packages/ai-artifacts/cli.js summary",
     "ai-artifacts:install": "node packages/ai-artifacts/install.js",
     "ai-artifacts:doctor": "node packages/ai-artifacts/install.js --doctor",
+    "prerelease": "node scripts/prerelease.js",
     "postinstall": "node -e \"const script='./packages/ai-artifacts/install.js'; if (require('node:fs').existsSync(script)) require(script).installAIArtifacts()\""
   },
   "devDependencies": {

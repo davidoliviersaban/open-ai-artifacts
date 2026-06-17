@@ -13,3 +13,4 @@ node_modules/
 .ai-artifacts/tools.audit.jsonl
 
 ab-test/runs/*/
+dist/
