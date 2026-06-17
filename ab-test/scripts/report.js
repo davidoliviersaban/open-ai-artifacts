@@ -4,10 +4,25 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { groupBy, summarizeVariant, determineWinner, criterionPassRates } = require('./lib.js')
+const { synthesizeDecision } = require('../../packages/ai-artifacts-bench/decision.js')
 
 const AB_DIR = path.resolve(__dirname, '..')
 const RUNS_DIR = path.join(AB_DIR, 'runs')
+const CHALLENGES_DIR = path.join(AB_DIR, 'challenges')
 const LEGACY_BASELINE = { id: 'legacy-unversioned', description: 'Run metadata did not include an explicit benchmark baseline.' }
+
+const categoryCache = {}
+function challengeCategory(challengeId) {
+  if (!challengeId) return 'uncategorized'
+  if (challengeId in categoryCache) return categoryCache[challengeId]
+  const file = path.join(CHALLENGES_DIR, challengeId, 'challenge.json')
+  let category = 'uncategorized'
+  try {
+    category = JSON.parse(fs.readFileSync(file, 'utf8')).category || 'uncategorized'
+  } catch { /* unknown challenge dir → uncategorized */ }
+  categoryCache[challengeId] = category
+  return category
+}
 
 function loadRuns(runsDir) {
   if (!fs.existsSync(runsDir)) return []
@@ -25,7 +40,13 @@ function loadRuns(runsDir) {
     const meta = JSON.parse(fs.readFileSync(metaFile, 'utf8'))
     const usage = fs.existsSync(usageFile) ? JSON.parse(fs.readFileSync(usageFile, 'utf8')) : {}
 
-    runs.push({ ...score, ...meta, baseline: meta.baseline || LEGACY_BASELINE, usage })
+    runs.push({
+      ...score,
+      ...meta,
+      baseline: meta.baseline || LEGACY_BASELINE,
+      usage,
+      category: challengeCategory(meta.challenge),
+    })
   }
   return runs
 }
@@ -151,6 +172,32 @@ function format(template, ...args) {
   return result
 }
 
+function printDecision(decision) {
+  console.log('══ Decision: best model + config per use case ══')
+  console.log('')
+  console.log('  Quality = mean criteria pass rate (the rendered copy).')
+  console.log('  Recommendations are drawn from the Pareto frontier; ties within the')
+  console.log('  95% confidence band are broken by the profile (cost or latency).')
+  console.log('')
+
+  for (const [category, data] of Object.entries(decision.categories).sort()) {
+    console.log(`▸ ${category}  (${data.run_count} runs, ${data.candidates.length} candidates)`)
+    for (const candidate of [...data.candidates].sort((a, b) => b.ci.mean - a.ci.mean)) {
+      const ci = candidate.ci
+      const band = ci.insufficient_data
+        ? '(n=1, no CI)'
+        : `±${ci.margin.toFixed(3)} [${ci.low.toFixed(2)}–${ci.high.toFixed(2)}]`
+      console.log(`    ${candidate.id.padEnd(34)} q=${ci.mean.toFixed(3)} ${band.padEnd(22)} ${candidate.time_seconds.toFixed(0)}s  $${candidate.cost_usd.toFixed(2)}`)
+    }
+    for (const [profile, rec] of Object.entries(data.recommendations)) {
+      if (!rec.pick) continue
+      const flag = rec.low_confidence ? '  ⚠ low confidence (single run)' : ''
+      console.log(`    → ${profile.padEnd(8)}: ${rec.pick.id}${flag}`)
+    }
+    console.log('')
+  }
+}
+
 function generateReport(runs, outputDir) {
   if (runs.length === 0) {
     console.log('No scored runs found.')
@@ -249,6 +296,9 @@ function generateReport(runs, outputDir) {
 
   console.log('')
 
+  const decision = synthesizeDecision(activeRuns)
+  printDecision(decision)
+
   if (outputDir) {
     const reportPath = path.join(outputDir, 'report.json')
     fs.writeFileSync(reportPath, JSON.stringify({
@@ -257,13 +307,14 @@ function generateReport(runs, outputDir) {
       summaries,
       winner,
       analysis,
+      decision,
       baselines: baselineReports,
       runs,
     }, null, 2))
     console.log(`Report saved to: ${reportPath}`)
   }
 
-  return { baseline, summaries, winner, analysis, baselines: baselineReports }
+  return { baseline, summaries, winner, analysis, decision, baselines: baselineReports }
 }
 
 if (require.main === module) {

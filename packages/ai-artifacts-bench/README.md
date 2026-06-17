@@ -1,4 +1,4 @@
-# @amadeus-nexwave/ai-artifacts-bench
+# @d-o.s/ai-artifacts-bench
 
 Generic benchmark engine for A/B testing AI agent configurations. Provides the pluggable runner, scorer, reporter, and adapter interfaces — project-specific logic (worktree preparation, scenario definitions) lives in the consumer.
 
@@ -43,7 +43,26 @@ The runner accepts a `config` object:
 | `batch.js` | Matrix builder + concurrent execution |
 | `score.js` | Run scoring with diff application and criteria evaluation |
 | `report.js` | Report generation with baseline grouping |
+| `decision.js` | Deterministic decision synthesis: per-use-case model+config recommendation |
 | `adapters/claude-code.js` | Claude Code CLI adapter |
+
+## Decision Synthesis
+
+`decision.js` turns per-run scores into an actionable recommendation: **for a given
+use-case category, which `(model, variant)` candidate to pick**. It is fully
+deterministic — no randomness, no LLM — so the same runs always produce the same verdict.
+
+- **Two axes, never merged:** quality (mean criteria pass rate) and cost (real time /
+  tokens / $). The blended `final_score` is not used for recommendations.
+- **Confidence:** parametric 95% CI (`mean ± 1.96·σ/√n`), no bootstrap. Single runs are
+  flagged `insufficient_data` and discounted so they can't outrank replicated candidates.
+- **Pareto frontier:** dominated candidates (worse on quality *and* cost) are never picked.
+- **Profiles:** `quality` (highest reliable lower-bound), `cost` and `latency` (cheapest /
+  fastest among candidates statistically tied on quality).
+
+Challenges declare a `category` in `challenge.json`. An optional LLM pass may translate the
+resulting `decision` JSON into prose for non-experts, but it consumes the verdict — it
+never computes it. See `docs/adr/016-decision-oriented-benchmark-synthesis.md`.
 
 ## Testing
 
@@ -53,4 +72,4 @@ node --test 'packages/ai-artifacts-bench/**/*.test.js'
 npm run test:ai-artifacts-bench
 ```
 
-53 tests cover all modules and prove the plugin architecture works end-to-end.
+72 tests cover all modules and prove the plugin architecture works end-to-end.
