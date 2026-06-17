@@ -66,20 +66,20 @@ artifacts:
         type: copy
         from: root:.github/hooks/claude/validate-on-edit.js
         to: hooks/validate-on-edit.js
-        sourceHash: sha256:3d976a2310be9c4c7daf69c3ac0f432cb8429fc7d008012e88e596c5a443df48
-        generatedHash: sha256:3d976a2310be9c4c7daf69c3ac0f432cb8429fc7d008012e88e596c5a443df48
+        sourceHash: sha256:b6442dc6d6c998842b0d169c92bada7a490c090b72c83814609e9ee8d3361348
+        generatedHash: sha256:b6442dc6d6c998842b0d169c92bada7a490c090b72c83814609e9ee8d3361348
       - index: 1
         type: copy
         from: root:.github/hooks/claude/validate-on-stop.js
         to: hooks/validate-on-stop.js
-        sourceHash: sha256:a2fd32ad324f86118df2b78974d27d5087e7b4ec83d289a4888349941adf3d07
-        generatedHash: sha256:a2fd32ad324f86118df2b78974d27d5087e7b4ec83d289a4888349941adf3d07
+        sourceHash: sha256:4598c3989de2bf1536f191068578c3c3e31cd04bc822e9ef3a04e6463ec723f1
+        generatedHash: sha256:4598c3989de2bf1536f191068578c3c3e31cd04bc822e9ef3a04e6463ec723f1
       - index: 2
         type: copy
         from: root:.github/hooks/claude/settings.json
         to: settings.json
-        sourceHash: sha256:f34eb169642289f98e14bc1edb665a0a327924d2389df8ad64537b750da97f14
-        generatedHash: sha256:f34eb169642289f98e14bc1edb665a0a327924d2389df8ad64537b750da97f14
+        sourceHash: sha256:78364ce4f0cbd87fb1a90d398c277fb6145fc85867145c642f7d397e06650e75
+        generatedHash: sha256:78364ce4f0cbd87fb1a90d398c277fb6145fc85867145c642f7d397e06650e75
   opencode-skills:
     kind: config
     target: .opencode/skills

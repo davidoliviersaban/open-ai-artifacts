@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T15:18:43.070Z",
+  "generated_at": "2026-06-17T15:47:22.673Z",
   "baseline": {
     "id": "agent-config-2026-05-28-v2",
     "created_at": "2026-05-28",
@@ -24,18 +24,18 @@
   "summaries": [
     {
       "variant": "baseline-guidance",
-      "runs": 46,
-      "avg_score": 0.6939999999999998,
-      "median_score": 0.7625,
-      "avg_criteria": 0.69445120097294,
-      "avg_tokens": 9917,
-      "median_tokens": 8561,
-      "avg_time": 639,
-      "avg_cost": 0.588618825,
-      "criteria_passed": 354,
-      "criteria_total": 515,
-      "perfect_runs": 12,
-      "tests_passed": 44
+      "runs": 51,
+      "avg_score": 0.6989411764705884,
+      "median_score": 0.764,
+      "avg_criteria": 0.7009781068604596,
+      "avg_tokens": 10112,
+      "median_tokens": 9302,
+      "avg_time": 599,
+      "avg_cost": 0.5908297617647059,
+      "criteria_passed": 400,
+      "criteria_total": 575,
+      "perfect_runs": 13,
+      "tests_passed": 49
     },
     {
       "variant": "baseline-no-docs",
@@ -69,33 +69,33 @@
     },
     {
       "variant": "minimal-guidance",
-      "runs": 45,
-      "avg_score": 0.7123333333333332,
-      "median_score": 0.784,
-      "avg_criteria": 0.7328800828800828,
-      "avg_tokens": 10655,
-      "median_tokens": 9046,
-      "avg_time": 497,
-      "avg_cost": 0.6059417933333333,
-      "criteria_passed": 373,
-      "criteria_total": 508,
-      "perfect_runs": 13,
-      "tests_passed": 43
+      "runs": 50,
+      "avg_score": 0.7217800000000001,
+      "median_score": 0.792,
+      "avg_criteria": 0.7450279720279721,
+      "avg_tokens": 10460,
+      "median_tokens": 8942,
+      "avg_time": 467,
+      "avg_cost": 0.596440698,
+      "criteria_passed": 424,
+      "criteria_total": 568,
+      "perfect_runs": 15,
+      "tests_passed": 48
     },
     {
       "variant": "time-aware-agent",
-      "runs": 48,
-      "avg_score": 0.7916249999999999,
-      "median_score": 0.8274999999999999,
-      "avg_criteria": 0.8153117715617716,
-      "avg_tokens": 8329,
-      "median_tokens": 7473,
-      "avg_time": 186,
-      "avg_cost": 0.5283652281249999,
-      "criteria_passed": 444,
-      "criteria_total": 549,
-      "perfect_runs": 17,
-      "tests_passed": 47
+      "runs": 53,
+      "avg_score": 0.7927735849056603,
+      "median_score": 0.831,
+      "avg_criteria": 0.8114483001275453,
+      "avg_tokens": 8157,
+      "median_tokens": 7433,
+      "avg_time": 181,
+      "avg_cost": 0.5133521745283017,
+      "criteria_passed": 491,
+      "criteria_total": 609,
+      "perfect_runs": 18,
+      "tests_passed": 52
     },
     {
       "variant": "unguided-agent",
@@ -115,43 +115,49 @@
   ],
   "winner": {
     "winner": "time-aware-agent",
-    "winner_score": 0.7916249999999999,
+    "winner_score": 0.7927735849056603,
     "runner_up": "minimal-guidance",
-    "runner_up_score": 0.7123333333333332,
-    "delta": 0.07929166666666676,
+    "runner_up_score": 0.7217800000000001,
+    "delta": 0.07099358490566021,
     "confident": true
   },
   "analysis": {
     "findings": [
-      "time-aware-agent leads the active baseline by average score (0.792 vs minimal-guidance at 0.712).",
-      "baseline-guidance beats unguided-agent on average by 0.030.",
-      "baseline-guidance beats unguided-agent on 2/7 challenges, loses on 5/7, and ties on 0/7.",
-      "minimal-guidance is ahead of baseline-guidance by 0.018, suggesting the full guidance may contain runtime noise for short tasks."
+      "time-aware-agent leads the active baseline by average score (0.793 vs minimal-guidance at 0.722).",
+      "baseline-guidance beats unguided-agent on average by 0.035.",
+      "baseline-guidance beats unguided-agent on 3/7 challenges, loses on 4/7, and ties on 0/7.",
+      "minimal-guidance is ahead of baseline-guidance by 0.023, suggesting the full guidance may contain runtime noise for short tasks."
     ],
     "recommendations": [
-      "Inspect the largest baseline-guidance losses first: default (-0.201), ambiguous-improvement (-0.117), story-ac (-0.108).",
+      "Inspect the largest baseline-guidance losses first: default (-0.201), story-ac (-0.108), semantic-merge-deliver (-0.060).",
       "Simplify runtime guidance by moving process-heavy or human-review instructions out of the default agent prompt, keeping only rules that directly improve task execution.",
-      "Preserve guidance patterns that helped in the strongest wins: minimal (+0.321), story-ac-with-skills (+0.311).",
+      "Preserve guidance patterns that helped in the strongest wins: story-ac-with-skills (+0.311), minimal (+0.076), ambiguous-improvement (+0.031).",
       "Rerun the same baseline with more iterations before treating the ranking as statistically stable."
     ],
     "baseline_vs_unguided": {
-      "avg_delta": 0.03036363636363626,
-      "wins": 2,
-      "losses": 5,
+      "avg_delta": 0.03530481283422482,
+      "wins": 3,
+      "losses": 4,
       "ties": 0,
       "total": 7,
       "biggest_gains": [
-        {
-          "challenge": "minimal",
-          "baseline_score": 0.771,
-          "unguided_score": 0.45,
-          "delta": 0.321
-        },
         {
           "challenge": "story-ac-with-skills",
           "baseline_score": 0.761,
           "unguided_score": 0.45,
           "delta": 0.311
+        },
+        {
+          "challenge": "minimal",
+          "baseline_score": 0.526,
+          "unguided_score": 0.45,
+          "delta": 0.07600000000000001
+        },
+        {
+          "challenge": "ambiguous-improvement",
+          "baseline_score": 0.865,
+          "unguided_score": 0.834,
+          "delta": 0.031000000000000028
         }
       ],
       "biggest_losses": [
@@ -162,16 +168,16 @@
           "delta": -0.20100000000000007
         },
         {
-          "challenge": "ambiguous-improvement",
-          "baseline_score": 0.717,
-          "unguided_score": 0.834,
-          "delta": -0.11699999999999999
-        },
-        {
           "challenge": "story-ac",
           "baseline_score": 0.775,
           "unguided_score": 0.883,
           "delta": -0.10799999999999998
+        },
+        {
+          "challenge": "semantic-merge-deliver",
+          "baseline_score": 0.872,
+          "unguided_score": 0.932,
+          "delta": -0.06000000000000005
         }
       ]
     }
@@ -185,7 +191,7 @@
     "default_profile": "cost",
     "categories": {
       "ambiguous": {
-        "run_count": 36,
+        "run_count": 39,
         "candidates": [
           {
             "id": "opus-4-6 / baseline-guidance",
@@ -240,6 +246,24 @@
             "cost_usd": 0,
             "time_seconds": 300,
             "tokens": 0
+          },
+          {
+            "id": "sonnet-4-5 / baseline-guidance",
+            "model": "sonnet-4-5",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 1,
+              "margin": 0,
+              "low": 1,
+              "high": 1,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 1,
+            "cost_usd": 0.6123039,
+            "time_seconds": 215,
+            "tokens": 11068
           },
           {
             "id": "opus-4-6 / baseline-no-docs",
@@ -404,6 +428,24 @@
             "tokens": 0
           },
           {
+            "id": "sonnet-4-5 / minimal-guidance",
+            "model": "sonnet-4-5",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 1,
+              "margin": 0,
+              "low": 1,
+              "high": 1,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 1,
+            "cost_usd": 0.63934185,
+            "time_seconds": 219,
+            "tokens": 8783
+          },
+          {
             "id": "opus-4-8 / time-aware-agent",
             "model": "opus-4-8",
             "variant": "time-aware-agent",
@@ -456,6 +498,24 @@
             "cost_usd": 0.9542986250000001,
             "time_seconds": 254,
             "tokens": 7532
+          },
+          {
+            "id": "sonnet-4-5 / time-aware-agent",
+            "model": "sonnet-4-5",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.9,
+              "margin": 0,
+              "low": 0.9,
+              "high": 0.9,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9,
+            "cost_usd": 0.41895974999999996,
+            "time_seconds": 152,
+            "tokens": 7919
           },
           {
             "id": "opus-4-6 / unguided-agent",
@@ -516,28 +576,29 @@
           "cost": {
             "profile": "cost",
             "pick": {
-              "id": "opus-4-6 / unguided-agent",
-              "model": "opus-4-6",
-              "variant": "unguided-agent",
-              "n": 3,
+              "id": "sonnet-4-5 / baseline-guidance",
+              "model": "sonnet-4-5",
+              "variant": "baseline-guidance",
+              "n": 1,
               "ci": {
-                "mean": 0.9666666666666667,
-                "margin": 0.06533333333333333,
-                "low": 0.9013333333333333,
-                "high": 1.032,
-                "n": 3,
-                "insufficient_data": false
+                "mean": 1,
+                "margin": 0,
+                "low": 1,
+                "high": 1,
+                "n": 1,
+                "insufficient_data": true
               },
-              "quality": 0.9666666666666667,
-              "cost_usd": 0.7608506666666667,
-              "time_seconds": 191,
-              "tokens": 9145
+              "quality": 1,
+              "cost_usd": 0.6123039,
+              "time_seconds": 215,
+              "tokens": 11068
             },
-            "low_confidence": false,
-            "frontier_size": 3,
+            "low_confidence": true,
+            "frontier_size": 4,
             "tied_on_quality": [
               "opus-4-6 / unguided-agent",
-              "opus-4-8 / time-aware-agent"
+              "opus-4-8 / time-aware-agent",
+              "sonnet-4-5 / baseline-guidance"
             ]
           },
           "quality": {
@@ -561,10 +622,11 @@
               "tokens": 13789
             },
             "low_confidence": false,
-            "frontier_size": 3,
+            "frontier_size": 4,
             "tied_on_quality": [
               "opus-4-6 / unguided-agent",
-              "opus-4-8 / time-aware-agent"
+              "opus-4-8 / time-aware-agent",
+              "sonnet-4-5 / baseline-guidance"
             ]
           },
           "latency": {
@@ -722,6 +784,88 @@
             },
             "spread": 0.30000000000000004,
             "config_sensitive": true
+          },
+          {
+            "model": "sonnet-4-5",
+            "variants": [
+              {
+                "variant": "baseline-guidance",
+                "quality": 1,
+                "ci": {
+                  "mean": 1,
+                  "margin": 0,
+                  "low": 1,
+                  "high": 1,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.6123039,
+                "time_seconds": 215
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 1,
+                "ci": {
+                  "mean": 1,
+                  "margin": 0,
+                  "low": 1,
+                  "high": 1,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.63934185,
+                "time_seconds": 219
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.9,
+                "ci": {
+                  "mean": 0.9,
+                  "margin": 0,
+                  "low": 0.9,
+                  "high": 0.9,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.41895974999999996,
+                "time_seconds": 152
+              }
+            ],
+            "best": {
+              "variant": "baseline-guidance",
+              "quality": 1,
+              "ci": {
+                "mean": 1,
+                "margin": 0,
+                "low": 1,
+                "high": 1,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.6123039,
+              "time_seconds": 215
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.9,
+              "ci": {
+                "mean": 0.9,
+                "margin": 0,
+                "low": 0.9,
+                "high": 0.9,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.41895974999999996,
+              "time_seconds": 152
+            },
+            "spread": 0.09999999999999998,
+            "config_sensitive": false
           },
           {
             "model": "opus-4-6",
@@ -980,7 +1124,7 @@
         ]
       },
       "refactor": {
-        "run_count": 18,
+        "run_count": 21,
         "candidates": [
           {
             "id": "opus-4-6 / baseline-guidance",
@@ -1017,6 +1161,24 @@
             "cost_usd": 0.46627312500000007,
             "time_seconds": 122.5,
             "tokens": 10266
+          },
+          {
+            "id": "sonnet-4-5 / baseline-guidance",
+            "model": "sonnet-4-5",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.45453089999999996,
+            "time_seconds": 170,
+            "tokens": 6946
           },
           {
             "id": "opus-4-6 / baseline-no-docs",
@@ -1091,6 +1253,24 @@
             "tokens": 8282
           },
           {
+            "id": "sonnet-4-5 / minimal-guidance",
+            "model": "sonnet-4-5",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.4416924,
+            "time_seconds": 173,
+            "tokens": 7099
+          },
+          {
             "id": "opus-4-8 / time-aware-agent",
             "model": "opus-4-8",
             "variant": "time-aware-agent",
@@ -1145,6 +1325,24 @@
             "tokens": 4960
           },
           {
+            "id": "sonnet-4-5 / time-aware-agent",
+            "model": "sonnet-4-5",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.5384615384615384,
+              "margin": 0,
+              "low": 0.5384615384615384,
+              "high": 0.5384615384615384,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.5384615384615384,
+            "cost_usd": 0.26847855,
+            "time_seconds": 102,
+            "tokens": 5283
+          },
+          {
             "id": "opus-4-6 / unguided-agent",
             "model": "opus-4-6",
             "variant": "unguided-agent",
@@ -1167,9 +1365,9 @@
           "cost": {
             "profile": "cost",
             "pick": {
-              "id": "opus-4-6 / unguided-agent",
-              "model": "opus-4-6",
-              "variant": "unguided-agent",
+              "id": "sonnet-4-5 / time-aware-agent",
+              "model": "sonnet-4-5",
+              "variant": "time-aware-agent",
               "n": 1,
               "ci": {
                 "mean": 0.5384615384615384,
@@ -1180,14 +1378,14 @@
                 "insufficient_data": true
               },
               "quality": 0.5384615384615384,
-              "cost_usd": 0.350992,
-              "time_seconds": 99,
-              "tokens": 4991
+              "cost_usd": 0.26847855,
+              "time_seconds": 102,
+              "tokens": 5283
             },
             "low_confidence": true,
             "frontier_size": 1,
             "tied_on_quality": [
-              "opus-4-6 / unguided-agent"
+              "sonnet-4-5 / time-aware-agent"
             ]
           },
           "quality": {
@@ -1211,9 +1409,10 @@
               "tokens": 8282
             },
             "low_confidence": false,
-            "frontier_size": 1,
+            "frontier_size": 2,
             "tied_on_quality": [
-              "opus-4-8 / minimal-guidance"
+              "opus-4-8 / minimal-guidance",
+              "sonnet-4-5 / time-aware-agent"
             ]
           },
           "latency": {
@@ -1237,9 +1436,10 @@
               "tokens": 4960
             },
             "low_confidence": false,
-            "frontier_size": 1,
+            "frontier_size": 2,
             "tied_on_quality": [
-              "opus-4-6 / time-aware-agent"
+              "opus-4-6 / time-aware-agent",
+              "sonnet-4-5 / time-aware-agent"
             ]
           }
         },
@@ -1454,6 +1654,88 @@
             "config_sensitive": false
           },
           {
+            "model": "sonnet-4-5",
+            "variants": [
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.45453089999999996,
+                "time_seconds": 170
+              },
+              {
+                "variant": "minimal-guidance",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.4416924,
+                "time_seconds": 173
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.5384615384615384,
+                "ci": {
+                  "mean": 0.5384615384615384,
+                  "margin": 0,
+                  "low": 0.5384615384615384,
+                  "high": 0.5384615384615384,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.26847855,
+                "time_seconds": 102
+              }
+            ],
+            "best": {
+              "variant": "baseline-guidance",
+              "quality": 0.5384615384615384,
+              "ci": {
+                "mean": 0.5384615384615384,
+                "margin": 0,
+                "low": 0.5384615384615384,
+                "high": 0.5384615384615384,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.45453089999999996,
+              "time_seconds": 170
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.5384615384615384,
+              "ci": {
+                "mean": 0.5384615384615384,
+                "margin": 0,
+                "low": 0.5384615384615384,
+                "high": 0.5384615384615384,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.26847855,
+              "time_seconds": 102
+            },
+            "spread": 0,
+            "config_sensitive": false
+          },
+          {
             "model": "opus-4-7",
             "variants": [
               {
@@ -1508,7 +1790,7 @@
         ]
       },
       "spec-feature": {
-        "run_count": 120,
+        "run_count": 126,
         "candidates": [
           {
             "id": "opus-4-6 / baseline-guidance",
@@ -1568,19 +1850,19 @@
             "id": "sonnet-4-5 / baseline-guidance",
             "model": "sonnet-4-5",
             "variant": "baseline-guidance",
-            "n": 1,
+            "n": 3,
             "ci": {
-              "mean": 0.5,
-              "margin": 0,
-              "low": 0.5,
-              "high": 0.5,
-              "n": 1,
-              "insufficient_data": true
+              "mean": 0.6111111111111112,
+              "margin": 0.21777777777777782,
+              "low": 0.3933333333333333,
+              "high": 0.828888888888889,
+              "n": 3,
+              "insufficient_data": false
             },
-            "quality": 0.5,
-            "cost_usd": 0.6283384500000001,
-            "time_seconds": 192,
-            "tokens": 11481
+            "quality": 0.6111111111111112,
+            "cost_usd": 0.7266132500000001,
+            "time_seconds": 266.6666666666667,
+            "tokens": 15486
           },
           {
             "id": "opus-4-6 / baseline-no-docs",
@@ -1730,19 +2012,19 @@
             "id": "sonnet-4-5 / minimal-guidance",
             "model": "sonnet-4-5",
             "variant": "minimal-guidance",
-            "n": 1,
+            "n": 3,
             "ci": {
-              "mean": 0.5,
-              "margin": 0,
-              "low": 0.5,
-              "high": 0.5,
-              "n": 1,
-              "insufficient_data": true
+              "mean": 0.7444444444444445,
+              "margin": 0.2425070700254854,
+              "low": 0.501937374418959,
+              "high": 0.9869515144699299,
+              "n": 3,
+              "insufficient_data": false
             },
-            "quality": 0.5,
-            "cost_usd": 0.7217817000000001,
-            "time_seconds": 263,
-            "tokens": 15794
+            "quality": 0.7444444444444445,
+            "cost_usd": 0.59808575,
+            "time_seconds": 229.66666666666666,
+            "tokens": 12187
           },
           {
             "id": "opus-4-7 / minimal-guidance",
@@ -1815,6 +2097,24 @@
             "cost_usd": 0.6806731450000001,
             "time_seconds": 214.4,
             "tokens": 9552
+          },
+          {
+            "id": "sonnet-4-5 / time-aware-agent",
+            "model": "sonnet-4-5",
+            "variant": "time-aware-agent",
+            "n": 2,
+            "ci": {
+              "mean": 0.75,
+              "margin": 0.48999999999999994,
+              "low": 0.26000000000000006,
+              "high": 1.24,
+              "n": 2,
+              "insufficient_data": false
+            },
+            "quality": 0.75,
+            "cost_usd": 0.41040405,
+            "time_seconds": 141.5,
+            "tokens": 6974
           },
           {
             "id": "opus-4-6 / unguided-agent",
@@ -1949,28 +2249,29 @@
           "latency": {
             "profile": "latency",
             "pick": {
-              "id": "opus-4-8 / time-aware-agent",
-              "model": "opus-4-8",
+              "id": "sonnet-4-5 / time-aware-agent",
+              "model": "sonnet-4-5",
               "variant": "time-aware-agent",
-              "n": 11,
+              "n": 2,
               "ci": {
-                "mean": 0.8856749311294766,
-                "margin": 0.13887861556644285,
-                "low": 0.7467963155630337,
-                "high": 1.0245535466959195,
-                "n": 11,
+                "mean": 0.75,
+                "margin": 0.48999999999999994,
+                "low": 0.26000000000000006,
+                "high": 1.24,
+                "n": 2,
                 "insufficient_data": false
               },
-              "quality": 0.8856749311294766,
-              "cost_usd": 0.44717361363636354,
-              "time_seconds": 191.54545454545453,
-              "tokens": 11802
+              "quality": 0.75,
+              "cost_usd": 0.41040405,
+              "time_seconds": 141.5,
+              "tokens": 6974
             },
             "low_confidence": false,
             "frontier_size": 3,
             "tied_on_quality": [
               "opus-4-6 / time-aware-agent",
-              "opus-4-8 / time-aware-agent"
+              "opus-4-8 / time-aware-agent",
+              "sonnet-4-5 / time-aware-agent"
             ]
           }
         },
@@ -2360,34 +2661,49 @@
             "model": "sonnet-4-5",
             "variants": [
               {
-                "variant": "baseline-guidance",
-                "quality": 0.5,
+                "variant": "time-aware-agent",
+                "quality": 0.75,
                 "ci": {
-                  "mean": 0.5,
-                  "margin": 0,
-                  "low": 0.5,
-                  "high": 0.5,
-                  "n": 1,
-                  "insufficient_data": true
+                  "mean": 0.75,
+                  "margin": 0.48999999999999994,
+                  "low": 0.26000000000000006,
+                  "high": 1.24,
+                  "n": 2,
+                  "insufficient_data": false
                 },
-                "n": 1,
-                "cost_usd": 0.6283384500000001,
-                "time_seconds": 192
+                "n": 2,
+                "cost_usd": 0.41040405,
+                "time_seconds": 141.5
               },
               {
                 "variant": "minimal-guidance",
-                "quality": 0.5,
+                "quality": 0.7444444444444445,
                 "ci": {
-                  "mean": 0.5,
-                  "margin": 0,
-                  "low": 0.5,
-                  "high": 0.5,
-                  "n": 1,
-                  "insufficient_data": true
+                  "mean": 0.7444444444444445,
+                  "margin": 0.2425070700254854,
+                  "low": 0.501937374418959,
+                  "high": 0.9869515144699299,
+                  "n": 3,
+                  "insufficient_data": false
                 },
-                "n": 1,
-                "cost_usd": 0.7217817000000001,
-                "time_seconds": 263
+                "n": 3,
+                "cost_usd": 0.59808575,
+                "time_seconds": 229.66666666666666
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.6111111111111112,
+                "ci": {
+                  "mean": 0.6111111111111112,
+                  "margin": 0.21777777777777782,
+                  "low": 0.3933333333333333,
+                  "high": 0.828888888888889,
+                  "n": 3,
+                  "insufficient_data": false
+                },
+                "n": 3,
+                "cost_usd": 0.7266132500000001,
+                "time_seconds": 266.6666666666667
               },
               {
                 "variant": "unguided-agent",
@@ -2406,19 +2722,19 @@
               }
             ],
             "best": {
-              "variant": "baseline-guidance",
-              "quality": 0.5,
+              "variant": "time-aware-agent",
+              "quality": 0.75,
               "ci": {
-                "mean": 0.5,
-                "margin": 0,
-                "low": 0.5,
-                "high": 0.5,
-                "n": 1,
-                "insufficient_data": true
+                "mean": 0.75,
+                "margin": 0.48999999999999994,
+                "low": 0.26000000000000006,
+                "high": 1.24,
+                "n": 2,
+                "insufficient_data": false
               },
-              "n": 1,
-              "cost_usd": 0.6283384500000001,
-              "time_seconds": 192
+              "n": 2,
+              "cost_usd": 0.41040405,
+              "time_seconds": 141.5
             },
             "worst": {
               "variant": "unguided-agent",
@@ -2435,13 +2751,13 @@
               "cost_usd": 0.5481582,
               "time_seconds": 179
             },
-            "spread": 0,
-            "config_sensitive": false
+            "spread": 0.25,
+            "config_sensitive": true
           }
         ]
       },
       "delivery": {
-        "run_count": 32,
+        "run_count": 35,
         "candidates": [
           {
             "id": "opus-4-6 / baseline-guidance",
@@ -2496,6 +2812,24 @@
             "cost_usd": 0.8389635000000003,
             "time_seconds": 176,
             "tokens": 7819
+          },
+          {
+            "id": "sonnet-4-5 / baseline-guidance",
+            "model": "sonnet-4-5",
+            "variant": "baseline-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.4375157999999999,
+            "time_seconds": 151,
+            "tokens": 6516
           },
           {
             "id": "opus-4-6 / baseline-no-docs",
@@ -2660,6 +2994,24 @@
             "tokens": 10179
           },
           {
+            "id": "sonnet-4-5 / minimal-guidance",
+            "model": "sonnet-4-5",
+            "variant": "minimal-guidance",
+            "n": 1,
+            "ci": {
+              "mean": 1,
+              "margin": 0,
+              "low": 1,
+              "high": 1,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 1,
+            "cost_usd": 0.40114440000000007,
+            "time_seconds": 140,
+            "tokens": 6845
+          },
+          {
             "id": "opus-4-8 / time-aware-agent",
             "model": "opus-4-8",
             "variant": "time-aware-agent",
@@ -2712,6 +3064,24 @@
             "cost_usd": 0.5929519166666667,
             "time_seconds": 87.33333333333333,
             "tokens": 7349
+          },
+          {
+            "id": "sonnet-4-5 / time-aware-agent",
+            "model": "sonnet-4-5",
+            "variant": "time-aware-agent",
+            "n": 1,
+            "ci": {
+              "mean": 0.9333333333333333,
+              "margin": 0,
+              "low": 0.9333333333333333,
+              "high": 0.9333333333333333,
+              "n": 1,
+              "insufficient_data": true
+            },
+            "quality": 0.9333333333333333,
+            "cost_usd": 0.3378879000000001,
+            "time_seconds": 115,
+            "tokens": 5360
           },
           {
             "id": "opus-4-6 / unguided-agent",
@@ -2772,10 +3142,11 @@
               "tokens": 2275
             },
             "low_confidence": false,
-            "frontier_size": 2,
+            "frontier_size": 3,
             "tied_on_quality": [
               "opus-4-6 / unguided-agent",
-              "opus-4-8 / time-aware-agent"
+              "opus-4-8 / time-aware-agent",
+              "sonnet-4-5 / minimal-guidance"
             ]
           },
           "quality": {
@@ -2801,7 +3172,6 @@
             "low_confidence": false,
             "frontier_size": 2,
             "tied_on_quality": [
-              "opus-4-6 / time-aware-agent",
               "opus-4-8 / minimal-guidance"
             ]
           },
@@ -2834,6 +3204,88 @@
           }
         },
         "variant_sensitivity": [
+          {
+            "model": "sonnet-4-5",
+            "variants": [
+              {
+                "variant": "minimal-guidance",
+                "quality": 1,
+                "ci": {
+                  "mean": 1,
+                  "margin": 0,
+                  "low": 1,
+                  "high": 1,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.40114440000000007,
+                "time_seconds": 140
+              },
+              {
+                "variant": "baseline-guidance",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.4375157999999999,
+                "time_seconds": 151
+              },
+              {
+                "variant": "time-aware-agent",
+                "quality": 0.9333333333333333,
+                "ci": {
+                  "mean": 0.9333333333333333,
+                  "margin": 0,
+                  "low": 0.9333333333333333,
+                  "high": 0.9333333333333333,
+                  "n": 1,
+                  "insufficient_data": true
+                },
+                "n": 1,
+                "cost_usd": 0.3378879000000001,
+                "time_seconds": 115
+              }
+            ],
+            "best": {
+              "variant": "minimal-guidance",
+              "quality": 1,
+              "ci": {
+                "mean": 1,
+                "margin": 0,
+                "low": 1,
+                "high": 1,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.40114440000000007,
+              "time_seconds": 140
+            },
+            "worst": {
+              "variant": "time-aware-agent",
+              "quality": 0.9333333333333333,
+              "ci": {
+                "mean": 0.9333333333333333,
+                "margin": 0,
+                "low": 0.9333333333333333,
+                "high": 0.9333333333333333,
+                "n": 1,
+                "insufficient_data": true
+              },
+              "n": 1,
+              "cost_usd": 0.3378879000000001,
+              "time_seconds": 115
+            },
+            "spread": 0.06666666666666665,
+            "config_sensitive": false
+          },
           {
             "model": "opus-4-8",
             "variants": [
@@ -3227,7 +3679,7 @@
           "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
         ]
       },
-      "run_count": 206,
+      "run_count": 221,
       "variants": [
         "baseline-guidance",
         "baseline-no-docs",
@@ -3239,18 +3691,18 @@
       "summaries": [
         {
           "variant": "baseline-guidance",
-          "runs": 46,
-          "avg_score": 0.6939999999999998,
-          "median_score": 0.7625,
-          "avg_criteria": 0.69445120097294,
-          "avg_tokens": 9917,
-          "median_tokens": 8561,
-          "avg_time": 639,
-          "avg_cost": 0.588618825,
-          "criteria_passed": 354,
-          "criteria_total": 515,
-          "perfect_runs": 12,
-          "tests_passed": 44
+          "runs": 51,
+          "avg_score": 0.6989411764705884,
+          "median_score": 0.764,
+          "avg_criteria": 0.7009781068604596,
+          "avg_tokens": 10112,
+          "median_tokens": 9302,
+          "avg_time": 599,
+          "avg_cost": 0.5908297617647059,
+          "criteria_passed": 400,
+          "criteria_total": 575,
+          "perfect_runs": 13,
+          "tests_passed": 49
         },
         {
           "variant": "baseline-no-docs",
@@ -3284,33 +3736,33 @@
         },
         {
           "variant": "minimal-guidance",
-          "runs": 45,
-          "avg_score": 0.7123333333333332,
-          "median_score": 0.784,
-          "avg_criteria": 0.7328800828800828,
-          "avg_tokens": 10655,
-          "median_tokens": 9046,
-          "avg_time": 497,
-          "avg_cost": 0.6059417933333333,
-          "criteria_passed": 373,
-          "criteria_total": 508,
-          "perfect_runs": 13,
-          "tests_passed": 43
+          "runs": 50,
+          "avg_score": 0.7217800000000001,
+          "median_score": 0.792,
+          "avg_criteria": 0.7450279720279721,
+          "avg_tokens": 10460,
+          "median_tokens": 8942,
+          "avg_time": 467,
+          "avg_cost": 0.596440698,
+          "criteria_passed": 424,
+          "criteria_total": 568,
+          "perfect_runs": 15,
+          "tests_passed": 48
         },
         {
           "variant": "time-aware-agent",
-          "runs": 48,
-          "avg_score": 0.7916249999999999,
-          "median_score": 0.8274999999999999,
-          "avg_criteria": 0.8153117715617716,
-          "avg_tokens": 8329,
-          "median_tokens": 7473,
-          "avg_time": 186,
-          "avg_cost": 0.5283652281249999,
-          "criteria_passed": 444,
-          "criteria_total": 549,
-          "perfect_runs": 17,
-          "tests_passed": 47
+          "runs": 53,
+          "avg_score": 0.7927735849056603,
+          "median_score": 0.831,
+          "avg_criteria": 0.8114483001275453,
+          "avg_tokens": 8157,
+          "median_tokens": 7433,
+          "avg_time": 181,
+          "avg_cost": 0.5133521745283017,
+          "criteria_passed": 491,
+          "criteria_total": 609,
+          "perfect_runs": 18,
+          "tests_passed": 52
         },
         {
           "variant": "unguided-agent",
@@ -3330,10 +3782,10 @@
       ],
       "winner": {
         "winner": "time-aware-agent",
-        "winner_score": 0.7916249999999999,
+        "winner_score": 0.7927735849056603,
         "runner_up": "minimal-guidance",
-        "runner_up_score": 0.7123333333333332,
-        "delta": 0.07929166666666676,
+        "runner_up_score": 0.7217800000000001,
+        "delta": 0.07099358490566021,
         "confident": true
       }
     }
@@ -4117,6 +4569,105 @@
       "category": "ambiguous"
     },
     {
+      "run_id": "baseline-guidance_ambiguous-improvement_20260617153928_iter1",
+      "variant": "baseline-guidance",
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "criteria_score": 1,
+      "efficiency_score": 0.5494333333333333,
+      "code_quality_score": 1,
+      "final_score": 0.865,
+      "tokens_used": 11068,
+      "cost_usd": 0.6123039,
+      "time_seconds": 215,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": true
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:39:28.627Z",
+      "worktree": "/tmp/ab-test-baseline-guidance_ambiguous-improvement_20260617153928_iter1",
+      "branch": "feat/ab-test-baseline-guidance_ambiguous-improvement_20260617153928_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:43:04.278Z",
+      "elapsed_seconds": 215,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 514,
+        "output_tokens": 10554,
+        "cache_read_tokens": 907148,
+        "cache_write_tokens": 48082,
+        "total_tokens": 11068,
+        "cost_usd": 0.6123039,
+        "num_turns": 36,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 215
+      },
+      "category": "ambiguous"
+    },
+    {
       "run_id": "baseline-guidance_cross-file-refactor_20260528143215_iter1",
       "variant": "baseline-guidance",
       "criteria_passed": 7,
@@ -4556,6 +5107,117 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 130
+      },
+      "category": "refactor"
+    },
+    {
+      "run_id": "baseline-guidance_cross-file-refactor_20260617154254_iter1",
+      "variant": "baseline-guidance",
+      "criteria_passed": 7,
+      "criteria_total": 13,
+      "criteria_score": 0.5384615384615384,
+      "efficiency_score": 0.6587833333333333,
+      "code_quality_score": 1,
+      "final_score": 0.667,
+      "tokens_used": 6946,
+      "cost_usd": 0.45453089999999996,
+      "time_seconds": 170,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": false
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": false
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:42:55.029Z",
+      "worktree": "/tmp/ab-test-baseline-guidance_cross-file-refactor_20260617154254_iter1",
+      "branch": "feat/ab-test-baseline-guidance_cross-file-refactor_20260617154254_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:45:44.999Z",
+      "elapsed_seconds": 170,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 873,
+        "output_tokens": 6073,
+        "cache_read_tokens": 768298,
+        "cache_write_tokens": 34754,
+        "total_tokens": 6946,
+        "cost_usd": 0.45453089999999996,
+        "num_turns": 23,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 170
       },
       "category": "refactor"
     },
@@ -5627,6 +6289,105 @@
       "category": "spec-feature"
     },
     {
+      "run_id": "baseline-guidance_minimal_20260617152956_iter1",
+      "variant": "baseline-guidance",
+      "criteria_passed": 5,
+      "criteria_total": 10,
+      "criteria_score": 0.5,
+      "efficiency_score": 0.25258,
+      "code_quality_score": 1,
+      "final_score": 0.526,
+      "tokens_used": 24742,
+      "cost_usd": 1.0107654000000001,
+      "time_seconds": 420,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "parses_literal_basic",
+          "pass": false
+        },
+        {
+          "id": "parses_folded_basic",
+          "pass": false
+        },
+        {
+          "id": "folded_preserves_paragraphs",
+          "pass": false
+        },
+        {
+          "id": "literal_multikey",
+          "pass": true
+        },
+        {
+          "id": "literal_in_sequence",
+          "pass": false
+        },
+        {
+          "id": "preserves_extra_indent",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        }
+      ],
+      "challenge": "minimal",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:29:56.674Z",
+      "worktree": "/tmp/ab-test-baseline-guidance_minimal_20260617152956_iter1",
+      "branch": "feat/ab-test-baseline-guidance_minimal_20260617152956_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:36:56.787Z",
+      "elapsed_seconds": 420,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 554,
+        "output_tokens": 24188,
+        "cache_read_tokens": 948753,
+        "cache_write_tokens": 96442,
+        "total_tokens": 24742,
+        "cost_usd": 1.0107654000000001,
+        "num_turns": 24,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 420
+      },
+      "category": "spec-feature"
+    },
+    {
       "run_id": "baseline-guidance_original_20260529013432_iter1",
       "variant": "baseline-guidance",
       "criteria_passed": 1,
@@ -6638,6 +7399,125 @@
       "category": "delivery"
     },
     {
+      "run_id": "baseline-guidance_semantic-merge-deliver_20260617153656_iter1",
+      "variant": "baseline-guidance",
+      "criteria_passed": 14,
+      "criteria_total": 15,
+      "criteria_score": 0.9333333333333333,
+      "efficiency_score": 0.6831733333333334,
+      "code_quality_score": 1,
+      "final_score": 0.872,
+      "tokens_used": 6516,
+      "cost_usd": 0.4375157999999999,
+      "time_seconds": 151,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:36:57.191Z",
+      "worktree": "/tmp/ab-test-baseline-guidance_semantic-merge-deliver_20260617153656_iter1",
+      "branch": "feat/ab-test-baseline-guidance_semantic-merge-deliver_20260617153656_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:39:28.217Z",
+      "elapsed_seconds": 151,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 920,
+        "output_tokens": 5596,
+        "cache_read_tokens": 739161,
+        "cache_write_tokens": 34418,
+        "total_tokens": 6516,
+        "cost_usd": 0.4375157999999999,
+        "num_turns": 26,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 151
+      },
+      "category": "delivery"
+    },
+    {
       "run_id": "baseline-guidance_semantic-merge-no-doc_20260529052041_iter1",
       "variant": "baseline-guidance",
       "criteria_passed": 2,
@@ -7155,6 +8035,113 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 125
+      },
+      "category": "spec-feature"
+    },
+    {
+      "run_id": "baseline-guidance_semantic-merge_20260617153450_iter1",
+      "variant": "baseline-guidance",
+      "criteria_passed": 10,
+      "criteria_total": 12,
+      "criteria_score": 0.8333333333333334,
+      "efficiency_score": 0.5843066666666666,
+      "code_quality_score": 1,
+      "final_score": 0.792,
+      "tokens_used": 10236,
+      "cost_usd": 0.5407359,
+      "time_seconds": 188,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "docs_mention_purpose",
+          "pass": false
+        }
+      ],
+      "challenge": "semantic-merge",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:34:51.258Z",
+      "worktree": "/tmp/ab-test-baseline-guidance_semantic-merge_20260617153450_iter1",
+      "branch": "feat/ab-test-baseline-guidance_semantic-merge_20260617153450_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:37:59.911Z",
+      "elapsed_seconds": 188,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 828,
+        "output_tokens": 9408,
+        "cache_read_tokens": 740323,
+        "cache_write_tokens": 46676,
+        "total_tokens": 10236,
+        "cost_usd": 0.5407359,
+        "num_turns": 20,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 188
       },
       "category": "spec-feature"
     },
@@ -13283,6 +14270,105 @@
       "category": "ambiguous"
     },
     {
+      "run_id": "minimal-guidance_ambiguous-improvement_20260617153914_iter1",
+      "variant": "minimal-guidance",
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "criteria_score": 1,
+      "efficiency_score": 0.5618083333333334,
+      "code_quality_score": 1,
+      "final_score": 0.869,
+      "tokens_used": 8783,
+      "cost_usd": 0.63934185,
+      "time_seconds": 219,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": true
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:39:15.024Z",
+      "worktree": "/tmp/ab-test-minimal-guidance_ambiguous-improvement_20260617153914_iter1",
+      "branch": "feat/ab-test-minimal-guidance_ambiguous-improvement_20260617153914_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:42:54.605Z",
+      "elapsed_seconds": 219,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 494,
+        "output_tokens": 8289,
+        "cache_read_tokens": 1123987,
+        "cache_write_tokens": 47021,
+        "total_tokens": 8783,
+        "cost_usd": 0.63934185,
+        "num_turns": 34,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 219
+      },
+      "category": "ambiguous"
+    },
+    {
       "run_id": "minimal-guidance_cross-file-refactor_20260528143850_iter1",
       "variant": "minimal-guidance",
       "criteria_passed": 7,
@@ -13722,6 +14808,117 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 129
+      },
+      "category": "refactor"
+    },
+    {
+      "run_id": "minimal-guidance_cross-file-refactor_20260617154228_iter1",
+      "variant": "minimal-guidance",
+      "criteria_passed": 7,
+      "criteria_total": 13,
+      "criteria_score": 0.5384615384615384,
+      "efficiency_score": 0.6525083333333334,
+      "code_quality_score": 1,
+      "final_score": 0.665,
+      "tokens_used": 7099,
+      "cost_usd": 0.4416924,
+      "time_seconds": 173,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": false
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": false
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:42:28.661Z",
+      "worktree": "/tmp/ab-test-minimal-guidance_cross-file-refactor_20260617154228_iter1",
+      "branch": "feat/ab-test-minimal-guidance_cross-file-refactor_20260617154228_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:45:21.560Z",
+      "elapsed_seconds": 173,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 861,
+        "output_tokens": 6238,
+        "cache_read_tokens": 753348,
+        "cache_write_tokens": 31876,
+        "total_tokens": 7099,
+        "cost_usd": 0.4416924,
+        "num_turns": 26,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 173
       },
       "category": "refactor"
     },
@@ -14695,6 +15892,105 @@
       "category": "spec-feature"
     },
     {
+      "run_id": "minimal-guidance_minimal_20260617152956_iter1",
+      "variant": "minimal-guidance",
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "criteria_score": 0.9,
+      "efficiency_score": 0.35973,
+      "code_quality_score": 1,
+      "final_score": 0.758,
+      "tokens_used": 15027,
+      "cost_usd": 0.7506880499999998,
+      "time_seconds": 294,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "parses_literal_basic",
+          "pass": true
+        },
+        {
+          "id": "parses_folded_basic",
+          "pass": true
+        },
+        {
+          "id": "folded_preserves_paragraphs",
+          "pass": true
+        },
+        {
+          "id": "literal_multikey",
+          "pass": true
+        },
+        {
+          "id": "literal_in_sequence",
+          "pass": false
+        },
+        {
+          "id": "preserves_extra_indent",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        }
+      ],
+      "challenge": "minimal",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:29:56.679Z",
+      "worktree": "/tmp/ab-test-minimal-guidance_minimal_20260617152956_iter1",
+      "branch": "feat/ab-test-minimal-guidance_minimal_20260617152956_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:34:50.729Z",
+      "elapsed_seconds": 294,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 561,
+        "output_tokens": 14466,
+        "cache_read_tokens": 930021,
+        "cache_write_tokens": 67469,
+        "total_tokens": 15027,
+        "cost_usd": 0.7506880499999998,
+        "num_turns": 28,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 294
+      },
+      "category": "spec-feature"
+    },
+    {
       "run_id": "minimal-guidance_original_20260617131123_iter1",
       "variant": "minimal-guidance",
       "criteria_passed": 10,
@@ -15618,6 +16914,125 @@
       "category": "delivery"
     },
     {
+      "run_id": "minimal-guidance_semantic-merge-deliver_20260617153654_iter1",
+      "variant": "minimal-guidance",
+      "criteria_passed": 15,
+      "criteria_total": 15,
+      "criteria_score": 1,
+      "efficiency_score": 0.6982166666666667,
+      "code_quality_score": 1,
+      "final_score": 0.909,
+      "tokens_used": 6845,
+      "cost_usd": 0.40114440000000007,
+      "time_seconds": 140,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:36:54.615Z",
+      "worktree": "/tmp/ab-test-minimal-guidance_semantic-merge-deliver_20260617153654_iter1",
+      "branch": "feat/ab-test-minimal-guidance_semantic-merge-deliver_20260617153654_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:39:14.531Z",
+      "elapsed_seconds": 140,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 938,
+        "output_tokens": 5907,
+        "cache_read_tokens": 670493,
+        "cache_write_tokens": 28954,
+        "total_tokens": 6845,
+        "cost_usd": 0.40114440000000007,
+        "num_turns": 30,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 140
+      },
+      "category": "delivery"
+    },
+    {
       "run_id": "minimal-guidance_semantic-merge-no-doc_20260617131404_iter1",
       "variant": "minimal-guidance",
       "criteria_passed": 10,
@@ -16246,6 +17661,113 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 157
+      },
+      "category": "spec-feature"
+    },
+    {
+      "run_id": "minimal-guidance_semantic-merge_20260617153246_iter1",
+      "variant": "minimal-guidance",
+      "criteria_passed": 10,
+      "criteria_total": 12,
+      "criteria_score": 0.8333333333333334,
+      "efficiency_score": 0.7226,
+      "code_quality_score": 1,
+      "final_score": 0.833,
+      "tokens_used": 5740,
+      "cost_usd": 0.3217875,
+      "time_seconds": 132,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "docs_mention_purpose",
+          "pass": false
+        }
+      ],
+      "challenge": "semantic-merge",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:32:47.376Z",
+      "worktree": "/tmp/ab-test-minimal-guidance_semantic-merge_20260617153246_iter1",
+      "branch": "feat/ab-test-minimal-guidance_semantic-merge_20260617153246_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:34:59.300Z",
+      "elapsed_seconds": 132,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 837,
+        "output_tokens": 4903,
+        "cache_read_tokens": 469980,
+        "cache_write_tokens": 27930,
+        "total_tokens": 5740,
+        "cost_usd": 0.3217875,
+        "num_turns": 19,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 132
       },
       "category": "spec-feature"
     },
@@ -17602,6 +19124,105 @@
       "category": "ambiguous"
     },
     {
+      "run_id": "time-aware-agent_ambiguous-improvement_20260617153955_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "criteria_score": 0.9,
+      "efficiency_score": 0.6806749999999999,
+      "code_quality_score": 1,
+      "final_score": 0.854,
+      "tokens_used": 7919,
+      "cost_usd": 0.41895974999999996,
+      "time_seconds": 152,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "doctor_still_works",
+          "pass": true
+        },
+        {
+          "id": "printDoctor_still_exported",
+          "pass": true
+        },
+        {
+          "id": "doctor_modified",
+          "pass": true
+        },
+        {
+          "id": "output_improved",
+          "pass": true
+        },
+        {
+          "id": "actionable_output",
+          "pass": false
+        },
+        {
+          "id": "has_new_tests",
+          "pass": true
+        },
+        {
+          "id": "multiple_files_changed",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        }
+      ],
+      "challenge": "ambiguous-improvement",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:39:56.292Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_ambiguous-improvement_20260617153955_iter1",
+      "branch": "feat/ab-test-time-aware-agent_ambiguous-improvement_20260617153955_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:42:28.187Z",
+      "elapsed_seconds": 152,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 494,
+        "output_tokens": 7425,
+        "cache_read_tokens": 634980,
+        "cache_write_tokens": 30829,
+        "total_tokens": 7919,
+        "cost_usd": 0.41895974999999996,
+        "num_turns": 28,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 152
+      },
+      "category": "ambiguous"
+    },
+    {
       "run_id": "time-aware-agent_cross-file-refactor_20260617104315_iter1",
       "variant": "time-aware-agent",
       "criteria_passed": 5,
@@ -18374,6 +19995,117 @@
       "category": "refactor"
     },
     {
+      "run_id": "time-aware-agent_cross-file-refactor_20260617154304_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 7,
+      "criteria_total": 13,
+      "criteria_score": 0.5384615384615384,
+      "efficiency_score": 0.785975,
+      "code_quality_score": 1,
+      "final_score": 0.705,
+      "tokens_used": 5283,
+      "cost_usd": 0.26847855,
+      "time_seconds": 102,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "writeAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "writeSkillAuditEntry_exported",
+          "pass": false
+        },
+        {
+          "id": "existing_exports_preserved",
+          "pass": true
+        },
+        {
+          "id": "skill_audit_entry_format",
+          "pass": false
+        },
+        {
+          "id": "refactored_no_duplication",
+          "pass": false
+        },
+        {
+          "id": "backward_compat_script_entry",
+          "pass": true
+        },
+        {
+          "id": "doctor_audit_check",
+          "pass": false
+        },
+        {
+          "id": "doctor_audit_warn_not_fail",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "new_tests_exist",
+          "pass": true
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "cross-file-refactor",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:43:04.808Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_cross-file-refactor_20260617154304_iter1",
+      "branch": "feat/ab-test-time-aware-agent_cross-file-refactor_20260617154304_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:44:47.382Z",
+      "elapsed_seconds": 102,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 857,
+        "output_tokens": 4426,
+        "cache_read_tokens": 358146,
+        "cache_write_tokens": 24553,
+        "total_tokens": 5283,
+        "cost_usd": 0.26847855,
+        "num_turns": 14,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 102
+      },
+      "category": "refactor"
+    },
+    {
       "run_id": "time-aware-agent_default_20260617101425_iter1",
       "variant": "time-aware-agent",
       "criteria_passed": 10,
@@ -19141,6 +20873,105 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 745
+      },
+      "category": "spec-feature"
+    },
+    {
+      "run_id": "time-aware-agent_minimal_20260617152956_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 5,
+      "criteria_total": 10,
+      "criteria_score": 0.5,
+      "efficiency_score": 0.6333433333333334,
+      "code_quality_score": 1,
+      "final_score": 0.64,
+      "tokens_used": 8499,
+      "cost_usd": 0.49568535,
+      "time_seconds": 169,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "parses_literal_basic",
+          "pass": false
+        },
+        {
+          "id": "parses_folded_basic",
+          "pass": false
+        },
+        {
+          "id": "folded_preserves_paragraphs",
+          "pass": false
+        },
+        {
+          "id": "literal_multikey",
+          "pass": true
+        },
+        {
+          "id": "literal_in_sequence",
+          "pass": false
+        },
+        {
+          "id": "preserves_extra_indent",
+          "pass": false
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        }
+      ],
+      "challenge": "minimal",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:29:56.676Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_minimal_20260617152956_iter1",
+      "branch": "feat/ab-test-time-aware-agent_minimal_20260617152956_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:32:46.380Z",
+      "elapsed_seconds": 169,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 532,
+        "output_tokens": 7967,
+        "cache_read_tokens": 642202,
+        "cache_write_tokens": 48513,
+        "total_tokens": 8499,
+        "cost_usd": 0.49568535,
+        "num_turns": 22,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 169
       },
       "category": "spec-feature"
     },
@@ -20262,6 +22093,125 @@
       "category": "delivery"
     },
     {
+      "run_id": "time-aware-agent_semantic-merge-deliver_20260617153800_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 14,
+      "criteria_total": 15,
+      "criteria_score": 0.9333333333333333,
+      "efficiency_score": 0.7547333333333334,
+      "code_quality_score": 1,
+      "final_score": 0.893,
+      "tokens_used": 5360,
+      "cost_usd": 0.3378879000000001,
+      "time_seconds": 115,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": false
+        },
+        {
+          "id": "committed_on_branch",
+          "pass": true
+        },
+        {
+          "id": "commit_message_conventional",
+          "pass": true
+        },
+        {
+          "id": "commit_message_not_trivial",
+          "pass": true
+        },
+        {
+          "id": "no_untracked_source_files",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge-deliver",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:38:00.476Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_semantic-merge-deliver_20260617153800_iter1",
+      "branch": "feat/ab-test-time-aware-agent_semantic-merge-deliver_20260617153800_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:39:55.821Z",
+      "elapsed_seconds": 115,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 924,
+        "output_tokens": 4436,
+        "cache_read_tokens": 588953,
+        "cache_write_tokens": 24504,
+        "total_tokens": 5360,
+        "cost_usd": 0.3378879000000001,
+        "num_turns": 21,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 115
+      },
+      "category": "delivery"
+    },
+    {
       "run_id": "time-aware-agent_semantic-merge-no-doc_20260617102039_iter1",
       "variant": "time-aware-agent",
       "criteria_passed": 10,
@@ -21096,6 +23046,113 @@
         "exit_type": "success",
         "model": "us.anthropic.claude-opus-4-6-v1",
         "elapsed_seconds": 87
+      },
+      "category": "spec-feature"
+    },
+    {
+      "run_id": "time-aware-agent_semantic-merge_20260617153459_iter1",
+      "variant": "time-aware-agent",
+      "criteria_passed": 12,
+      "criteria_total": 12,
+      "criteria_score": 1,
+      "efficiency_score": 0.75552,
+      "code_quality_score": 1,
+      "final_score": 0.927,
+      "tokens_used": 5448,
+      "cost_usd": 0.32512274999999996,
+      "time_seconds": 114,
+      "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "criteria_results": [
+        {
+          "id": "function_exported",
+          "pass": true
+        },
+        {
+          "id": "top_level_override",
+          "pass": true
+        },
+        {
+          "id": "array_concat_dedup",
+          "pass": true
+        },
+        {
+          "id": "nested_recursive",
+          "pass": true
+        },
+        {
+          "id": "null_deletes",
+          "pass": true
+        },
+        {
+          "id": "no_mutation",
+          "pass": true
+        },
+        {
+          "id": "existing_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "test_file_exists",
+          "pass": true
+        },
+        {
+          "id": "agent_tests_pass",
+          "pass": true
+        },
+        {
+          "id": "no_external_deps",
+          "pass": true
+        },
+        {
+          "id": "docs_updated",
+          "pass": true
+        },
+        {
+          "id": "docs_mention_purpose",
+          "pass": true
+        }
+      ],
+      "challenge": "semantic-merge",
+      "iteration": 1,
+      "baseline": {
+        "id": "agent-config-2026-05-28-v2",
+        "created_at": "2026-05-28",
+        "description": "Focused Opus-only agent-configuration benchmark baseline for the variants that remain useful after exploratory runs.",
+        "models": [
+          "opus"
+        ],
+        "variants": [
+          "baseline-guidance",
+          "baseline-no-docs",
+          "baseline-no-skills",
+          "unguided-agent",
+          "minimal-guidance"
+        ],
+        "notes": [
+          "Only compare runs that share the same baseline id.",
+          "Historical runs without baseline metadata are treated as legacy-unversioned and kept for audit only.",
+          "The baseline keeps inherited production guidance with non-operational content trimmed, plus controls for no repository documentation, no skills, no guidance, and minimal guidance.",
+          "OpenCode runs are intentionally excluded from this baseline until sequential isolated execution is reliable."
+        ]
+      },
+      "started_at": "2026-06-17T15:34:59.720Z",
+      "worktree": "/tmp/ab-test-time-aware-agent_semantic-merge_20260617153459_iter1",
+      "branch": "feat/ab-test-time-aware-agent_semantic-merge_20260617153459_iter1",
+      "hard_deadline_seconds": 900,
+      "completed_at": "2026-06-17T15:36:54.133Z",
+      "elapsed_seconds": 114,
+      "exit_code": 0,
+      "usage": {
+        "input_tokens": 830,
+        "output_tokens": 4618,
+        "cache_read_tokens": 481530,
+        "cache_write_tokens": 29041,
+        "total_tokens": 5448,
+        "cost_usd": 0.32512274999999996,
+        "num_turns": 19,
+        "exit_type": "success",
+        "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "elapsed_seconds": 114
       },
       "category": "spec-feature"
     },

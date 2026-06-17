@@ -1,6 +1,6 @@
 {
   "name": "@d-o.s/ai-artifacts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Dependency management for AI prompts, skills, instructions and agentic workflow artifacts.",
   "license": "Apache-2.0",
   "repository": {
