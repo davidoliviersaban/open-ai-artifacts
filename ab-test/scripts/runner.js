@@ -29,9 +29,9 @@ function makeConfig(abDir, repoRoot) {
   }
 }
 
-function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelOverride, budget }) {
+function executeRun({ abDir, repoRoot, variantId, challengeId, iteration, modelOverride, budget, hardDeadlineSeconds }) {
   const config = makeConfig(abDir, repoRoot)
-  return pkg.executeRun({ config, variantId, challengeId, iteration, modelOverride, budget, adapter })
+  return pkg.executeRun({ config, variantId, challengeId, iteration, modelOverride, budget, adapter, hardDeadlineSeconds })
 }
 
 function buildClaudeFlags(variant, modelOverride, budget) {
@@ -39,7 +39,7 @@ function buildClaudeFlags(variant, modelOverride, budget) {
 }
 
 function parseArgs(argv) {
-  const args = { variant: null, challenge: 'default', iteration: 1, model: null, budget: 2.0 }
+  const args = { variant: null, challenge: 'default', iteration: 1, model: null, budget: 2.0, hardDeadlineSeconds: null }
   for (let i = 0; i < argv.length; i++) {
     switch (argv[i]) {
       case '--variant': args.variant = argv[++i]; break
@@ -47,6 +47,7 @@ function parseArgs(argv) {
       case '--iteration': args.iteration = Number(argv[++i]); break
       case '--model': args.model = argv[++i]; break
       case '--budget': args.budget = Number(argv[++i]); break
+      case '--hard-deadline': args.hardDeadlineSeconds = Number(argv[++i]); break
     }
   }
   return args
@@ -88,6 +89,7 @@ if (require.main === module) {
     iteration: args.iteration,
     modelOverride: args.model,
     budget: args.budget,
+    hardDeadlineSeconds: args.hardDeadlineSeconds,
   })
 
   console.log(`Run ID:  ${runId}`)

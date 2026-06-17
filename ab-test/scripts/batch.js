@@ -12,7 +12,7 @@ const adapter = require('../../packages/ai-artifacts-bench/adapters/claude-code.
 const { BatchProgress } = require('./progress.js')
 
 function parseArgs(argv) {
-  const args = { challenges: null, iterations: 1, variants: null, model: null, budget: 2.0, parallel: 0 }
+  const args = { challenges: null, iterations: 1, variants: null, model: null, budget: 2.0, parallel: 0, hardDeadlineSeconds: null }
   for (let i = 0; i < argv.length; i++) {
     switch (argv[i]) {
       case '--challenge': args.challenges = [argv[++i]]; break
@@ -21,6 +21,7 @@ function parseArgs(argv) {
       case '--variants': args.variants = argv[++i].split(','); break
       case '--model': args.model = argv[++i]; break
       case '--budget': args.budget = Number(argv[++i]); break
+      case '--hard-deadline': args.hardDeadlineSeconds = Number(argv[++i]); break
       case '--parallel': {
         const next = argv[i + 1]
         args.parallel = next && !next.startsWith('--') ? Number(argv[++i]) : Infinity
@@ -55,11 +56,12 @@ function loadChallengeMaxTime(abDir, challengeId) {
   return (challenge.scoring && challenge.scoring.max_time_seconds) || 300
 }
 
-function runInChildProcess({ abDir, variant, challenge, iteration, model, budget, quiet = false }) {
+function runInChildProcess({ abDir, variant, challenge, iteration, model, budget, hardDeadlineSeconds, quiet = false }) {
   return new Promise((resolve, reject) => {
     const runnerPath = path.join(__dirname, 'runner.js')
     const args = ['--variant', variant, '--challenge', challenge, '--iteration', String(iteration), '--budget', String(budget)]
     if (model) args.push('--model', model)
+    if (hardDeadlineSeconds) args.push('--hard-deadline', String(hardDeadlineSeconds))
 
     const child = fork(runnerPath, args, {
       cwd: abDir,
@@ -126,6 +128,7 @@ async function main() {
       return runInChildProcess({
         abDir, variant, challenge, iteration,
         model: args.model, budget: args.budget,
+        hardDeadlineSeconds: args.hardDeadlineSeconds,
         quiet: process.stdout.isTTY,
       }).then(({ runDir }) => {
         if (runDir) runDirs.push(runDir)
@@ -149,6 +152,7 @@ async function main() {
         const result = require('../../packages/ai-artifacts-bench/runner.js').executeRun({
           config, variantId: variant, challengeId: challenge, iteration,
           modelOverride: args.model, budget: args.budget, adapter,
+          hardDeadlineSeconds: args.hardDeadlineSeconds,
         })
         progress.markCompleted(runId, true)
         runDirs.push(result.runDir)

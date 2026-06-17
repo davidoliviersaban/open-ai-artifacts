@@ -4,7 +4,24 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const { createRunId, createRunBranchName, loadChallenge, loadVariant, loadBaseline, executeRun } = require('./runner.js')
+const { createRunId, createRunBranchName, loadChallenge, loadVariant, loadBaseline, executeRun, resolveHardDeadline } = require('./runner.js')
+
+test('resolveHardDeadline: explicit option wins over challenge and default', () => {
+  const challenge = { scoring: { max_time_seconds: 300 } }
+  assert.equal(resolveHardDeadline(challenge, { hardDeadlineSeconds: 1200 }), 1200)
+})
+
+test('resolveHardDeadline: challenge hard_deadline_seconds is used when no explicit option', () => {
+  const challenge = { hard_deadline_seconds: 600, scoring: { max_time_seconds: 300 } }
+  assert.equal(resolveHardDeadline(challenge, {}), 600)
+})
+
+test('resolveHardDeadline: defaults to 900s, NOT the scored max_time_seconds budget', () => {
+  // max_time_seconds is the SCORED budget, not the kill switch — it must not
+  // shorten the hard deadline.
+  const challenge = { scoring: { max_time_seconds: 300 } }
+  assert.equal(resolveHardDeadline(challenge, {}), 900)
+})
 
 test('createRunId produces variant_challenge_timestamp_iter format', () => {
   const id = createRunId('my-variant', 'my-challenge', 3)

@@ -72,7 +72,20 @@ function captureDiffStat(worktree, tag) {
   }
 }
 
-function executeRun({ config, variantId, challengeId, iteration, modelOverride, budget, adapter }) {
+// The hard deadline is a SAFETY kill switch (stop a diverging run), NOT a
+// scored budget and NOT information given to the model. It must be generous so
+// legitimate work finishes. Resolution order: explicit option > challenge
+// declaration > 900s default. It is deliberately decoupled from the scored
+// `max_time_seconds` budget so a tight scoring budget never kills a valid run.
+const DEFAULT_HARD_DEADLINE_SECONDS = 900
+
+function resolveHardDeadline(challenge, options = {}) {
+  if (options.hardDeadlineSeconds) return options.hardDeadlineSeconds
+  if (challenge && challenge.hard_deadline_seconds) return challenge.hard_deadline_seconds
+  return DEFAULT_HARD_DEADLINE_SECONDS
+}
+
+function executeRun({ config, variantId, challengeId, iteration, modelOverride, budget, adapter, hardDeadlineSeconds }) {
   const { challengesDir, variantsDir, baselineFile, runsDir, repoRoot } = config
   const challenge = loadChallenge(challengesDir, challengeId)
   const variant = loadVariant(variantsDir, variantId)
@@ -105,12 +118,14 @@ function executeRun({ config, variantId, challengeId, iteration, modelOverride, 
     }
     fs.writeFileSync(path.join(runDir, 'metadata.json'), JSON.stringify(metadata, null, 2))
 
-    const timeoutSeconds = challenge.scoring?.max_time_seconds || 300
+    // Kill switch: generous safety deadline, decoupled from the scored budget.
+    const deadlineSeconds = resolveHardDeadline(challenge, { hardDeadlineSeconds })
+    metadata.hard_deadline_seconds = deadlineSeconds
     const result = adapter.run(worktree, challenge.prompt, {
       variant,
       model: modelOverride,
       budget,
-      timeout: timeoutSeconds,
+      timeout: deadlineSeconds,
       debugFile: path.join(runDir, 'debug.log'),
     })
 
@@ -149,4 +164,5 @@ module.exports = {
   loadChallenge,
   loadVariant,
   removeWorktree,
+  resolveHardDeadline,
 }
