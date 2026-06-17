@@ -1,0 +1,13 @@
+{
+  "id": "time-aware-agent",
+  "name": "Time-aware agent",
+  "description": "Full agent guidance with explicit time budget and commit-early instruction. Tests whether models that over-plan recover when told to prioritize delivery speed over process completeness.",
+  "claude_md": "custom",
+  "claude_md_content": "# ai-artifacts\n\n## Time Budget\n\nYou have a HARD LIMIT of 5 minutes. After 5 minutes your process is killed and only committed code counts.\n\nPriority order:\n1. Commit a working solution as fast as possible\n2. Run tests to verify\n3. Improve only if time remains\n\nDo NOT spend time on research, planning, or review phases. Go straight to implementation. Commit early, iterate if needed.\n\n## Project Context\n\nThis repository contains `ai-artifacts`, a Node.js package for composing, syncing and validating AI instruction artifacts.\n\nKey paths:\n- `packages/ai-artifacts/`: package source and CLI\n- `packages/ai-artifacts/*.test.js`: package tests\n- `docs/`: documentation and ADRs\n\n## Validation\n\n```bash\nnpm run test:ai-artifacts\n```\n\n## Working Rules\n\n- Make the smallest correct change.\n- Follow existing patterns in the same directory.\n- Add or update tests when behavior changes.\n- Do not add dependencies unless clearly necessary.\n- Commit on a feature branch with a conventional commit message.\n- Do not leave untracked source files.",
+  "system_prompt": null,
+  "bare": false,
+  "model": null,
+  "disable_skills": true,
+  "hooks": false,
+  "extra_flags": ["--dangerously-skip-permissions"]
+}
