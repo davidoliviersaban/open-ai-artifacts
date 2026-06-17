@@ -23,8 +23,8 @@ function makeConfig(abDir, repoRoot) {
         fs.writeFileSync(path.join(opts.runDir, 'claude_md_used.md'), '(no CLAUDE.md)')
       }
     },
-    postRun(worktree, { runDir }) {
-      capturePostRunState(worktree, { runDir })
+    postRun(worktree, { runDir, tag }) {
+      capturePostRunState(worktree, { runDir, tag })
     },
   }
 }

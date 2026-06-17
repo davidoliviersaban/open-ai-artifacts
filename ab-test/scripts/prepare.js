@@ -213,7 +213,8 @@ function prepareScoringWorktree(worktree, variant) {
   }
 }
 
-function capturePostRunState(worktree, { runDir }) {
+function capturePostRunState(worktree, { runDir, tag }) {
+  const baseRef = tag || 'baseline'
   const state = { branches: [], commits: [], current_branch: null, untracked_source: [] }
   try {
     state.branches = execSync('git branch --format=%(refname:short)', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
@@ -223,7 +224,7 @@ function capturePostRunState(worktree, { runDir }) {
     state.current_branch = execSync('git branch --show-current', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim() || null
   } catch {}
   try {
-    const hashes = execSync('git log --format=%H baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+    const hashes = execSync('git log --format=%H ${baseRef}..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
       .split('\n').filter(Boolean)
     for (const hash of hashes) {
       const subject = execSync(`git log -1 --format=%s ${hash}`, { cwd: worktree, encoding: 'utf8', stdio: 'pipe' }).trim()
@@ -237,7 +238,7 @@ function capturePostRunState(worktree, { runDir }) {
   } catch {}
 
   try {
-    const gitLog = execSync('git log --format="%H%n%s%n%b%n---" baseline..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
+    const gitLog = execSync('git log --format="%H%n%s%n%b%n---" ${baseRef}..HEAD', { cwd: worktree, encoding: 'utf8', stdio: 'pipe' })
     fs.writeFileSync(path.join(runDir, 'git_log.txt'), gitLog)
   } catch {
     fs.writeFileSync(path.join(runDir, 'git_log.txt'), '')

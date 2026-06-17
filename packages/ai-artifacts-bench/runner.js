@@ -51,18 +51,22 @@ function removeWorktree(repoRoot, worktree, branch) {
   }
 }
 
-function captureDiff(worktree) {
+function baselineTag(branch) {
+  return `baseline-${branch.replace(/[^A-Za-z0-9._-]/g, '-')}`
+}
+
+function captureDiff(worktree, tag) {
   try {
     execSync('git add -A', { cwd: worktree, stdio: 'pipe' })
-    return execSync('git diff baseline --cached', { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
+    return execSync(`git diff ${tag} --cached`, { cwd: worktree, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
   } catch {
     return ''
   }
 }
 
-function captureDiffStat(worktree) {
+function captureDiffStat(worktree, tag) {
   try {
-    return execSync('git diff baseline --cached --stat', { cwd: worktree, encoding: 'utf8' })
+    return execSync(`git diff ${tag} --cached --stat`, { cwd: worktree, encoding: 'utf8' })
   } catch {
     return ''
   }
@@ -84,8 +88,9 @@ function executeRun({ config, variantId, challengeId, iteration, modelOverride, 
       config.prepare(worktree, variant, challenge, { repoRoot, runDir })
     }
 
+    const tag = baselineTag(branch)
     execSync('git add -A && git commit -m "baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
-    execSync('git tag -f baseline', { cwd: worktree, stdio: 'pipe' })
+    execSync(`git tag -f "${tag}"`, { cwd: worktree, stdio: 'pipe' })
 
     const metadata = {
       run_id: runId,
@@ -117,11 +122,11 @@ function executeRun({ config, variantId, challengeId, iteration, modelOverride, 
     usage.elapsed_seconds = result.elapsed
     fs.writeFileSync(path.join(runDir, 'usage.json'), JSON.stringify(usage, null, 2))
 
-    fs.writeFileSync(path.join(runDir, 'changes.diff'), captureDiff(worktree))
-    fs.writeFileSync(path.join(runDir, 'changes_stat.txt'), captureDiffStat(worktree))
+    fs.writeFileSync(path.join(runDir, 'changes.diff'), captureDiff(worktree, tag))
+    fs.writeFileSync(path.join(runDir, 'changes_stat.txt'), captureDiffStat(worktree, tag))
 
     if (config.postRun) {
-      config.postRun(worktree, { runDir, variant, challenge, metadata })
+      config.postRun(worktree, { runDir, variant, challenge, metadata, tag })
     }
 
     metadata.completed_at = new Date().toISOString()
