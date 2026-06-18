@@ -85,6 +85,36 @@ function resolveHardDeadline(challenge, options = {}) {
   return DEFAULT_HARD_DEADLINE_SECONDS
 }
 
+// Remove settings that would override the CLI model flag or allow network actions.
+// Called after config.prepare() so the consumer can set up CLAUDE.md and hooks,
+// but before the baseline tag (so the sanitization is invisible to scoring).
+function sanitizeWorktreeForBench(worktree) {
+  const settingsFile = path.join(worktree, '.claude', 'settings.json')
+  if (fs.existsSync(settingsFile)) {
+    try {
+      const settings = JSON.parse(fs.readFileSync(settingsFile, 'utf8'))
+      delete settings.model
+      delete settings.preferredModel
+      // Block network actions: git push, gh pr, gh issue
+      if (!settings.permissions) settings.permissions = {}
+      if (!settings.permissions.deny) settings.permissions.deny = []
+      const blocked = ['git push', 'git remote', 'gh pr', 'gh issue', 'gh api']
+      for (const cmd of blocked) {
+        if (!settings.permissions.deny.includes(cmd)) settings.permissions.deny.push(cmd)
+      }
+      fs.writeFileSync(settingsFile, JSON.stringify(settings, null, 2))
+    } catch { /* best effort — if JSON is broken, leave it */ }
+  }
+  // Also block git push at the config level (agents running without settings.json)
+  const gitConfigFile = path.join(worktree, '.git', 'config')
+  if (fs.existsSync(gitConfigFile)) {
+    try {
+      execSync('git config --local receive.denyCurrentBranch refuse', { cwd: worktree, stdio: 'pipe' })
+      execSync('git remote remove origin 2>/dev/null; git remote remove upstream 2>/dev/null', { cwd: worktree, stdio: 'pipe' })
+    } catch { /* best effort */ }
+  }
+}
+
 function executeRun({ config, variantId, challengeId, iteration, modelOverride, budget, adapter, hardDeadlineSeconds }) {
   const { challengesDir, variantsDir, baselineFile, runsDir, repoRoot } = config
   const challenge = loadChallenge(challengesDir, challengeId)
@@ -100,6 +130,8 @@ function executeRun({ config, variantId, challengeId, iteration, modelOverride, 
     if (config.prepare) {
       config.prepare(worktree, variant, challenge, { repoRoot, runDir })
     }
+
+    sanitizeWorktreeForBench(worktree)
 
     const tag = baselineTag(branch)
     execSync('git add -A && git commit -m "baseline" --allow-empty', { cwd: worktree, stdio: 'pipe' })
