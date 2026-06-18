@@ -29,7 +29,41 @@ Run the project's A/B benchmark, then print the decision report.
    ```
    Report PIDs and log paths. Poll until all finish.
 
-5. **Report** — run the report script. It writes `runs/report.json` and prints View A (which model per use case) and View B (variant sensitivity per model).
+5. **Report** — run the report script. It writes `runs/report.json` and prints two views.
+
+## Reading the Results
+
+### View A — "Which model should I use?"
+
+One line per task category. Each model competes under its best config. The default lens is `cost`: among models tied on quality, pick the cheapest.
+
+```
+▸ spec-feature → sonnet-4-5 / time-aware-agent  (q=0.81, 130s, $0.29)
+    (quality: opus-4-6 / time-aware-agent)
+```
+
+Read as: **for spec-feature tasks, sonnet-4-5 with time-aware config is the best value** (quality 0.81, costs $0.29, takes 130s). The `(quality: ...)` sub-line only appears when a different model wins if you optimize purely for quality instead of cost — if no sub-line, the same model wins on all axes.
+
+- `q=` is the mean criteria pass rate (0 to 1). Higher is better.
+- Time and cost are averages across runs in that category.
+
+### View B — "How should I configure model X?"
+
+Shows how much the variant (AI context) changes each model's result.
+
+```
+    opus-4-8     best=time-aware-agent (0.90)  worst=unguided-agent (0.20)  Δ0.70  config-sensitive
+    sonnet-4-5   best=time-aware-agent (0.81)  worst=unguided-agent (0.50)  Δ0.31  config-sensitive
+```
+
+Read as: **opus-4-8 scores anywhere from 0.20 to 0.90 depending on config** — the context you give it matters more than the model itself. `config-sensitive` (Δ ≥ 0.10) means tuning the CLAUDE.md/variant is high-value for this model. `config-robust` means the model performs similarly regardless of context.
+
+### What to do with this
+
+1. Pick your task category (bugfix, feature, refactor, architecture…)
+2. View A tells you which model+config to use by default
+3. If you disagree with a cost/quality tradeoff, look at other profiles in the sub-lines
+4. View B tells you whether investing time in CLAUDE.md tuning is worth it for your model
 
 ## Rules
 
