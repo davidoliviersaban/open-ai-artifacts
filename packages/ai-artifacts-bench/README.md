@@ -148,6 +148,48 @@ Use them, but never as the only criteria. They are guard rails, not signal.
 | Negation requires base verification | `! grep X` can silently pass when X was never there |
 | Build/lint/test = guard rail only | They pass by default, they don't measure the fix |
 
+## Finding Valid Model IDs
+
+The `--model` flag passed to the benchmark must match exactly what `claude --model`
+accepts. The format depends on your authentication backend:
+
+| Backend | Format | Example |
+|---------|--------|---------|
+| Anthropic API (direct) | `claude-<family>-<version>` | `claude-sonnet-4-5-20250929` |
+| AWS Bedrock | `us.anthropic.claude-<family>-<version>-v1:0` | `us.anthropic.claude-sonnet-4-5-20250929-v1:0` |
+| Bedrock (short) | `us.anthropic.claude-<family>-<version>` | `us.anthropic.claude-opus-4-8` |
+
+To discover which IDs are valid for your setup:
+
+```bash
+# Quick test — if this returns a model ID, it works:
+claude -p --model <candidate-id> --output-format json "say hi" 2>&1 | head -3
+
+# AWS Bedrock — list available inference profiles:
+aws bedrock list-inference-profiles --region us-east-1 --output json \
+  | jq '.inferenceProfileSummaries[].inferenceProfileId' | grep claude
+
+# Anthropic API — list models:
+curl -s https://api.anthropic.com/v1/models -H "x-api-key: $ANTHROPIC_API_KEY" \
+  | jq '.data[].id' | grep claude
+```
+
+A wrong model ID causes a `400 The provided model identifier is invalid` error.
+The run produces an empty diff and scores 0. If all runs score identically, check
+the `stdout.json` for API errors before debugging criteria.
+
+Store valid IDs in `baseline.json` to avoid re-discovering them each time:
+
+```json
+{
+  "id": "my-baseline-v1",
+  "default_models": [
+    "us.anthropic.claude-opus-4-8",
+    "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+  ]
+}
+```
+
 ## Testing
 
 ```bash
