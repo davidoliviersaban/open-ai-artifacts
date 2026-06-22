@@ -82,4 +82,41 @@ function selectActiveReport(baselineReports) {
   return current.sort((a, b) => String(b.baseline.created_at || '').localeCompare(String(a.baseline.created_at || '')))[0] || baselineReports[0]
 }
 
-module.exports = { getBaselineId, groupRunsByBaseline, loadRuns, generateReport, selectActiveReport, summarizeBaseline }
+function printDecision(decision) {
+  const def = decision.default_profile || 'cost'
+
+  console.log('══ View A — Which model for each use case ══')
+  console.log('')
+  console.log(`  Each model competes under its best variant. Default lens: ${def}`)
+  console.log('  (among models tied on quality within the 95% CI, the cheapest wins).')
+  console.log('')
+  for (const [category, data] of Object.entries(decision.categories).sort()) {
+    const rec = data.model_choice[def]
+    if (!rec || !rec.pick) { console.log(`▸ ${category}: no data`); continue }
+    const flag = rec.low_confidence ? '  ⚠ low confidence (single run)' : ''
+    console.log(`▸ ${category.padEnd(22)} → ${rec.pick.id}  (q=${rec.pick.ci.mean.toFixed(2)}, ${rec.pick.time_seconds.toFixed(0)}s, $${rec.pick.cost_usd.toFixed(2)})${flag}`)
+    for (const [profile, r] of Object.entries(data.model_choice)) {
+      if (profile === def || !r.pick || r.pick.id === rec.pick.id) continue
+      console.log(`    (${profile}: ${r.pick.id})`)
+    }
+  }
+  console.log('')
+
+  console.log('══ View B — How to configure each model ══')
+  console.log('')
+  console.log('  Quality spread between a model\'s best and worst variant.')
+  console.log('  Large spread = config-sensitive: the AI context makes or breaks it.')
+  console.log('')
+  for (const [category, data] of Object.entries(decision.categories).sort()) {
+    const sensitive = (data.variant_sensitivity || []).filter(m => m.variants.length > 1)
+    if (sensitive.length === 0) continue
+    console.log(`▸ ${category}`)
+    for (const m of sensitive.sort((a, b) => b.spread - a.spread)) {
+      const tag = m.config_sensitive ? 'config-sensitive' : 'config-robust'
+      console.log(`    ${m.model.padEnd(12)} best=${m.best.variant} (${m.best.quality.toFixed(2)})  worst=${m.worst.variant} (${m.worst.quality.toFixed(2)})  Δ${m.spread.toFixed(2)}  ${tag}`)
+    }
+  }
+  console.log('')
+}
+
+module.exports = { getBaselineId, groupRunsByBaseline, loadRuns, generateReport, printDecision, selectActiveReport, summarizeBaseline }

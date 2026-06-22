@@ -29,6 +29,7 @@ For agent/skill/prompt management, see [WORKFLOW.agents.md](WORKFLOW.agents.md).
 | `/multi-feature` | Manage parallel feature development using git worktrees |
 | `/package-maintainer` | TDD/ATDD refactoring loop for package JavaScript changes |
 | `/ship` | Validate, commit and push in one pass |
+| `/bench-run` | Run A/B benchmark matrix across models and variants, generate decision report |
 
 ## Pipeline
 

@@ -14,3 +14,7 @@ node_modules/
 
 ab-test/runs/*/
 dist/
+
+# Word working files (whitepaper authored locally, not committed)
+docs/whitepaper/*.docx
+docs/whitepaper/~$*.docx

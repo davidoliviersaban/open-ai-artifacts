@@ -142,6 +142,26 @@ The synthesis is emitted as structured JSON (`decision` block in `report.json`) 
 deterministic terminal table per category. An **optional** LLM pass can translate that
 JSON into prose for non-experts; it consumes the verdict, it never computes it.
 
+### Scope boundary: what is gradable, what is not
+
+The deterministic core only measures what executable checks can verify. This bounds which
+task kinds belong in the scored benchmark:
+
+- **Code tasks** — graded by unit tests (`exit 0/1`). Fully in scope.
+- **Spec/feature writing** — graded on **structural, deterministic criteria** (required
+  sections present, factual constraints met — correct API/file names, ≥N acceptance
+  criteria, length). This counts toward `criteria_score`. An **optional, separate**
+  editorial-quality dimension may be produced by an LLM judge at temperature 0 with a fixed
+  rubric and fixed ordering; it is reported apart, flagged non-deterministic, and **never**
+  contaminates `criteria_score`. Prose quality is a judged signal, not a measurement.
+- **Design / architecture** — **explicitly out of scope** for the scored benchmark. Its
+  value is the *judgement* (tradeoffs chosen, alternatives rejected, fit to context), which
+  has almost no verifiable surface and is exactly where LLM-judge biases (verbosity,
+  self-preference, position) are strongest. A falsely precise score (e.g. "4.8 design =
+  0.82") would read as a measurement while being a biased opinion. Design quality is left to
+  human judgement, outside the tool. Naming this boundary is part of the methodology's
+  honesty: the tool measures delivery of verifiable work, not subjective design merit.
+
 ## Consequences
 
 ### Positive

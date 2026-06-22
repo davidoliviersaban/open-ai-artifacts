@@ -1,6 +1,6 @@
 {
   "name": "@d-o.s/ai-artifacts-bench",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Benchmark framework for A/B testing AI agent configurations.",
   "license": "Apache-2.0",
   "repository": {

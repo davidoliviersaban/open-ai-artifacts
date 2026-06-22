@@ -21,6 +21,10 @@ function buildFlags(variant, options = {}) {
 
   if (options.debugFile) flags.push('--debug-file', options.debugFile)
 
+  if (variant.extra_flags && Array.isArray(variant.extra_flags)) {
+    flags.push(...variant.extra_flags)
+  }
+
   return flags
 }
 
